@@ -184,3 +184,42 @@ body {
   outline-offset: 2px;
   border-radius: 2px;
 }
+
+/* ============================================================
+   O CAMPO DE ROTAS (components/route-field.tsx)
+
+   Um traco curto correndo por um trajeto longo. `stroke-dasharray`
+   desenha "risco de 26px, buraco de 2000px" — so um pedacinho e
+   visivel por vez — e a animacao empurra o `dashoffset` para que esse
+   pedaco atravesse o caminho inteiro.
+
+   O `2000` do buraco tem que ser maior que o comprimento do path, ou
+   um segundo traco aparece atras. As curvas aqui tem ~1400px.
+
+   As duas linhas correm em tempos diferentes e primos entre si (23s e
+   31s): batendo juntas, a repeticao ficaria obvia.
+
+   O bloco `prefers-reduced-motion` la em cima ja mata isto inteiro.
+   ============================================================ */
+.route-runner {
+  stroke-dasharray: 26 2000;
+  animation: route-run linear infinite;
+}
+
+.route-runner--a {
+  animation-duration: 23s;
+}
+
+.route-runner--b {
+  animation-duration: 31s;
+  animation-direction: reverse;
+}
+
+@keyframes route-run {
+  from {
+    stroke-dashoffset: 2026;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}

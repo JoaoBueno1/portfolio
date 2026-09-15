@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import "../globals.css";
+import { SiteFooter } from "@/components/site-footer";
+import { SiteHeader } from "@/components/site-header";
 import { isLocale, LOCALE_HTML_LANG, LOCALES } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 
@@ -14,6 +16,19 @@ import { getDictionary } from "@/lib/i18n/dictionaries";
 export function generateStaticParams() {
   return LOCALES.map((locale) => ({ locale }));
 }
+
+/**
+ * O tema TEM que ser aplicado antes da primeira pintura.
+ *
+ * Se isto virasse um `useEffect`, quem escolheu escuro veria um lampejo
+ * branco em cada navegacao — o pior tipo de bug de tema, porque so aparece
+ * para quem se importa com o assunto.
+ *
+ * Roda antes do React de proposito, le so uma chave, e engole o proprio erro:
+ * em janela anonima ou com site data bloqueado, `localStorage` LANCA ao ser
+ * acessado, e um throw aqui derrubaria a pagina inteira.
+ */
+const THEME_BOOTSTRAP = `try{var t=localStorage.getItem("theme");if(t==="dark"||t==="light"){document.documentElement.dataset.theme=t}}catch(e){}`;
 
 export async function generateMetadata({ params }: LayoutProps<"/[locale]">): Promise<Metadata> {
   const { locale } = await params;
@@ -29,6 +44,7 @@ export async function generateMetadata({ params }: LayoutProps<"/[locale]">): Pr
       // cair na versao em portugues, nao na inglesa.
       languages: Object.fromEntries(LOCALES.map((l) => [LOCALE_HTML_LANG[l], `/${l}`])),
     },
+    openGraph: { title: t.meta.title, description: t.meta.description, type: "website" },
   };
 }
 
@@ -41,7 +57,13 @@ export default async function LocaleLayout({ children, params }: LayoutProps<"/[
   const t = await getDictionary(locale);
 
   return (
-    <html lang={LOCALE_HTML_LANG[locale]}>
+    <html lang={LOCALE_HTML_LANG[locale]} suppressHydrationWarning>
+      <head>
+        {/* biome-ignore lint/security/noDangerouslySetInnerHtml: string literal
+            constante definida neste arquivo, sem nenhuma entrada do usuario. E
+            a unica forma de aplicar o tema antes da primeira pintura. */}
+        <script dangerouslySetInnerHTML={{ __html: THEME_BOOTSTRAP }} />
+      </head>
       <body className="font-sans antialiased">
         <a
           href="#main"
@@ -49,7 +71,9 @@ export default async function LocaleLayout({ children, params }: LayoutProps<"/[
         >
           {t.nav.skipToContent}
         </a>
+        <SiteHeader locale={locale} t={t} />
         {children}
+        <SiteFooter t={t} />
       </body>
     </html>
   );
