@@ -3,13 +3,18 @@ import type { Locale } from "@/lib/i18n/config";
 /**
  * As soft skills.
  *
- * REGRA DE ESCRITA: cada cartao tem duas frases, no maximo. A primeira diz o
- * que e, a segunda diz onde aconteceu. Sem adjetivo solto ("proativo",
- * "comunicativo") e sem travessao. Se nao cabe em duas frases, e porque nao
- * esta claro o suficiente.
+ * REGRA DE ESCRITA, e ela nasceu de um problema real: a versao anterior
+ * comecava as seis frases com "I", e seis paragrafos em fila abrindo com o
+ * mesmo pronome lem como formulario preenchido, nao como pessoa escrevendo.
+ *
+ * Entao: titulo em gerundio, que descreve a acao sem precisar do sujeito, e
+ * corpo com sujeito variado. Duas ou tres frases curtas. A primeira diz o
+ * que e, a ultima diz onde aconteceu ou por que importa.
+ *
+ * Sem adjetivo sobre si mesmo ("proativo", "comunicativo") e sem travessao.
  *
  * `icon` e um nome de desenho em `components/soft-skill-icon.tsx`, nao um
- * emoji: emoji renderiza diferente em cada sistema e nao segue o tema.
+ * emoji: emoji renderiza diferente em cada sistema e ignora o tema.
  */
 export interface SoftSkill {
   readonly id: string;
@@ -23,16 +28,16 @@ export const SOFT_SKILLS: readonly SoftSkill[] = [
     icon: "talk",
     copy: {
       en: {
-        title: "I explain systems to people who do not write code",
-        body: "Four years behind a bank counter taught me to say a complicated thing once, clearly. Now I do it with dispatchers, drivers and warehouse staff.",
+        title: "Explaining a system to people who do not write code",
+        body: "Four years behind a bank counter taught me to say the complicated thing once, clearly. The audience now is dispatchers, drivers and warehouse staff.",
       },
       pt: {
-        title: "Explico sistema para quem não escreve código",
-        body: "Quatro anos atendendo no banco me ensinaram a dizer uma coisa complicada uma vez só, com clareza. Hoje faço isso com dispatcher, motorista e gente de armazém.",
+        title: "Explicar um sistema para quem não escreve código",
+        body: "Quatro anos atendendo no banco me ensinaram a dizer a coisa complicada uma vez só, com clareza. Hoje a plateia é dispatcher, motorista e gente de armazém.",
       },
       es: {
-        title: "Explico sistemas a gente que no escribe código",
-        body: "Cuatro años atendiendo en el banco me enseñaron a decir algo complicado una sola vez, con claridad. Hoy lo hago con despachadores, conductores y gente de almacén.",
+        title: "Explicar un sistema a quien no escribe código",
+        body: "Cuatro años atendiendo en el banco me enseñaron a decir lo complicado una sola vez, con claridad. Hoy el público son despachadores, conductores y gente de almacén.",
       },
     },
   },
@@ -41,16 +46,16 @@ export const SOFT_SKILLS: readonly SoftSkill[] = [
     icon: "lead",
     copy: {
       en: {
-        title: "I set the scope and reviewed what came back",
-        body: "The build started with a team, a designer and others, organised in Notion on a paid engagement. I split the work, checked it, and said when it was done.",
+        title: "Setting the scope, then reviewing what came back",
+        body: "The build started with a team: a designer and others, organised in Notion on a paid engagement. Splitting the work was the easy part. Saying when something was actually finished was the job.",
       },
       pt: {
-        title: "Defini o escopo e revisei o que voltava",
-        body: "O desenvolvimento começou com time, um designer e outras pessoas, organizados no Notion num trabalho pago. Eu dividia o trabalho, conferia, e dizia quando estava pronto.",
+        title: "Definir o escopo e revisar o que voltava",
+        body: "O desenvolvimento começou com time: um designer e outras pessoas, organizados no Notion num trabalho pago. Dividir a tarefa era a parte fácil. Dizer quando estava pronto de verdade era o trabalho.",
       },
       es: {
-        title: "Definí el alcance y revisé lo que volvía",
-        body: "El desarrollo empezó con equipo, un diseñador y otras personas, organizados en Notion en un trabajo pagado. Yo repartía el trabajo, lo revisaba, y decía cuándo estaba listo.",
+        title: "Definir el alcance y revisar lo que volvía",
+        body: "El desarrollo empezó con equipo: un diseñador y otras personas, organizados en Notion en un trabajo pagado. Repartir la tarea era lo fácil. Decir cuándo algo estaba realmente terminado era el trabajo.",
       },
     },
   },
@@ -59,16 +64,16 @@ export const SOFT_SKILLS: readonly SoftSkill[] = [
     icon: "listen",
     copy: {
       en: {
-        title: "I ask the person who does the job",
-        body: "Before a feature exists I watch someone do it by hand and time it. That is where the real rules live, not in the brief.",
+        title: "Asking the person who does the job",
+        body: "No feature gets written before someone is watched doing it by hand. The real rules live in that, never in the brief.",
       },
       pt: {
-        title: "Pergunto para quem faz o trabalho",
-        body: "Antes de uma feature existir eu vejo alguém fazendo na mão e cronometro. É ali que moram as regras de verdade, não no briefing.",
+        title: "Perguntar para quem faz o trabalho",
+        body: "Nenhuma feature é escrita antes de alguém ser visto fazendo aquilo na mão. As regras de verdade moram ali, nunca no briefing.",
       },
       es: {
-        title: "Pregunto a quien hace el trabajo",
-        body: "Antes de que exista una función veo a alguien hacerla a mano y la cronometro. Ahí viven las reglas reales, no en el brief.",
+        title: "Preguntar a quien hace el trabajo",
+        body: "Ninguna función se escribe antes de ver a alguien hacerla a mano. Las reglas reales viven ahí, nunca en el brief.",
       },
     },
   },
@@ -77,16 +82,16 @@ export const SOFT_SKILLS: readonly SoftSkill[] = [
     icon: "search",
     copy: {
       en: {
-        title: "I ran an intern on competitor research",
-        body: "She looked at products in our market, compared them to ours and came back with what was missing. I turned that into a list we could actually build.",
+        title: "Running an intern on competitor research",
+        body: "Week by week, products in our market came back compared against ours, with the gaps listed. Turning that into something the team could actually build was my half of it.",
       },
       pt: {
-        title: "Conduzi um estagiário em pesquisa de concorrente",
-        body: "Ele olhava produtos do nosso mercado, comparava com o nosso e voltava com o que faltava. Eu transformava isso numa lista que dava para construir.",
+        title: "Conduzir um estagiário em pesquisa de concorrente",
+        body: "Semana a semana, os produtos do nosso mercado voltavam comparados com o nosso, com as lacunas listadas. Transformar aquilo em algo que o time conseguisse construir era a minha metade.",
       },
       es: {
-        title: "Guié a un pasante en investigación de competencia",
-        body: "Miraba productos de nuestro mercado, los comparaba con el nuestro y volvía con lo que faltaba. Yo convertía eso en una lista que se podía construir.",
+        title: "Guiar a un pasante en investigación de competencia",
+        body: "Semana a semana, los productos de nuestro mercado volvían comparados con el nuestro, con las carencias listadas. Convertir eso en algo que el equipo pudiera construir era mi mitad.",
       },
     },
   },
@@ -95,16 +100,16 @@ export const SOFT_SKILLS: readonly SoftSkill[] = [
     icon: "loop",
     copy: {
       en: {
-        title: "I collect feedback and I answer it",
-        body: "Every complaint from the floor gets a reply, even when the answer is no and why. People stop reporting when nobody comes back to them.",
+        title: "Feedback collected, and answered",
+        body: "Every complaint from the floor gets a reply, including the ones where the answer is no. People stop reporting problems when nobody comes back to them.",
       },
       pt: {
-        title: "Coleto feedback e respondo",
-        body: "Toda reclamação do chão recebe resposta, inclusive quando a resposta é não e o porquê. As pessoas param de reportar quando ninguém volta.",
+        title: "Feedback coletado, e respondido",
+        body: "Toda reclamação do chão recebe resposta, inclusive as em que a resposta é não. As pessoas param de reportar problema quando ninguém volta para elas.",
       },
       es: {
-        title: "Recojo feedback y lo respondo",
-        body: "Cada queja del piso recibe respuesta, incluso cuando la respuesta es no y por qué. La gente deja de reportar cuando nadie vuelve.",
+        title: "Feedback recogido, y respondido",
+        body: "Cada queja del piso recibe respuesta, incluidas aquellas en las que la respuesta es no. La gente deja de reportar problemas cuando nadie vuelve a ellos.",
       },
     },
   },
@@ -113,16 +118,16 @@ export const SOFT_SKILLS: readonly SoftSkill[] = [
     icon: "teach",
     copy: {
       en: {
-        title: "I train the people who will use it",
-        body: "A system nobody was shown how to use is a system nobody uses. I sit with each person until they can do it without me.",
+        title: "Training the people who will use it",
+        body: "A system nobody was shown how to use is a system nobody uses. Sitting with each person until they can do it alone costs an afternoon and saves a month.",
       },
       pt: {
-        title: "Treino quem vai usar",
-        body: "Sistema que ninguém mostrou como usar é sistema que ninguém usa. Sento com cada pessoa até ela conseguir fazer sem mim.",
+        title: "Treinar quem vai usar",
+        body: "Sistema que ninguém mostrou como usar é sistema que ninguém usa. Sentar com cada pessoa até ela conseguir sozinha custa uma tarde e economiza um mês.",
       },
       es: {
-        title: "Entreno a quien lo va a usar",
-        body: "Un sistema que nadie enseñó a usar es un sistema que nadie usa. Me siento con cada persona hasta que puede hacerlo sin mí.",
+        title: "Entrenar a quien lo va a usar",
+        body: "Un sistema que nadie enseñó a usar es un sistema que nadie usa. Sentarse con cada persona hasta que pueda sola cuesta una tarde y ahorra un mes.",
       },
     },
   },
