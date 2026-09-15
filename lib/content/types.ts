@@ -39,6 +39,8 @@ export interface ProjectCopy {
 
 export interface Project {
   readonly slug: string;
+  /** Nome proprio do sistema. Nao se traduz, e o mesmo nos tres idiomas. */
+  readonly name: string;
   /** Ordem na vitrine. Menor primeiro. Impacto manda, nao cronologia. */
   readonly order: number;
   readonly domain: Domain;

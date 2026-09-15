@@ -1,31 +1,29 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import "../globals.css";
-import { SiteFooter } from "@/components/site-footer";
-import { SiteHeader } from "@/components/site-header";
+import { Sidebar } from "@/components/sidebar";
 import { isLocale, LOCALE_HTML_LANG, LOCALES } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 
 /**
- * Este e o root layout do site: nao existe `app/layout.tsx`.
+ * Este e o root layout: nao existe `app/layout.tsx`. Toda rota vive sob
+ * `[locale]`, entao o layout mais alto ja conhece o idioma e escreve `lang`
+ * no `<html>` no servidor, sem efeito no cliente e sem flash de idioma errado.
  *
- * Toda rota vive sob `[locale]`, entao o layout mais alto ja conhece o
- * idioma e consegue escrever `lang` no `<html>` no servidor — sem efeito no
- * cliente, sem flash de idioma errado.
+ * A estrutura e uma coluna fixa a esquerda e o conteudo a direita. Sao quatro
+ * destinos no site inteiro, e a ideia e que o visitante nunca sinta que
+ * navegou: o que muda e o painel da direita.
  */
 export function generateStaticParams() {
   return LOCALES.map((locale) => ({ locale }));
 }
 
 /**
- * O tema TEM que ser aplicado antes da primeira pintura.
+ * O tema TEM que ser aplicado antes da primeira pintura. Como `useEffect`,
+ * quem escolheu escuro veria um lampejo branco a cada navegacao, o pior tipo
+ * de bug de tema porque so atinge quem se importa com o assunto.
  *
- * Se isto virasse um `useEffect`, quem escolheu escuro veria um lampejo
- * branco em cada navegacao — o pior tipo de bug de tema, porque so aparece
- * para quem se importa com o assunto.
- *
- * Roda antes do React de proposito, le so uma chave, e engole o proprio erro:
- * em janela anonima ou com site data bloqueado, `localStorage` LANCA ao ser
+ * Engole o proprio erro: em janela anonima `localStorage` LANCA ao ser
  * acessado, e um throw aqui derrubaria a pagina inteira.
  */
 const THEME_BOOTSTRAP = `try{var t=localStorage.getItem("theme");if(t==="dark"||t==="light"){document.documentElement.dataset.theme=t}}catch(e){}`;
@@ -36,21 +34,19 @@ export async function generateMetadata({ params }: LayoutProps<"/[locale]">): Pr
   const t = await getDictionary(locale);
 
   return {
-    title: t.meta.title,
-    description: t.meta.description,
+    title: { default: t.meta.aboutTitle, template: `%s · ${t.meta.aboutTitle}` },
+    description: t.meta.aboutDescription,
     alternates: {
       canonical: `/${locale}`,
-      // hreflang: um recrutador brasileiro que buscar o nome no Google deve
-      // cair na versao em portugues, nao na inglesa.
       languages: Object.fromEntries(LOCALES.map((l) => [LOCALE_HTML_LANG[l], `/${l}`])),
     },
-    openGraph: { title: t.meta.title, description: t.meta.description, type: "website" },
+    openGraph: { title: t.meta.aboutTitle, description: t.meta.aboutDescription, type: "profile" },
   };
 }
 
 export default async function LocaleLayout({ children, params }: LayoutProps<"/[locale]">) {
   const { locale } = await params;
-  // `params` e uma Promise desde o Next 15 e o valor NAO e validado pelo
+  // `params` e uma Promise desde o Next 15, e o valor NAO e validado pelo
   // router: `/xx` chega aqui como string qualquer.
   if (!isLocale(locale)) notFound();
 
@@ -59,9 +55,9 @@ export default async function LocaleLayout({ children, params }: LayoutProps<"/[
   return (
     <html lang={LOCALE_HTML_LANG[locale]} suppressHydrationWarning>
       <head>
-        {/* biome-ignore lint/security/noDangerouslySetInnerHtml: string literal
-            constante definida neste arquivo, sem nenhuma entrada do usuario. E
-            a unica forma de aplicar o tema antes da primeira pintura. */}
+        {/* biome-ignore lint/security/noDangerouslySetInnerHtml: literal
+            constante deste arquivo, sem nenhuma entrada de usuario. E a unica
+            forma de aplicar o tema antes da primeira pintura. */}
         <script dangerouslySetInnerHTML={{ __html: THEME_BOOTSTRAP }} />
       </head>
       <body className="font-sans antialiased">
@@ -71,9 +67,8 @@ export default async function LocaleLayout({ children, params }: LayoutProps<"/[
         >
           {t.nav.skipToContent}
         </a>
-        <SiteHeader locale={locale} t={t} />
-        {children}
-        <SiteFooter t={t} />
+        <Sidebar locale={locale} t={t} />
+        <div className="lg:pl-(--sidebar-w)">{children}</div>
       </body>
     </html>
   );

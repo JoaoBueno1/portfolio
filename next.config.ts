@@ -43,6 +43,10 @@ const nextConfig: NextConfig = {
       // commit proprio. (E `proxy.ts` — `middleware.ts` e ignorado EM
       // SILENCIO no Next 16 e o build passa verde sem rodar nada.)
       { source: "/", destination: "/en", permanent: false },
+      // /work existiu por um deploy antes do site virar quatro abas. O
+      // endereco pode ter sido aberto ou compartilhado nesse meio tempo, e um
+      // 404 num portfolio e pior do que um redirect que ninguem usa.
+      { source: "/:locale(en|pt|es)/work", destination: "/:locale/projects", permanent: true },
     ];
   },
   async headers() {

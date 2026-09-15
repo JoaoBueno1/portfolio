@@ -14,6 +14,7 @@ import type { Domain, Status } from "./types";
  */
 export interface ProjectCardView {
   readonly slug: string;
+  readonly name: string;
   readonly domain: Domain;
   readonly status: Status;
   readonly featured: boolean;
@@ -29,7 +30,6 @@ export interface ProjectCardView {
   }[];
   readonly cover?: StaticImageData;
   readonly coverAlt?: string;
-  readonly href?: string;
 }
 
 /** "2025-06" -> "Jun 2025", no idioma pedido. */
@@ -53,6 +53,7 @@ export function projectCards(
       const from = month(p.period.from, locale);
       return {
         slug: p.slug,
+        name: p.name,
         domain: p.domain,
         status: p.status,
         featured: p.featured,
@@ -64,7 +65,6 @@ export function projectCards(
         stack: p.stack.map((key) => ({ key, title: STACK[key].title, path: STACK[key].path })),
         cover: p.cover,
         coverAlt: p.coverAlt?.[locale],
-        href: p.hasCaseStudy ? `/${locale}/work/${p.slug}` : undefined,
       };
     });
 }

@@ -71,6 +71,15 @@
   /* — Estado — */
   --c-ok: #1f6f4a;
   --c-danger: #9b1c1c;
+
+  /* A LARGURA DA COLUNA DA ESQUERDA, num lugar so.
+     A coluna e `position: fixed`, entao ela sai do fluxo e o conteudo
+     precisa de um recuo do MESMO tamanho. Dois numeros escritos a mao
+     divergem no primeiro ajuste e o conteudo passa a ficar por baixo do
+     menu; uma variavel nao tem como divergir.
+     28% da tela, presa entre 16rem (nao espremer o menu) e 22rem (nao
+     roubar leitura do conteudo num monitor largo). */
+  --sidebar-w: clamp(16rem, 28%, 22rem);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -221,5 +230,34 @@ body {
   }
   to {
     stroke-dashoffset: 0;
+  }
+}
+
+/* ============================================================
+   CARROSSEL DE LOGOS (components/stack-marquee.tsx)
+
+   A faixa contem a lista duas vezes. Andar -50% e andar o
+   comprimento de UMA copia: no instante em que a animacao
+   reinicia, o desenho e identico, e a emenda some. Trocar esse
+   valor por qualquer outro traz o salto de volta.
+
+   `will-change` promove a faixa para a propria camada e tira a
+   animacao da thread principal.
+   ============================================================ */
+.marquee-track {
+  animation: marquee-scroll 55s linear infinite;
+  will-change: transform;
+}
+
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+@keyframes marquee-scroll {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
   }
 }

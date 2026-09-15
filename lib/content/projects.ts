@@ -22,6 +22,7 @@ import type { Project } from "./types";
 export const PROJECTS: readonly Project[] = [
   {
     slug: "rapid-tms",
+    name: "Rapid Express TMS",
     order: 1,
     domain: "production",
     status: "live",
@@ -98,6 +99,7 @@ export const PROJECTS: readonly Project[] = [
   },
   {
     slug: "driver-app",
+    name: "Driver App",
     order: 2,
     domain: "mobile",
     status: "live",
@@ -140,6 +142,7 @@ export const PROJECTS: readonly Project[] = [
   },
   {
     slug: "rapid-labels",
+    name: "Rapid Labels",
     order: 3,
     domain: "tools",
     status: "live",
@@ -185,6 +188,7 @@ export const PROJECTS: readonly Project[] = [
   },
   {
     slug: "rapid-portal",
+    name: "Rapid Portal",
     order: 4,
     domain: "platform",
     status: "live",
@@ -239,6 +243,7 @@ export const PROJECTS: readonly Project[] = [
   },
   {
     slug: "own-fleet",
+    name: "Own Fleet",
     order: 5,
     domain: "production",
     status: "live",
@@ -285,6 +290,7 @@ export const PROJECTS: readonly Project[] = [
   },
   {
     slug: "ai-engineering",
+    name: "Agent Guard Rails",
     order: 6,
     domain: "platform",
     status: "shipped",
@@ -333,6 +339,7 @@ export const PROJECTS: readonly Project[] = [
   },
   {
     slug: "van-booking",
+    name: "Van Booking",
     order: 7,
     domain: "tools",
     status: "shipped",
@@ -373,6 +380,7 @@ export const PROJECTS: readonly Project[] = [
   },
   {
     slug: "collectables-dwh",
+    name: "Collectables DWH",
     order: 8,
     domain: "academic",
     status: "study",

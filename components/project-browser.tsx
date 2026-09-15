@@ -1,0 +1,338 @@
+"use client";
+
+import Image from "next/image";
+import { useCallback, useEffect, useRef, useState } from "react";
+import type { ProjectCardView } from "@/lib/content/view";
+
+interface Labels {
+  readonly inProduction: string;
+  readonly other: string;
+  readonly close: string;
+  readonly roleLabel: string;
+  readonly periodLabel: string;
+  readonly stackLabel: string;
+  readonly previous: string;
+  readonly next: string;
+  readonly status: Record<ProjectCardView["status"], string>;
+  readonly domains: Record<ProjectCardView["domain"], string>;
+  readonly noShot: string;
+}
+
+/** O quadradinho de logos que substitui a capa quando nao ha captura. */
+function StackBlock({ item, size }: { item: ProjectCardView; size: "tile" | "dialog" }) {
+  const count = size === "tile" ? 5 : 8;
+  return (
+    <div className="flex h-full w-full flex-wrap content-center items-center justify-center gap-4 bg-sunken p-5">
+      {item.stack.slice(0, count).map((tech) => (
+        <svg
+          key={tech.key}
+          viewBox="0 0 24 24"
+          role="img"
+          aria-label={tech.title}
+          className={size === "tile" ? "size-5 text-ink-faint" : "size-7 text-ink-faint"}
+          fill="currentColor"
+        >
+          <title>{tech.title}</title>
+          <path d={tech.path} />
+        </svg>
+      ))}
+    </div>
+  );
+}
+
+/**
+ * A VITRINE.
+ *
+ * Cards pequenos, e o detalhe abre num dialogo em cima. O visitante nunca sai
+ * da pagina: fechar devolve exatamente o que ele estava olhando, o que uma
+ * pagina de destino nao faz.
+ *
+ * Usa o `<dialog>` nativo com `showModal()`. Ele traz de graca o que um modal
+ * de mao costuma errar: prende o foco dentro, fecha no Esc, esconde o resto
+ * da pagina do leitor de tela e desenha o proprio backdrop.
+ *
+ * A URL ganha `?p=<slug>` por `history.replaceState`, sem passar pelo router:
+ * assim o link do projeto pode ser compartilhado e o botao voltar do browser
+ * nao vira um historico de cada card aberto.
+ */
+export function ProjectBrowser({
+  items,
+  labels,
+}: {
+  items: readonly ProjectCardView[];
+  labels: Labels;
+}) {
+  const dialogRef = useRef<HTMLDialogElement>(null);
+  const [index, setIndex] = useState<number | null>(null);
+
+  const setUrl = useCallback((slug: string | null) => {
+    const url = new URL(window.location.href);
+    if (slug) url.searchParams.set("p", slug);
+    else url.searchParams.delete("p");
+    window.history.replaceState(null, "", url);
+  }, []);
+
+  // `?p=<slug>` abre aquele projeto. A leitura acontece AQUI e nao no
+  // servidor: fazer isso no servidor tiraria a pagina do caminho estatico
+  // (ver o comentario em `app/[locale]/projects/page.tsx`). Roda uma vez, na
+  // montagem, e por isso nao pode depender de `items` na lista.
+  // biome-ignore lint/correctness/useExhaustiveDependencies: leitura unica na montagem; `items` e estavel dentro de uma rota.
+  useEffect(() => {
+    const slug = new URLSearchParams(window.location.search).get("p");
+    if (!slug) return;
+    const found = items.findIndex((item) => item.slug === slug);
+    if (found !== -1) setIndex(found);
+  }, []);
+
+  // Abre e fecha o dialogo de acordo com o estado. `showModal` so pode ser
+  // chamado uma vez por abertura, entao o guard de `open` nao e opcional.
+  useEffect(() => {
+    const dialog = dialogRef.current;
+    if (!dialog) return;
+    if (index === null) {
+      if (dialog.open) dialog.close();
+    } else if (!dialog.open) {
+      dialog.showModal();
+    }
+  }, [index]);
+
+  const close = useCallback(() => {
+    setIndex(null);
+    setUrl(null);
+  }, [setUrl]);
+
+  const go = useCallback(
+    (delta: number) => {
+      setIndex((current) => {
+        if (current === null) return current;
+        const next = (current + delta + items.length) % items.length;
+        setUrl(items[next].slug);
+        return next;
+      });
+    },
+    [items, setUrl],
+  );
+
+  // Setas navegam entre projetos enquanto o dialogo esta aberto. O Esc ja e
+  // tratado pelo proprio `<dialog>`, pelo evento `close` abaixo.
+  useEffect(() => {
+    if (index === null) return;
+    function onKey(event: KeyboardEvent) {
+      if (event.key === "ArrowRight") go(1);
+      if (event.key === "ArrowLeft") go(-1);
+    }
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [index, go]);
+
+  const open = index === null ? null : items[index];
+  const live = items.filter((item) => item.status === "live");
+  const rest = items.filter((item) => item.status !== "live");
+
+  function openProject(slug: string) {
+    const found = items.findIndex((item) => item.slug === slug);
+    if (found === -1) return;
+    setIndex(found);
+    setUrl(slug);
+  }
+
+  const tile = (item: ProjectCardView) => (
+    <li key={item.slug}>
+      <button
+        type="button"
+        onClick={() => openProject(item.slug)}
+        className="group flex h-full w-full flex-col overflow-hidden rounded-xl border border-line bg-canvas text-left transition-all duration-300 [transition-timing-function:var(--ease-out-soft)] hover:-translate-y-0.5 hover:border-line-strong hover:shadow-sm"
+      >
+        <div className="relative aspect-[16/9] w-full overflow-hidden border-b border-line bg-sunken">
+          {item.cover ? (
+            <Image
+              src={item.cover}
+              alt=""
+              className="h-full w-full object-cover object-left-top transition-transform duration-500 [transition-timing-function:var(--ease-out-soft)] group-hover:scale-[1.03]"
+              sizes="(max-width: 1024px) 50vw, 300px"
+            />
+          ) : (
+            <StackBlock item={item} size="tile" />
+          )}
+        </div>
+        <div className="flex flex-1 flex-col gap-1.5 p-4">
+          <div className="flex items-center gap-2">
+            {item.status === "live" && (
+              <span className="size-1.5 rounded-full bg-accent" aria-hidden="true" />
+            )}
+            <span className="text-sm font-semibold tracking-tight">{item.name}</span>
+          </div>
+          <p className="line-clamp-2 text-xs leading-relaxed text-ink-subtle">{item.tagline}</p>
+          <div className="mt-auto flex items-center gap-2 pt-2 text-ink-faint">
+            {item.stack.slice(0, 5).map((tech) => (
+              <svg
+                key={tech.key}
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+                className="size-3.5"
+                fill="currentColor"
+              >
+                <path d={tech.path} />
+              </svg>
+            ))}
+          </div>
+        </div>
+      </button>
+    </li>
+  );
+
+  return (
+    <>
+      <section>
+        <h2 className="font-mono text-xs tracking-wide text-ink-faint uppercase">
+          {labels.inProduction}
+        </h2>
+        <ul className="mt-4 grid grid-cols-2 gap-4 xl:grid-cols-3">{live.map(tile)}</ul>
+      </section>
+
+      <section className="mt-12">
+        <h2 className="font-mono text-xs tracking-wide text-ink-faint uppercase">{labels.other}</h2>
+        <ul className="mt-4 grid grid-cols-2 gap-4 xl:grid-cols-3">{rest.map(tile)}</ul>
+      </section>
+
+      {/* A regra useKeyWithClickEvents pede um equivalente de teclado para
+          todo onClick. Aqui ele ja existe, e e melhor do que um sintetico: o
+          `<dialog>` nativo fecha no Esc sozinho, e isso chega no `onClose`
+          logo abaixo. O onClick cobre so o clique no backdrop, que nao tem
+          nem como receber foco. */}
+      {/* biome-ignore lint/a11y/useKeyWithClickEvents: o Esc do <dialog> nativo e o equivalente de teclado, tratado em onClose. */}
+      <dialog
+        ref={dialogRef}
+        onClose={close}
+        onClick={(event) => {
+          // Clique no backdrop chega no proprio <dialog>; clique no conteudo
+          // chega num filho. Comparar o alvo separa os dois sem precisar de
+          // listener no documento inteiro.
+          if (event.target === dialogRef.current) close();
+        }}
+        className="m-auto w-[min(56rem,calc(100vw-2rem))] rounded-2xl border border-line bg-canvas p-0 text-ink backdrop:bg-ink/40 backdrop:backdrop-blur-sm"
+      >
+        {open && (
+          <article className="max-h-[85vh] overflow-y-auto">
+            <div className="relative aspect-[16/8] w-full overflow-hidden border-b border-line bg-sunken">
+              {open.cover ? (
+                <Image
+                  src={open.cover}
+                  alt={open.coverAlt ?? ""}
+                  className="h-full w-full object-cover object-left-top"
+                  sizes="56rem"
+                />
+              ) : (
+                <StackBlock item={open} size="dialog" />
+              )}
+              <button
+                type="button"
+                onClick={close}
+                aria-label={labels.close}
+                className="absolute top-3 right-3 grid size-8 place-items-center rounded-full border border-line bg-canvas/90 text-ink-muted backdrop-blur-sm hover:text-ink"
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  className="size-4"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.8"
+                  aria-hidden="true"
+                >
+                  <path d="M6 6l12 12M18 6L6 18" strokeLinecap="round" />
+                </svg>
+              </button>
+            </div>
+
+            <div className="flex flex-col gap-5 p-7">
+              <div>
+                <div className="flex flex-wrap items-center gap-2 text-xs text-ink-faint">
+                  <span
+                    className={`rounded-full px-2 py-0.5 font-medium ${
+                      open.status === "live"
+                        ? "bg-accent-soft text-accent"
+                        : "bg-subtle text-ink-muted"
+                    }`}
+                  >
+                    {labels.status[open.status]}
+                  </span>
+                  <span>{labels.domains[open.domain]}</span>
+                  <span aria-hidden="true">·</span>
+                  <span>{open.period}</span>
+                </div>
+                <h3 className="mt-3 text-xl font-semibold tracking-tight text-balance">
+                  {open.name}
+                </h3>
+                <p className="mt-1 text-sm text-ink-subtle">{open.tagline}</p>
+              </div>
+
+              <p className="text-sm leading-relaxed text-ink-muted text-pretty">{open.summary}</p>
+
+              {!open.cover && <p className="text-xs text-ink-faint">{labels.noShot}</p>}
+
+              {open.metrics.length > 0 && (
+                <dl className="grid grid-cols-2 gap-x-6 gap-y-4 rounded-xl bg-sunken p-5 sm:grid-cols-4">
+                  {open.metrics.map((metric) => (
+                    <div key={metric.label}>
+                      <dd className="font-mono text-lg font-semibold tabular-nums">
+                        {metric.value}
+                      </dd>
+                      <dt className="mt-0.5 text-xs leading-snug text-ink-faint">{metric.label}</dt>
+                    </div>
+                  ))}
+                </dl>
+              )}
+
+              <div className="grid gap-4 border-t border-line pt-5 sm:grid-cols-2">
+                <div>
+                  <p className="font-mono text-[0.625rem] tracking-wide text-ink-faint uppercase">
+                    {labels.roleLabel}
+                  </p>
+                  <p className="mt-1 text-sm text-ink-muted">{open.role}</p>
+                </div>
+                <div>
+                  <p className="font-mono text-[0.625rem] tracking-wide text-ink-faint uppercase">
+                    {labels.stackLabel}
+                  </p>
+                  <ul className="mt-2 flex flex-wrap gap-3 text-ink-subtle">
+                    {open.stack.map((tech) => (
+                      <li key={tech.key}>
+                        <svg
+                          viewBox="0 0 24 24"
+                          role="img"
+                          aria-label={tech.title}
+                          className="size-5"
+                          fill="currentColor"
+                        >
+                          <title>{tech.title}</title>
+                          <path d={tech.path} />
+                        </svg>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+
+              <div className="flex items-center justify-between border-t border-line pt-4">
+                <button
+                  type="button"
+                  onClick={() => go(-1)}
+                  className="text-sm text-ink-muted hover:text-accent"
+                >
+                  <span aria-hidden="true">←</span> {labels.previous}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => go(1)}
+                  className="text-sm text-ink-muted hover:text-accent"
+                >
+                  {labels.next} <span aria-hidden="true">→</span>
+                </button>
+              </div>
+            </div>
+          </article>
+        )}
+      </dialog>
+    </>
+  );
+}

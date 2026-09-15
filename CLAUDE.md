@@ -73,13 +73,32 @@ Tres idiomas: **en** (padrao), **pt-BR**, **es**. Toda rota vive sob
 Todo texto de projeto, stack, timeline e formacao vive em `lib/content/`,
 tipado. Componente recebe dado, nunca guarda dado.
 
-O tipo de um case study exige `problem`, `architecture`, `whatIBuilt`,
-`hardProblems`, `evidence` e `knownLimits`. **Falta um, o build quebra** — e
-isso existe para impedir que um case vire casca bonita e vazia.
+Todo texto que muda de idioma e `Record<Locale, string>`. Os tres sao
+obrigatorios pelo tipo, entao nao existe card traduzido pela metade.
 
-`knownLimits` e obrigatorio de proposito: dizer o que nao esta pronto e o
-diferencial mais forte que o dono deste portfolio tem, e esta em todo README
-que ele escreve.
+O site tem **quatro destinos**: Sobre, Skills, Soft skills e Projetos. Nao
+adicione um quinto sem um motivo forte. O ponto do desenho e o visitante nunca
+sentir que navegou: a coluna da esquerda fica parada e so o painel da direita
+troca.
+
+Projeto abre em `<dialog>` nativo, nao em pagina propria. Quem fecha volta
+exatamente para onde estava.
+
+## Como se escreve texto aqui
+
+O visitante le isto, nao e comentario de codigo:
+
+- **Acento obrigatorio** em portugues e espanhol, `¿` e `¡` incluidos.
+  Comentario de codigo neste repo vai sem acento por convencao; texto de
+  interface, nunca.
+- **Nada de travessao entre palavras.** Virgula, ponto ou dois-pontos.
+- Frase curta. Se precisa de virgula no meio so para respirar, corta em duas.
+- Nada de adjetivo sobre si mesmo ("proativo", "comunicativo"). Diz o que
+  aconteceu e onde.
+- Termo de logistica nao se traduz: dispatch, booking, consignment, manifest,
+  carrier.
+- Numero publicado carrega a fonte junto. Se a fonte nao pode ser citada, o
+  numero vira forma relativa ("centenas de bookings reais").
 
 ## Estilo
 
@@ -106,3 +125,13 @@ que ele escreve.
 - Antes de abrir PR: `npm run fix`, `npm run build`, `npm run test`.
 
 <!-- BEGIN:nextjs-agent-rules -->
+
+<!-- BEGIN:nextjs-agent-rules -->
+
+# This is NOT the Next.js you know
+
+This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` (resolved from this file's directory; in monorepos the `next` package may not be visible from the repo root) before writing any code. Heed deprecation notices.
+
+This block is written and re-added by `next dev` — verify at `node_modules/next/dist/server/lib/generate-agent-files.js`. Removing it from a diff only re-creates the uncommitted change; committing it with your work keeps the tree clean.
+
+<!-- END:nextjs-agent-rules -->
