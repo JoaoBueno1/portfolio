@@ -1,3 +1,5 @@
+@AGENTS.md
+
 # portfolio
 
 O portfolio publico de **Joao Marcos Bueno**. Roda em Next 16 na Vercel.
@@ -102,3 +104,5 @@ que ele escreve.
 - Numero publicado carrega a fonte junto. Se a fonte nao pode ser citada, o
   numero vira forma relativa ("centenas de bookings reais").
 - Antes de abrir PR: `npm run fix`, `npm run build`, `npm run test`.
+
+<!-- BEGIN:nextjs-agent-rules -->
