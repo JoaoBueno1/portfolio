@@ -18,7 +18,7 @@ export const en = {
   meta: {
     aboutTitle: "João Marcos Bueno",
     aboutDescription:
-      "Software developer on the Gold Coast, Australia. I build and run the systems behind a real freight and warehouse operation.",
+      "Full stack developer on the Gold Coast, Australia. I build and run the systems behind a real freight and warehouse operation.",
     skillsTitle: "Skills",
     skillsDescription:
       "Languages, frameworks, data, infrastructure and tools, rated by how much I actually use them.",
@@ -40,11 +40,17 @@ export const en = {
     contact: "Contact",
   },
   sidebar: {
-    role: "Software developer",
+    role: "Full stack developer",
     location: "Gold Coast, Australia",
     photoAlt: "Profile photo",
     open: "Open menu",
     close: "Close menu",
+  },
+  stats: {
+    systems: "systems running in production",
+    commits: "commits across them",
+    integrations: "external systems integrated",
+    since: "inside the operation since",
   },
   about: {
     title: "About",
@@ -52,22 +58,8 @@ export const en = {
       "I am a software developer on the Gold Coast, Australia. I work inside a freight and warehouse operation and I build the systems it runs on: a transport management system, a driver app, and the tools the warehouse floor uses. I started on that floor in 2023, which is why almost every feature I ship replaces something I used to do by hand.",
     nowTitle: "Right now",
     now: "Building and running three systems in production, and studying whatever the next problem needs.",
-    pathTitle: "How I got here",
     languagesTitle: "Languages",
-    languages: "Portuguese (native), English (professional), Spanish (reading and writing).",
-    educationTitle: "Education",
-    education:
-      "Diploma of Information Technology, Database and Data Management. Mindroom Institute, Queensland, 2024 to 2026.",
-    timeline: {
-      bank: "Account manager at Bradesco, Brazil. KYC, compliance, and four years of explaining a system to the person in front of me.",
-      floor:
-        "Warehouse floor in Australia. Picking, packing and project orders, and slowly becoming the person people asked when software did something odd.",
-      firstApp:
-        "First thing I built. A small Node app so van bookings stopped living in a shared spreadsheet.",
-      tms: "The TMS starts. Carriers, labels, dispatch, tracking and invoice reconciliation, with the driver app beside it.",
-      portal:
-        "One login in front of all three systems, plus an AI module restricted to queries written by hand.",
-    },
+    languages: "Portuguese (native), English (professional).",
   },
   skills: {
     title: "Skills",
@@ -116,7 +108,6 @@ export const en = {
     noShot: "No screenshot published. The real captures contain customer data.",
   },
   footer: {
-    noData: "No client data appears anywhere on this site. Screenshots use seeded, fictional data.",
     source: "Source",
   },
 };

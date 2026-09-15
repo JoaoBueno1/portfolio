@@ -141,9 +141,9 @@ export function ProjectBrowser({
       <button
         type="button"
         onClick={() => openProject(item.slug)}
-        className="group flex h-full w-full flex-col overflow-hidden rounded-xl border border-line bg-canvas text-left transition-all duration-300 [transition-timing-function:var(--ease-out-soft)] hover:-translate-y-0.5 hover:border-line-strong hover:shadow-sm"
+        className="group flex h-full w-full flex-col overflow-hidden rounded-xl border border-line bg-canvas/70 text-left backdrop-blur-sm transition-all duration-300 [transition-timing-function:var(--ease-out-soft)] hover:-translate-y-0.5 hover:border-line-strong hover:shadow-sm"
       >
-        <div className="relative aspect-[16/9] w-full overflow-hidden border-b border-line bg-sunken">
+        <div className="relative aspect-[16/10] w-full overflow-hidden border-b border-line bg-sunken">
           {item.cover ? (
             <Image
               src={item.cover}
@@ -155,7 +155,7 @@ export function ProjectBrowser({
             <StackBlock item={item} size="tile" />
           )}
         </div>
-        <div className="flex flex-1 flex-col gap-1.5 p-4">
+        <div className="flex flex-1 flex-col gap-1 p-3">
           <div className="flex items-center gap-2">
             {item.status === "live" && (
               <span className="size-1.5 rounded-full bg-accent" aria-hidden="true" />
@@ -187,12 +187,16 @@ export function ProjectBrowser({
         <h2 className="font-mono text-xs tracking-wide text-ink-faint uppercase">
           {labels.inProduction}
         </h2>
-        <ul className="mt-4 grid grid-cols-2 gap-4 xl:grid-cols-3">{live.map(tile)}</ul>
+        <ul className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-3 xl:grid-cols-4">
+          {live.map(tile)}
+        </ul>
       </section>
 
-      <section className="mt-12">
+      <section className="mt-8">
         <h2 className="font-mono text-xs tracking-wide text-ink-faint uppercase">{labels.other}</h2>
-        <ul className="mt-4 grid grid-cols-2 gap-4 xl:grid-cols-3">{rest.map(tile)}</ul>
+        <ul className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-3 xl:grid-cols-4">
+          {rest.map(tile)}
+        </ul>
       </section>
 
       {/* A regra useKeyWithClickEvents pede um equivalente de teclado para

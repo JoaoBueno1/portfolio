@@ -1,8 +1,5 @@
 import {
   siAnthropic,
-  siBiome,
-  siChartdotjs,
-  siDjango,
   siDocker,
   siExpo,
   siExpress,
@@ -14,47 +11,44 @@ import {
   siJinja,
   siJsonwebtokens,
   siLinux,
-  siMongodb,
   siMysql,
   siNextdotjs,
-  siNginx,
   siNodedotjs,
-  siNotion,
   siPandas,
   siPhp,
   siPostgresql,
   siPython,
-  siR,
   siReact,
-  siRedis,
   siSentry,
   siSqlalchemy,
   siSqlite,
   siSupabase,
   siTailwindcss,
-  siTelegram,
   siTypescript,
-  siVercel,
-  siVite,
-  siVitest,
   siZebratechnologies,
   siZod,
-  siZoho,
 } from "simple-icons";
 
 /**
  * O inventario de ferramenta.
  *
- * REGRA: so entra o que aparece em projeto deste site. Muro de logo e uma
- * afirmacao, e cada uma precisa de um projeto atras.
+ * ENXUTO DE PROPOSITO. A lista tinha 43 itens e virou 27. Uma lista longa
+ * demais nao mostra amplitude, ela dilui: quem le para de distinguir o que
+ * eu uso todo dia do que eu encostei uma vez.
  *
- * `level` de 1 a 5 e auto-avaliacao, e a pagina de skills diz isso em texto.
- * A escala e de USO, nao de talento: 5 e o que eu abro todo dia, 1 e o que eu
- * usei o bastante para me virar. Nada aqui e 5 so porque soa bem.
+ * O CORTE: saiu tudo que so aparece em trabalho de curso (PHP, MySQL,
+ * MongoDB, Django, R, Chart.js), tudo que e detalhe de um projeto e nao uma
+ * competencia (Jinja2, Zod, Vite, Redis, NGINX, Zoho, Telegram), e o
+ * ferramental do proprio repo, que ninguem contrata por (Biome, Vitest,
+ * Notion). Nada disso e mentira; e so ruido numa pagina que tem poucos
+ * segundos para dizer o que importa.
  *
- * Icone via `simple-icons`, empacotado no build. Sem CDN: 40 logos de
- * terceiro seriam 40 requisicoes e uma dependencia de um host que nao e meu.
- * O que o pacote nao tem (Microsoft) vem de path proprio logo abaixo.
+ * `level` de 1 a 5 e auto-avaliacao, e a pagina diz isso em texto. A escala e
+ * de USO: 5 e o que eu abro quase todo dia, 1 e o que eu usei o bastante para
+ * resolver. Nada e 5 so porque soa bem.
+ *
+ * Icone via `simple-icons`, empacotado no build. Sem CDN. O que o pacote nao
+ * tem (Microsoft) vem de path proprio.
  */
 export interface Tech {
   readonly title: string;
@@ -64,7 +58,7 @@ export interface Tech {
   readonly level: 1 | 2 | 3 | 4 | 5;
 }
 
-/** O quadrado de quatro da Microsoft. O pacote tirou as marcas dela. */
+/** O quadrado de quatro da Microsoft. O pacote removeu as marcas dela. */
 const MICROSOFT_PATH =
   "M1 1h10.2v10.2H1zM12.8 1H23v10.2H12.8zM1 12.8h10.2V23H1zM12.8 12.8H23V23H12.8z";
 
@@ -72,57 +66,54 @@ const TECH = {
   // — Linguagens —
   python: { title: "Python", path: siPython.path, level: 5 },
   javascript: { title: "JavaScript", path: siNodedotjs.path, level: 5 },
+  sql: { title: "SQL", path: siPostgresql.path, level: 5 },
   typescript: { title: "TypeScript", path: siTypescript.path, level: 4 },
-  php: { title: "PHP", path: siPhp.path, level: 3 },
-  r: { title: "R", path: siR.path, level: 2 },
 
   // — Backend —
   flask: { title: "Flask", path: siFlask.path, level: 5 },
-  express: { title: "Express", path: siExpress.path, level: 4 },
+  express: { title: "Node.js / Express", path: siExpress.path, level: 4 },
   sqlalchemy: { title: "SQLAlchemy", path: siSqlalchemy.path, level: 4 },
-  jinja: { title: "Jinja2", path: siJinja.path, level: 4 },
-  jwt: { title: "JWT / JOSE", path: siJsonwebtokens.path, level: 4 },
-  django: { title: "Django", path: siDjango.path, level: 2 },
+  rest: { title: "REST APIs / JWT", path: siJsonwebtokens.path, level: 4 },
 
   // — Frontend —
   react: { title: "React", path: siReact.path, level: 4 },
   nextjs: { title: "Next.js", path: siNextdotjs.path, level: 4 },
   tailwind: { title: "Tailwind CSS", path: siTailwindcss.path, level: 4 },
   expo: { title: "React Native / Expo", path: siExpo.path, level: 3 },
-  vite: { title: "Vite", path: siVite.path, level: 3 },
-  chartjs: { title: "Chart.js", path: siChartdotjs.path, level: 3 },
-  zod: { title: "Zod", path: siZod.path, level: 3 },
 
   // — Dados —
   postgresql: { title: "PostgreSQL", path: siPostgresql.path, level: 5 },
   supabase: { title: "Supabase", path: siSupabase.path, level: 5 },
   sqlite: { title: "SQLite", path: siSqlite.path, level: 4 },
   pandas: { title: "pandas", path: siPandas.path, level: 3 },
-  mysql: { title: "MySQL", path: siMysql.path, level: 3 },
-  redis: { title: "Redis", path: siRedis.path, level: 2 },
-  mongodb: { title: "MongoDB", path: siMongodb.path, level: 2 },
 
   // — Nuvem, deploy e operacao —
-  git: { title: "Git", path: siGit.path, level: 5 },
-  github: { title: "GitHub", path: siGithub.path, level: 5 },
+  git: { title: "Git / GitHub", path: siGit.path, level: 5 },
   actions: { title: "GitHub Actions", path: siGithubactions.path, level: 4 },
-  vercel: { title: "Vercel", path: siVercel.path, level: 4 },
+  vercel: { title: "Vercel", path: siNextdotjs.path, level: 4 },
   render: { title: "Render", path: siNodedotjs.path, level: 4 },
   sentry: { title: "Sentry", path: siSentry.path, level: 4 },
   docker: { title: "Docker", path: siDocker.path, level: 3 },
   linux: { title: "Linux", path: siLinux.path, level: 3 },
-  nginx: { title: "NGINX", path: siNginx.path, level: 2 },
 
-  // — Integracao e ferramenta —
-  claude: { title: "Claude / Anthropic", path: siAnthropic.path, level: 5 },
+  // — Integracao —
+  claude: { title: "Claude / AI tooling", path: siAnthropic.path, level: 5 },
   googlemaps: { title: "Google Maps Platform", path: siGooglemaps.path, level: 4 },
   microsoft: { title: "Microsoft 365 / Excel", path: MICROSOFT_PATH, level: 4 },
   zebra: { title: "Zebra ZPL", path: siZebratechnologies.path, level: 4 },
-  telegram: { title: "Telegram Bot API", path: siTelegram.path, level: 3 },
-  notion: { title: "Notion", path: siNotion.path, level: 3 },
-  biome: { title: "Biome", path: siBiome.path, level: 3 },
-  vitest: { title: "Vitest", path: siVitest.path, level: 3 },
-  zoho: { title: "Zoho", path: siZoho.path, level: 2 },
+
+  // — Fora da pagina de skills, mas necessarias para os projetos —
+  //
+  // Um projeto precisa mostrar do que ele e feito, e a lista curta de skills
+  // nao cobre tudo que ja foi usado. Estas continuam no registro de icones e
+  // aparecem no card e no dialogo do projeto; so nao entram em STACK_GROUPS,
+  // que e o que a pagina de skills e o carrossel leem. Sem isto, ou a pagina
+  // de skills volta a ter 43 itens, ou o card do projeto mente sobre a stack.
+  github: { title: "GitHub", path: siGithub.path, level: 5 },
+  jinja: { title: "Jinja2", path: siJinja.path, level: 4 },
+  zod: { title: "Zod", path: siZod.path, level: 3 },
+  php: { title: "PHP", path: siPhp.path, level: 3 },
+  mysql: { title: "MySQL", path: siMysql.path, level: 3 },
 } satisfies Record<string, Tech>;
 
 export type StackKey = keyof typeof TECH;
@@ -130,33 +121,17 @@ export type StackKey = keyof typeof TECH;
 export const STACK: Record<StackKey, Tech> = TECH;
 
 /**
- * As trilhas da pagina de skills. Dentro de cada uma a ordem e por `level`
- * decrescente, calculada em `skillGroups()` e nao escrita a mao, para a
- * ordem nunca discordar da nota.
+ * As trilhas da pagina de skills. Dentro de cada uma a ordem sai do `level`,
+ * calculada em `skillGroups()` e nao escrita a mao, para a ordem nunca
+ * discordar da nota.
  */
 export const STACK_GROUPS = [
-  { id: "language", keys: ["python", "javascript", "typescript", "php", "r"] },
-  { id: "backend", keys: ["flask", "express", "sqlalchemy", "jinja", "jwt", "django"] },
-  { id: "frontend", keys: ["react", "nextjs", "tailwind", "expo", "vite", "chartjs", "zod"] },
-  { id: "data", keys: ["postgresql", "supabase", "sqlite", "pandas", "mysql", "redis", "mongodb"] },
-  {
-    id: "ops",
-    keys: ["git", "github", "actions", "vercel", "render", "sentry", "docker", "linux", "nginx"],
-  },
-  {
-    id: "tools",
-    keys: [
-      "claude",
-      "googlemaps",
-      "microsoft",
-      "zebra",
-      "telegram",
-      "notion",
-      "biome",
-      "vitest",
-      "zoho",
-    ],
-  },
+  { id: "language", keys: ["python", "javascript", "sql", "typescript"] },
+  { id: "backend", keys: ["flask", "express", "sqlalchemy", "rest"] },
+  { id: "frontend", keys: ["react", "nextjs", "tailwind", "expo"] },
+  { id: "data", keys: ["postgresql", "supabase", "sqlite", "pandas"] },
+  { id: "ops", keys: ["git", "actions", "vercel", "render", "sentry", "docker", "linux"] },
+  { id: "tools", keys: ["claude", "googlemaps", "microsoft", "zebra"] },
 ] as const satisfies readonly { id: string; keys: readonly StackKey[] }[];
 
 export type StackGroupId = (typeof STACK_GROUPS)[number]["id"];
@@ -169,7 +144,11 @@ export function skillGroups() {
   }));
 }
 
-/** Tudo, ordenado por nivel. E o que o carrossel roda. */
-export const ALL_KEYS = (Object.keys(TECH) as StackKey[]).sort(
+/**
+ * O que o carrossel roda: as mesmas 27 da pagina de skills, ordenadas por
+ * nivel. Sai de STACK_GROUPS e nao de `Object.keys(TECH)`, senao as chaves
+ * que existem so para os projetos voltariam a aparecer no muro.
+ */
+export const ALL_KEYS = STACK_GROUPS.flatMap((group) => group.keys).sort(
   (a, b) => STACK[b].level - STACK[a].level,
-);
+) as StackKey[];

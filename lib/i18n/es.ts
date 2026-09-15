@@ -5,7 +5,7 @@ export const es: Dictionary = {
   meta: {
     aboutTitle: "João Marcos Bueno",
     aboutDescription:
-      "Desarrollador de software en Gold Coast, Australia. Construyo y opero los sistemas de una operación real de transporte y almacén.",
+      "Desarrollador full stack en Gold Coast, Australia. Construyo y opero los sistemas de una operación real de transporte y almacén.",
     skillsTitle: "Skills",
     skillsDescription:
       "Lenguajes, frameworks, datos, infraestructura y herramientas, con cuánto uso realmente cada una.",
@@ -27,11 +27,17 @@ export const es: Dictionary = {
     contact: "Contacto",
   },
   sidebar: {
-    role: "Desarrollador de software",
+    role: "Desarrollador full stack",
     location: "Gold Coast, Australia",
     photoAlt: "Foto de perfil",
     open: "Abrir menú",
     close: "Cerrar menú",
+  },
+  stats: {
+    systems: "sistemas en producción",
+    commits: "commits sumando los tres",
+    integrations: "sistemas externos integrados",
+    since: "dentro de la operación desde",
   },
   about: {
     title: "Sobre mí",
@@ -39,22 +45,8 @@ export const es: Dictionary = {
       "Soy desarrollador de software en Gold Coast, Australia. Trabajo dentro de una operación de transporte y almacén y construyo los sistemas sobre los que funciona: un sistema de transporte, una app para conductores y las herramientas que usa el piso del almacén. Empecé en ese piso en 2023, y por eso casi cada función que entrego reemplaza algo que yo hacía a mano.",
     nowTitle: "Ahora",
     now: "Construyendo y operando tres sistemas en producción, y estudiando lo que pida el próximo problema.",
-    pathTitle: "Cómo llegué aquí",
     languagesTitle: "Idiomas",
-    languages: "Portugués (nativo), inglés (profesional), español (lectura y escritura).",
-    educationTitle: "Formación",
-    education:
-      "Diploma of Information Technology, Database and Data Management. Mindroom Institute, Queensland, 2024 a 2026.",
-    timeline: {
-      bank: "Ejecutivo de cuentas en Bradesco, Brasil. KYC, compliance, y cuatro años explicando un sistema a la persona que tenía enfrente.",
-      floor:
-        "Piso de almacén en Australia. Picking, packing y pedidos de proyecto, y poco a poco convirtiéndome en la persona a quien preguntaban cuando el software hacía algo raro.",
-      firstApp:
-        "Lo primero que construí. Una app pequeña en Node para que la reserva de furgonetas dejara de vivir en una hoja compartida.",
-      tms: "Empieza el TMS. Transportistas, etiquetas, despacho, rastreo y conciliación de facturas, con la app del conductor al lado.",
-      portal:
-        "Un login delante de los tres sistemas, y un módulo de IA limitado a consultas escritas a mano.",
-    },
+    languages: "Portugués (nativo), inglés (profesional).",
   },
   skills: {
     title: "Skills",
@@ -103,8 +95,6 @@ export const es: Dictionary = {
     noShot: "Sin captura publicada. Las capturas reales contienen datos de clientes.",
   },
   footer: {
-    noData:
-      "Ningún dato de cliente aparece en este sitio. Las capturas usan datos sembrados y ficticios.",
     source: "Código",
   },
 };

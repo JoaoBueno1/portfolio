@@ -38,12 +38,14 @@ export default async function ProjectsPage({ params }: PageProps<"/[locale]/proj
   const cards = projectCards(locale, t.projects.present);
 
   return (
-    <main id="main" className="px-6 py-12 lg:px-12 lg:py-16">
+    <main id="main" className="flex min-h-svh flex-col justify-center px-6 py-12 lg:px-14 lg:py-16">
       <div className="max-w-5xl">
-        <h1 className="text-2xl font-semibold tracking-tight sm:text-3xl">{t.projects.title}</h1>
-        <p className="mt-2 text-sm text-ink-muted">{t.projects.lead}</p>
+        <h1 className="font-mono text-xs tracking-wide text-ink-faint uppercase">
+          {t.projects.title}
+        </h1>
+        <p className="mt-3 text-base text-ink">{t.projects.lead}</p>
 
-        <div className="mt-10">
+        <div className="mt-8">
           <ProjectBrowser
             items={cards}
             labels={{

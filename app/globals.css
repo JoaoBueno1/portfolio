@@ -224,6 +224,26 @@ body {
   animation-direction: reverse;
 }
 
+.route-runner--c {
+  animation-duration: 19s;
+}
+
+/* Os nos respiram. Sao 7 segundos com atraso escalonado por no, entao nunca
+   pulsam juntos: um pulso sincronizado pareceria um alarme, nao um mapa. */
+.route-node {
+  animation: route-pulse 7s ease-in-out infinite;
+}
+
+@keyframes route-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.35;
+  }
+}
+
 @keyframes route-run {
   from {
     stroke-dashoffset: 2026;
@@ -244,6 +264,19 @@ body {
    `will-change` promove a faixa para a propria camada e tira a
    animacao da thread principal.
    ============================================================ */
+.marquee {
+  /* Apaga as pontas de verdade, em vez de cobri-las com um gradiente da cor
+     do fundo. Com mascara o campo de rotas continua visivel por baixo; com
+     gradiente colorido ele some numa faixa de 64px de cada lado. */
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    black 5rem,
+    black calc(100% - 5rem),
+    transparent
+  );
+}
+
 .marquee-track {
   animation: marquee-scroll 55s linear infinite;
   will-change: transform;

@@ -35,6 +35,7 @@ export const PROJECTS: readonly Project[] = [
       "postgresql",
       "supabase",
       "pandas",
+      "zebra",
       "googlemaps",
       "render",
       "sentry",

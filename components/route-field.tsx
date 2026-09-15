@@ -1,68 +1,70 @@
 /**
- * O FUNDO DA HOME.
+ * O FUNDO DO SITE INTEIRO.
  *
  * Decisao deliberada: nada de particula, blob ou gradiente animado. Esses
  * fundos sao intercambiaveis entre dez mil portfolios e nao dizem nada sobre
  * quem fez o site.
  *
- * Este e um campo de rotas de frete — nos e trajetos, com dois "veiculos"
- * percorrendo devagar. E o desenho do que este portfolio trata. Fica em
- * contraste baixissimo porque o trabalho dele e emoldurar o texto, nao
- * disputar com ele.
+ * Este e um campo de rotas de frete: nos, trajetos e dois veiculos andando
+ * devagar. E o desenho do assunto deste portfolio.
  *
- * `aria-hidden`: e decoracao pura, nao carrega informacao nenhuma. E a
- * animacao morre inteira sob `prefers-reduced-motion` pela regra global em
- * globals.css.
+ * Fica FIXO atras de tudo, em todas as paginas, e por isso trocar de aba nao
+ * troca o fundo. O site passa a parecer uma superficie so em vez de quatro
+ * telas diferentes.
+ *
+ * Usa apenas tokens de cor, entao acompanha claro e escuro sem uma linha a
+ * mais. `aria-hidden` porque e decoracao pura, e a animacao morre inteira sob
+ * `prefers-reduced-motion` pela regra global do globals.css.
  */
-export function RouteField({ className = "" }: { className?: string }) {
+export function RouteField() {
   return (
     <svg
       aria-hidden="true"
       focusable="false"
-      viewBox="0 0 1200 620"
+      viewBox="0 0 1200 800"
       preserveAspectRatio="xMidYMid slice"
-      className={`pointer-events-none absolute inset-0 h-full w-full ${className}`}
+      className="h-full w-full"
     >
       <defs>
-        {/* Dissolve nas bordas para o campo nao ter um corte reto em lugar
-            nenhum — sem isso o SVG denuncia que e um retangulo colado. */}
-        <radialGradient id="rf-fade" cx="50%" cy="38%" r="72%">
-          <stop offset="0%" stopColor="white" stopOpacity="1" />
-          <stop offset="58%" stopColor="white" stopOpacity="0.55" />
+        {/* Dissolve nas bordas. Sem isto o SVG denuncia que e um retangulo
+            colado, e a linha corta reto no canto da tela. */}
+        <radialGradient id="rf-fade" cx="55%" cy="42%" r="78%">
+          <stop offset="0%" stopColor="white" stopOpacity="0.9" />
+          <stop offset="55%" stopColor="white" stopOpacity="0.45" />
           <stop offset="100%" stopColor="white" stopOpacity="0" />
         </radialGradient>
         <mask id="rf-mask">
-          <rect width="1200" height="620" fill="url(#rf-fade)" />
+          <rect width="1200" height="800" fill="url(#rf-fade)" />
         </mask>
       </defs>
 
       <g mask="url(#rf-mask)">
-        {/* Trajetos. `vector-effect` mantem o traco fino em qualquer escala:
-            sem ele o `preserveAspectRatio="slice"` engorda a linha quando a
-            tela e larga. */}
+        {/* `vector-effect` mantem o traco fino em qualquer escala. Sem ele o
+            `slice` engorda a linha quando a tela e larga. */}
         <g
           fill="none"
           stroke="var(--c-line-strong)"
           strokeWidth="1"
           vectorEffect="non-scaling-stroke"
-          opacity="0.75"
+          opacity="0.7"
         >
           <path
             id="rf-a"
-            d="M -40 430 C 180 380, 250 210, 430 190 S 700 300, 880 210 S 1120 90, 1260 130"
+            d="M -60 560 C 180 500, 260 250, 450 230 S 730 370, 920 250 S 1160 100, 1280 160"
           />
           <path
             id="rf-b"
-            d="M -40 180 C 160 150, 300 250, 470 330 S 760 470, 960 420 S 1180 330, 1260 360"
+            d="M -60 210 C 170 170, 320 300, 500 410 S 800 580, 1000 520 S 1200 400, 1280 440"
           />
-          <path d="M 120 610 C 240 480, 380 470, 470 330" />
-          <path d="M 880 210 C 900 330, 980 400, 960 420" />
-          <path d="M 430 190 C 520 120, 640 100, 700 40" />
-          <path d="M 250 40 C 300 130, 380 160, 430 190" />
+          <path id="rf-c" d="M 150 810 C 280 600, 400 540, 500 410" />
+          <path d="M 920 250 C 950 390, 1020 490, 1000 520" />
+          <path d="M 450 230 C 550 140, 680 120, 740 40" />
+          <path d="M 250 30 C 310 140, 400 190, 450 230" />
+          <path d="M 500 410 C 640 430, 760 380, 920 250" />
         </g>
 
-        {/* Nos — as paradas. O contorno usa a superficie para o no "furar" a
-            linha que passa por baixo, como um ponto de parada de verdade. */}
+        {/* Os nos. O preenchimento usa a superficie para o no furar a linha
+            que passa por baixo, como um ponto de parada de verdade. */}
         <g
           fill="var(--c-canvas)"
           stroke="var(--c-line-strong)"
@@ -70,30 +72,38 @@ export function RouteField({ className = "" }: { className?: string }) {
           vectorEffect="non-scaling-stroke"
         >
           {[
-            [430, 190],
-            [880, 210],
-            [470, 330],
-            [960, 420],
-            [700, 40],
-            [250, 40],
-            [120, 610],
-          ].map(([cx, cy]) => (
-            <circle key={`${cx}-${cy}`} cx={cx} cy={cy} r="4.5" />
+            [450, 230],
+            [920, 250],
+            [500, 410],
+            [1000, 520],
+            [740, 40],
+            [250, 30],
+            [150, 810],
+          ].map(([cx, cy], index) => (
+            <circle
+              key={`${cx}-${cy}`}
+              cx={cx}
+              cy={cy}
+              r="4.5"
+              className="route-node"
+              style={{ animationDelay: `${index * 1.4}s` }}
+            />
           ))}
         </g>
 
-        {/* Os dois veiculos. Traco curto correndo pelo trajeto — o unico
-            movimento da tela, e lento de proposito. */}
+        {/* Os veiculos. Traco curto correndo pelo trajeto: o unico movimento
+            da tela, e lento de proposito. */}
         <g
           fill="none"
           stroke="var(--c-accent)"
           strokeWidth="2"
           strokeLinecap="round"
           vectorEffect="non-scaling-stroke"
-          opacity="0.55"
+          opacity="0.5"
         >
           <use href="#rf-a" className="route-runner route-runner--a" />
           <use href="#rf-b" className="route-runner route-runner--b" />
+          <use href="#rf-c" className="route-runner route-runner--c" />
         </g>
       </g>
     </svg>

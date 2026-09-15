@@ -25,27 +25,29 @@ export default async function SoftSkillsPage({ params }: PageProps<"/[locale]/so
   const t = await getDictionary(locale);
 
   return (
-    <div className="flex min-h-svh flex-col">
-      <main id="main" className="flex-1 px-6 py-12 lg:px-12 lg:py-16">
+    <div className="flex min-h-svh flex-col justify-between gap-8 px-6 py-12 lg:px-14 lg:py-16">
+      <main id="main" className="flex flex-1 flex-col justify-center">
         <div className="max-w-4xl">
-          <h1 className="text-2xl font-semibold tracking-tight sm:text-3xl">{t.soft.title}</h1>
-          <p className="mt-2 max-w-2xl text-sm text-ink-muted text-pretty">{t.soft.lead}</p>
+          <h1 className="font-mono text-xs tracking-wide text-ink-faint uppercase">
+            {t.soft.title}
+          </h1>
+          <p className="mt-3 max-w-2xl text-base text-ink text-pretty">{t.soft.lead}</p>
 
-          <ul className="mt-10 grid gap-4 sm:grid-cols-2">
+          <ul className="mt-8 grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
             {SOFT_SKILLS.map((skill) => {
               const copy = skill.copy[locale];
               return (
                 <li
                   key={skill.id}
-                  className="rounded-xl border border-line bg-canvas p-5 transition-colors duration-300 [transition-timing-function:var(--ease-out-soft)] hover:border-line-strong"
+                  className="rounded-xl border border-line bg-canvas/70 p-4 backdrop-blur-sm transition-colors duration-300 [transition-timing-function:var(--ease-out-soft)] hover:border-accent"
                 >
                   <span className="text-accent">
                     <SoftSkillIcon icon={skill.icon} />
                   </span>
-                  <h2 className="mt-3 text-sm font-semibold tracking-tight text-balance">
+                  <h2 className="mt-2.5 text-sm font-semibold tracking-tight text-balance">
                     {copy.title}
                   </h2>
-                  <p className="mt-1.5 text-sm leading-relaxed text-ink-muted text-pretty">
+                  <p className="mt-1.5 text-xs leading-relaxed text-ink-muted text-pretty">
                     {copy.body}
                   </p>
                 </li>
@@ -55,9 +57,7 @@ export default async function SoftSkillsPage({ params }: PageProps<"/[locale]/so
         </div>
       </main>
 
-      <div className="sticky bottom-0">
-        <StackMarquee />
-      </div>
+      <StackMarquee />
     </div>
   );
 }

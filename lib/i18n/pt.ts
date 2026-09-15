@@ -5,7 +5,7 @@ export const pt: Dictionary = {
   meta: {
     aboutTitle: "João Marcos Bueno",
     aboutDescription:
-      "Desenvolvedor de software na Gold Coast, Austrália. Construo e opero os sistemas de uma operação real de frete e armazém.",
+      "Desenvolvedor full stack na Gold Coast, Austrália. Construo e opero os sistemas de uma operação real de frete e armazém.",
     skillsTitle: "Skills",
     skillsDescription:
       "Linguagens, frameworks, dados, infraestrutura e ferramentas, com o quanto eu realmente uso cada uma.",
@@ -26,11 +26,17 @@ export const pt: Dictionary = {
     contact: "Contato",
   },
   sidebar: {
-    role: "Desenvolvedor de software",
+    role: "Desenvolvedor full stack",
     location: "Gold Coast, Austrália",
     photoAlt: "Foto de perfil",
     open: "Abrir menu",
     close: "Fechar menu",
+  },
+  stats: {
+    systems: "sistemas rodando em produção",
+    commits: "commits somando os três",
+    integrations: "sistemas externos integrados",
+    since: "dentro da operação desde",
   },
   about: {
     title: "Sobre",
@@ -38,22 +44,8 @@ export const pt: Dictionary = {
       "Sou desenvolvedor de software na Gold Coast, Austrália. Trabalho dentro de uma operação de frete e armazém e construo os sistemas em que ela roda: um sistema de transporte, um app de motorista e as ferramentas que o chão de armazém usa. Comecei nesse chão em 2023, e por isso quase toda feature que eu entrego substitui alguma coisa que eu fazia na mão.",
     nowTitle: "Agora",
     now: "Construindo e operando três sistemas em produção, e estudando o que o próximo problema pedir.",
-    pathTitle: "Como cheguei aqui",
     languagesTitle: "Idiomas",
-    languages: "Português (nativo), inglês (profissional), espanhol (leitura e escrita).",
-    educationTitle: "Formação",
-    education:
-      "Diploma of Information Technology, Database and Data Management. Mindroom Institute, Queensland, 2024 a 2026.",
-    timeline: {
-      bank: "Gerente de contas no Bradesco, Brasil. KYC, compliance, e quatro anos explicando um sistema para a pessoa na minha frente.",
-      floor:
-        "Chão de armazém na Austrália. Separação, embalagem e pedido de projeto, e devagar virando a pessoa a quem perguntavam quando o software fazia coisa estranha.",
-      firstApp:
-        "Primeira coisa que construí. Um app pequeno em Node para o agendamento das vans parar de viver numa planilha compartilhada.",
-      tms: "O TMS começa. Transportadoras, etiquetas, despacho, rastreio e reconciliação de fatura, com o app do motorista ao lado.",
-      portal:
-        "Um login na frente dos três sistemas, e um módulo de IA limitado a consultas escritas à mão.",
-    },
+    languages: "Português (nativo), inglês (profissional).",
   },
   skills: {
     title: "Skills",
@@ -102,7 +94,6 @@ export const pt: Dictionary = {
     noShot: "Sem captura publicada. As capturas reais têm dado de cliente.",
   },
   footer: {
-    noData: "Nenhum dado de cliente aparece neste site. As capturas usam dado semeado e fictício.",
     source: "Código",
   },
 };
