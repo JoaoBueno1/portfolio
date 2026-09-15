@@ -118,3 +118,47 @@ Tudo que e preciso ja esta nesta maquina.
 projetos (UFO, Star Wars, Marvel, escape room, Collectables), entao nao ha
 risco de dado de cliente. A unica atencao e nao deixar aparecer caminho local
 com nome de usuario nem credencial de teste na tela.
+
+---
+
+## 9. Captura feita em 15/09/2026
+
+Quatro projetos foram levantados do zero e fotografados rodando. Nenhuma
+captura veio de arquivo antigo.
+
+| Projeto | Como subiu | Telas |
+|---|---|---|
+| Sales Data Warehouse | MariaDB 11 em container na porta 13306, `collectables_dwh-wData.sql` e `user_table.sql` importados, PHP 8.2 do XAMPP pelo servidor embutido | 6 |
+| UFO Archive + Star Wars | Mesmo container, bancos `ufos` e `starwars_archive` | 5 |
+| Documentacao de API | venv proprio, Django 6.1, `manage.py runserver` | 3 |
+| Escape Room + Marvel | `python3 -m http.server` | 5 |
+
+**O XAMPP nao serve para isto.** O `mysql_install_db` dele forca `user=mysql` por
+um `my.cnf` global e ignora `--user`, entao o InnoDB nao consegue escrever num
+datadir fora do lugar dele. O binario do PHP do XAMPP, esse sim, funciona
+sozinho: `php -S` serve qualquer um destes projetos sem Apache.
+
+Os apps apontavam para `localhost`, que em MySQL significa socket. A copia de
+trabalho aponta para `127.0.0.1;port=13306`. **O original no Desktop nao foi
+tocado.**
+
+### Numeros que so apareceram com o sistema de pe
+
+- O data warehouse tem **4.314 linhas de venda**.
+- O UFO Archive carrega **80.126 registros**, paginados em **802 paginas**.
+- O banco do Star Wars tem nove tabelas, uma por secao do site.
+
+### Uma coisa que precisa de decisao
+
+**O site de documentacao de API nao tem CSS nenhum.** Ele roda, o conteudo e
+forte (doze endpoints em cinco apps Django, com requisicao e resposta de
+exemplo em cada um), mas visualmente e HTML cru em Times New Roman. As tres
+capturas estao no portfolio; se elas mais atrapalharem do que ajudarem, o
+caminho e tirar a galeria daquele card e deixar so o texto.
+
+### R ficou de fora
+
+Os dois projetos em R produzem saida de console e um CSV limpo, nao tela. Nao
+ha o que capturar sem eu inventar um grafico que nunca existiu no trabalho.
+Alternativa honesta, se valer: uma comparacao lado a lado do `students.csv`
+sujo com o `students_cleaned.csv`, que e dado dele e transformacao dele.

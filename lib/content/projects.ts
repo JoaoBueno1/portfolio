@@ -1,4 +1,5 @@
 import { SHOTS } from "./shots";
+import { studyShots } from "./shots-study";
 import type { Project } from "./types";
 
 /**
@@ -286,7 +287,7 @@ export const PROJECTS: readonly Project[] = [
     status: "study",
     period: { from: "2026-03", to: "2026-04" },
     stack: ["php", "mysql", "sql", "chartjs"],
-    shots: [],
+    shots: studyShots("dwh"),
     metrics: [
       {
         value: "1 + 6",
@@ -343,7 +344,7 @@ export const PROJECTS: readonly Project[] = [
     status: "study",
     period: { from: "2025-08", to: "2026-05" },
     stack: ["php", "mysql", "sql", "javascript"],
-    shots: [],
+    shots: studyShots("apps"),
     metrics: [
       {
         value: "2",
@@ -391,7 +392,7 @@ export const PROJECTS: readonly Project[] = [
     status: "study",
     period: { from: "2026-06", to: "2026-08" },
     stack: ["python", "django", "rest", "sqlite"],
-    shots: [],
+    shots: studyShots("api"),
     metrics: [
       {
         value: "12",
@@ -519,7 +520,7 @@ export const PROJECTS: readonly Project[] = [
     status: "study",
     period: { from: "2025-08", to: "2026-02" },
     stack: ["javascript", "php"],
-    shots: [],
+    shots: studyShots("sites"),
     metrics: [
       {
         value: "13",
