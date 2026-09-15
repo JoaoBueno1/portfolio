@@ -2,34 +2,37 @@
 
 import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
-import type { ProjectCardView } from "@/lib/content/view";
+import type { Domain, Status } from "@/lib/content/types";
+import type { ProjectView } from "@/lib/content/view";
 
 interface Labels {
   readonly inProduction: string;
+  readonly building: string;
   readonly other: string;
   readonly close: string;
   readonly roleLabel: string;
-  readonly periodLabel: string;
   readonly stackLabel: string;
   readonly previous: string;
   readonly next: string;
-  readonly status: Record<ProjectCardView["status"], string>;
-  readonly domains: Record<ProjectCardView["domain"], string>;
+  readonly previousShot: string;
+  readonly nextShot: string;
+  readonly shotCount: string;
+  readonly status: Record<Status, string>;
+  readonly domains: Record<Domain, string>;
   readonly noShot: string;
 }
 
-/** O quadradinho de logos que substitui a capa quando nao ha captura. */
-function StackBlock({ item, size }: { item: ProjectCardView; size: "tile" | "dialog" }) {
-  const count = size === "tile" ? 5 : 8;
+/** Os logos da stack em bloco, quando nao ha captura daquele sistema. */
+function StackBlock({ item, big }: { item: ProjectView; big?: boolean }) {
   return (
     <div className="flex h-full w-full flex-wrap content-center items-center justify-center gap-4 bg-sunken p-5">
-      {item.stack.slice(0, count).map((tech) => (
+      {item.stack.slice(0, big ? 8 : 5).map((tech) => (
         <svg
           key={tech.key}
           viewBox="0 0 24 24"
           role="img"
           aria-label={tech.title}
-          className={size === "tile" ? "size-5 text-ink-faint" : "size-7 text-ink-faint"}
+          className={`${big ? "size-7" : "size-5"} text-ink-faint`}
           fill="currentColor"
         >
           <title>{tech.title}</title>
@@ -41,25 +44,137 @@ function StackBlock({ item, size }: { item: ProjectCardView; size: "tile" | "dia
 }
 
 /**
+ * A GALERIA do dialogo.
+ *
+ * Uma imagem so nao mostra um sistema: mostra uma tela. Por isso `shots` e uma
+ * lista, com a imagem grande, uma legenda que diz POR QUE aquela tela importa,
+ * e as miniaturas embaixo.
+ *
+ * As miniaturas sao botoes de verdade, entao a galeria e navegavel por teclado
+ * sem nenhum handler proprio. Quando o video entrar, ele vira mais um item
+ * desta mesma lista e nada aqui muda de forma.
+ */
+function Gallery({ item, labels }: { item: ProjectView; labels: Labels }) {
+  const [index, setIndex] = useState(0);
+  const shot = item.shots[index];
+
+  // Trocar de projeto tem que voltar a galeria para a primeira imagem, senao
+  // o proximo projeto abre na terceira tela sem motivo nenhum.
+  // biome-ignore lint/correctness/useExhaustiveDependencies: o gatilho e a troca de projeto, e `item.slug` e exatamente isso.
+  useEffect(() => {
+    setIndex(0);
+  }, [item.slug]);
+
+  if (item.shots.length === 0) {
+    return (
+      <div className="relative aspect-[16/8] w-full overflow-hidden border-b border-line bg-sunken">
+        <StackBlock item={item} big />
+      </div>
+    );
+  }
+
+  const step = (delta: number) =>
+    setIndex((current) => (current + delta + item.shots.length) % item.shots.length);
+
+  return (
+    <div className="border-b border-line">
+      <div className="relative aspect-[16/8] w-full overflow-hidden bg-sunken">
+        <Image
+          src={shot.src}
+          alt={shot.alt}
+          className="h-full w-full object-cover object-left-top"
+          sizes="56rem"
+          priority={index === 0}
+        />
+        {item.shots.length > 1 && (
+          <>
+            <button
+              type="button"
+              onClick={() => step(-1)}
+              aria-label={labels.previousShot}
+              className="absolute top-1/2 left-3 grid size-8 -translate-y-1/2 place-items-center rounded-full border border-line bg-canvas/90 text-ink-muted backdrop-blur-sm hover:text-ink"
+            >
+              <svg
+                viewBox="0 0 24 24"
+                className="size-4"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.8"
+                aria-hidden="true"
+              >
+                <path d="M15 5l-7 7 7 7" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </button>
+            <button
+              type="button"
+              onClick={() => step(1)}
+              aria-label={labels.nextShot}
+              className="absolute top-1/2 right-3 grid size-8 -translate-y-1/2 place-items-center rounded-full border border-line bg-canvas/90 text-ink-muted backdrop-blur-sm hover:text-ink"
+            >
+              <svg
+                viewBox="0 0 24 24"
+                className="size-4"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.8"
+                aria-hidden="true"
+              >
+                <path d="M9 5l7 7-7 7" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </button>
+          </>
+        )}
+      </div>
+
+      <div className="flex flex-col gap-3 px-5 py-3">
+        <p className="text-xs leading-relaxed text-ink-muted">{shot.caption}</p>
+        {item.shots.length > 1 && (
+          <div className="flex items-center gap-2 overflow-x-auto pb-1">
+            {item.shots.map((thumb, i) => (
+              <button
+                key={thumb.src.src}
+                type="button"
+                onClick={() => setIndex(i)}
+                aria-label={`${labels.shotCount} ${i + 1}`}
+                aria-current={i === index ? "true" : undefined}
+                className={`relative aspect-[16/10] w-16 shrink-0 overflow-hidden rounded border-2 transition-colors ${
+                  i === index ? "border-accent" : "border-transparent opacity-55 hover:opacity-100"
+                }`}
+              >
+                <Image
+                  src={thumb.src}
+                  alt=""
+                  className="h-full w-full object-cover object-left-top"
+                  sizes="64px"
+                />
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+/**
  * A VITRINE.
  *
  * Cards pequenos, e o detalhe abre num dialogo em cima. O visitante nunca sai
  * da pagina: fechar devolve exatamente o que ele estava olhando, o que uma
  * pagina de destino nao faz.
  *
- * Usa o `<dialog>` nativo com `showModal()`. Ele traz de graca o que um modal
- * de mao costuma errar: prende o foco dentro, fecha no Esc, esconde o resto
- * da pagina do leitor de tela e desenha o proprio backdrop.
+ * Usa o `<dialog>` nativo com `showModal()`, que traz de graca o que um modal
+ * de mao costuma errar: prende o foco dentro, fecha no Esc, esconde o resto da
+ * pagina do leitor de tela e desenha o proprio backdrop.
  *
- * A URL ganha `?p=<slug>` por `history.replaceState`, sem passar pelo router:
- * assim o link do projeto pode ser compartilhado e o botao voltar do browser
- * nao vira um historico de cada card aberto.
+ * A URL ganha `?p=<slug>` por `history.replaceState`, sem passar pelo router,
+ * senao o botao voltar do browser viraria um historico de cada card aberto.
  */
 export function ProjectBrowser({
   items,
   labels,
 }: {
-  items: readonly ProjectCardView[];
+  items: readonly ProjectView[];
   labels: Labels;
 }) {
   const dialogRef = useRef<HTMLDialogElement>(null);
@@ -72,10 +187,8 @@ export function ProjectBrowser({
     window.history.replaceState(null, "", url);
   }, []);
 
-  // `?p=<slug>` abre aquele projeto. A leitura acontece AQUI e nao no
-  // servidor: fazer isso no servidor tiraria a pagina do caminho estatico
-  // (ver o comentario em `app/[locale]/projects/page.tsx`). Roda uma vez, na
-  // montagem, e por isso nao pode depender de `items` na lista.
+  // `?p=<slug>` abre aquele projeto. A leitura acontece AQUI e nao no servidor:
+  // tocar em `searchParams` no servidor tiraria a pagina do caminho estatico.
   // biome-ignore lint/correctness/useExhaustiveDependencies: leitura unica na montagem; `items` e estavel dentro de uma rota.
   useEffect(() => {
     const slug = new URLSearchParams(window.location.search).get("p");
@@ -84,8 +197,6 @@ export function ProjectBrowser({
     if (found !== -1) setIndex(found);
   }, []);
 
-  // Abre e fecha o dialogo de acordo com o estado. `showModal` so pode ser
-  // chamado uma vez por abertura, entao o guard de `open` nao e opcional.
   useEffect(() => {
     const dialog = dialogRef.current;
     if (!dialog) return;
@@ -113,21 +224,11 @@ export function ProjectBrowser({
     [items, setUrl],
   );
 
-  // Setas navegam entre projetos enquanto o dialogo esta aberto. O Esc ja e
-  // tratado pelo proprio `<dialog>`, pelo evento `close` abaixo.
-  useEffect(() => {
-    if (index === null) return;
-    function onKey(event: KeyboardEvent) {
-      if (event.key === "ArrowRight") go(1);
-      if (event.key === "ArrowLeft") go(-1);
-    }
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [index, go]);
-
   const open = index === null ? null : items[index];
-  const live = items.filter((item) => item.status === "live");
-  const rest = items.filter((item) => item.status !== "live");
+
+  const live = items.filter((i) => i.status === "live");
+  const building = items.filter((i) => i.status === "building");
+  const rest = items.filter((i) => i.status !== "live" && i.status !== "building");
 
   function openProject(slug: string) {
     const found = items.findIndex((item) => item.slug === slug);
@@ -136,7 +237,7 @@ export function ProjectBrowser({
     setUrl(slug);
   }
 
-  const tile = (item: ProjectCardView) => (
+  const tile = (item: ProjectView) => (
     <li key={item.slug}>
       <button
         type="button"
@@ -144,20 +245,28 @@ export function ProjectBrowser({
         className="group flex h-full w-full flex-col overflow-hidden rounded-xl border border-line bg-canvas/70 text-left backdrop-blur-sm transition-all duration-300 [transition-timing-function:var(--ease-out-soft)] hover:-translate-y-0.5 hover:border-line-strong hover:shadow-sm"
       >
         <div className="relative aspect-[16/10] w-full overflow-hidden border-b border-line bg-sunken">
-          {item.cover ? (
+          {item.shots.length > 0 ? (
             <Image
-              src={item.cover}
+              src={item.shots[0].src}
               alt=""
               className="h-full w-full object-cover object-left-top transition-transform duration-500 [transition-timing-function:var(--ease-out-soft)] group-hover:scale-[1.03]"
               sizes="(max-width: 1024px) 50vw, 300px"
             />
           ) : (
-            <StackBlock item={item} size="tile" />
+            <StackBlock item={item} />
+          )}
+          {item.shots.length > 1 && (
+            <span className="absolute right-2 bottom-2 rounded-full bg-ink/75 px-2 py-0.5 font-mono text-[0.625rem] text-ink-inverse">
+              {item.shots.length}
+            </span>
           )}
         </div>
         <div className="flex flex-1 flex-col gap-1 p-3">
           <div className="flex items-center gap-2">
             {item.status === "live" && (
+              <span className="size-1.5 rounded-full bg-ok" aria-hidden="true" />
+            )}
+            {item.status === "building" && (
               <span className="size-1.5 rounded-full bg-accent" aria-hidden="true" />
             )}
             <span className="text-sm font-semibold tracking-tight">{item.name}</span>
@@ -181,54 +290,40 @@ export function ProjectBrowser({
     </li>
   );
 
+  const section = (title: string, list: readonly ProjectView[], first?: boolean) =>
+    list.length > 0 && (
+      <section className={first ? "" : "mt-8"}>
+        <h2 className="font-mono text-xs tracking-wide text-ink-faint uppercase">{title}</h2>
+        <ul className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-3 xl:grid-cols-4">
+          {list.map(tile)}
+        </ul>
+      </section>
+    );
+
   return (
     <>
-      <section>
-        <h2 className="font-mono text-xs tracking-wide text-ink-faint uppercase">
-          {labels.inProduction}
-        </h2>
-        <ul className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-3 xl:grid-cols-4">
-          {live.map(tile)}
-        </ul>
-      </section>
-
-      <section className="mt-8">
-        <h2 className="font-mono text-xs tracking-wide text-ink-faint uppercase">{labels.other}</h2>
-        <ul className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-3 xl:grid-cols-4">
-          {rest.map(tile)}
-        </ul>
-      </section>
+      {section(labels.inProduction, live, true)}
+      {section(labels.building, building)}
+      {section(labels.other, rest)}
 
       {/* A regra useKeyWithClickEvents pede um equivalente de teclado para
-          todo onClick. Aqui ele ja existe, e e melhor do que um sintetico: o
+          todo onClick. Aqui ele ja existe e e melhor do que um sintetico: o
           `<dialog>` nativo fecha no Esc sozinho, e isso chega no `onClose`
-          logo abaixo. O onClick cobre so o clique no backdrop, que nao tem
-          nem como receber foco. */}
+          abaixo. O onClick cobre so o clique no backdrop, que nao tem nem
+          como receber foco. */}
       {/* biome-ignore lint/a11y/useKeyWithClickEvents: o Esc do <dialog> nativo e o equivalente de teclado, tratado em onClose. */}
       <dialog
         ref={dialogRef}
         onClose={close}
         onClick={(event) => {
-          // Clique no backdrop chega no proprio <dialog>; clique no conteudo
-          // chega num filho. Comparar o alvo separa os dois sem precisar de
-          // listener no documento inteiro.
           if (event.target === dialogRef.current) close();
         }}
         className="m-auto w-[min(56rem,calc(100vw-2rem))] rounded-2xl border border-line bg-canvas p-0 text-ink backdrop:bg-ink/40 backdrop:backdrop-blur-sm"
       >
         {open && (
-          <article className="max-h-[85vh] overflow-y-auto">
-            <div className="relative aspect-[16/8] w-full overflow-hidden border-b border-line bg-sunken">
-              {open.cover ? (
-                <Image
-                  src={open.cover}
-                  alt={open.coverAlt ?? ""}
-                  className="h-full w-full object-cover object-left-top"
-                  sizes="56rem"
-                />
-              ) : (
-                <StackBlock item={open} size="dialog" />
-              )}
+          <article className="max-h-[88vh] overflow-y-auto">
+            <div className="relative">
+              <Gallery item={open} labels={labels} />
               <button
                 type="button"
                 onClick={close}
@@ -254,8 +349,10 @@ export function ProjectBrowser({
                   <span
                     className={`rounded-full px-2 py-0.5 font-medium ${
                       open.status === "live"
-                        ? "bg-accent-soft text-accent"
-                        : "bg-subtle text-ink-muted"
+                        ? "bg-ok/12 text-ok"
+                        : open.status === "building"
+                          ? "bg-accent-soft text-accent"
+                          : "bg-subtle text-ink-muted"
                     }`}
                   >
                     {labels.status[open.status]}
@@ -272,7 +369,7 @@ export function ProjectBrowser({
 
               <p className="text-sm leading-relaxed text-ink-muted text-pretty">{open.summary}</p>
 
-              {!open.cover && <p className="text-xs text-ink-faint">{labels.noShot}</p>}
+              {open.shots.length === 0 && <p className="text-xs text-ink-faint">{labels.noShot}</p>}
 
               {open.metrics.length > 0 && (
                 <dl className="grid grid-cols-2 gap-x-6 gap-y-4 rounded-xl bg-sunken p-5 sm:grid-cols-4">

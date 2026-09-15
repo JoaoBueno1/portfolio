@@ -1,5 +1,7 @@
 import {
   siAnthropic,
+  siChartdotjs,
+  siDjango,
   siDocker,
   siExpo,
   siExpress,
@@ -11,6 +13,7 @@ import {
   siJinja,
   siJsonwebtokens,
   siLinux,
+  siMongodb,
   siMysql,
   siNextdotjs,
   siNodedotjs,
@@ -18,6 +21,7 @@ import {
   siPhp,
   siPostgresql,
   siPython,
+  siR,
   siReact,
   siSentry,
   siSqlalchemy,
@@ -114,6 +118,10 @@ const TECH = {
   zod: { title: "Zod", path: siZod.path, level: 3 },
   php: { title: "PHP", path: siPhp.path, level: 3 },
   mysql: { title: "MySQL", path: siMysql.path, level: 3 },
+  django: { title: "Django", path: siDjango.path, level: 2 },
+  mongodb: { title: "MongoDB", path: siMongodb.path, level: 2 },
+  chartjs: { title: "Chart.js", path: siChartdotjs.path, level: 3 },
+  r: { title: "R", path: siR.path, level: 2 },
 } satisfies Record<string, Tech>;
 
 export type StackKey = keyof typeof TECH;

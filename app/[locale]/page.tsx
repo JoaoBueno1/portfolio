@@ -1,6 +1,5 @@
 import { notFound } from "next/navigation";
 import { StackMarquee } from "@/components/stack-marquee";
-import { HEADLINE_STATS } from "@/lib/content/profile";
 import { isLocale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 
@@ -34,20 +33,7 @@ export default async function AboutPage({ params }: PageProps<"/[locale]">) {
           </p>
         </div>
 
-        {/* Numeros sem caixa. Quatro molduras aqui apenas empilhariam
-            retangulos numa tela que ja tem a coluna da esquerda. */}
-        <dl className="mt-10 grid max-w-3xl grid-cols-2 gap-x-8 gap-y-6 sm:grid-cols-4">
-          {HEADLINE_STATS.map((stat) => (
-            <div key={stat.id}>
-              <dd className="font-mono text-2xl font-semibold tracking-tight tabular-nums sm:text-3xl">
-                {stat.value}
-              </dd>
-              <dt className="mt-1 text-xs leading-snug text-ink-subtle">{t.stats[stat.id]}</dt>
-            </div>
-          ))}
-        </dl>
-
-        <div className="mt-10 grid max-w-2xl gap-6 sm:grid-cols-2">
+        <div className="mt-12 grid max-w-2xl gap-6 sm:grid-cols-2">
           <div>
             <p className="font-mono text-[0.625rem] tracking-wide text-ink-faint uppercase">
               {t.about.nowTitle}

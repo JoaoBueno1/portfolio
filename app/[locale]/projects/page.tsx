@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ProjectBrowser } from "@/components/project-browser";
-import { projectCards } from "@/lib/content/view";
+import { HEADLINE_STATS } from "@/lib/content/profile";
+import { projectViews } from "@/lib/content/view";
 import { isLocale, LOCALES } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 
@@ -35,7 +36,7 @@ export default async function ProjectsPage({ params }: PageProps<"/[locale]/proj
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
   const t = await getDictionary(locale);
-  const cards = projectCards(locale, t.projects.present);
+  const cards = projectViews(locale, t.projects.present);
 
   return (
     <main id="main" className="flex min-h-svh flex-col justify-center px-6 py-12 lg:px-14 lg:py-16">
@@ -45,18 +46,34 @@ export default async function ProjectsPage({ params }: PageProps<"/[locale]/proj
         </h1>
         <p className="mt-3 text-base text-ink">{t.projects.lead}</p>
 
+        {/* Os numeros vivem AQUI e nao no Sobre. No Sobre eles competiam com a
+            apresentacao; aqui eles dizem o tamanho do que esta logo abaixo. */}
+        <dl className="mt-6 grid grid-cols-2 gap-x-8 gap-y-4 border-y border-line py-5 sm:grid-cols-4">
+          {HEADLINE_STATS.map((stat) => (
+            <div key={stat.id}>
+              <dd className="font-mono text-xl font-semibold tracking-tight tabular-nums">
+                {stat.value}
+              </dd>
+              <dt className="mt-0.5 text-xs leading-snug text-ink-subtle">{t.stats[stat.id]}</dt>
+            </div>
+          ))}
+        </dl>
+
         <div className="mt-8">
           <ProjectBrowser
             items={cards}
             labels={{
               inProduction: t.projects.inProduction,
+              building: t.projects.building,
               other: t.projects.other,
               close: t.projects.close,
               roleLabel: t.projects.roleLabel,
-              periodLabel: t.projects.periodLabel,
               stackLabel: t.projects.stackLabel,
               previous: t.projects.previous,
               next: t.projects.next,
+              previousShot: t.projects.previousShot,
+              nextShot: t.projects.nextShot,
+              shotCount: t.projects.shotCount,
               status: t.projects.status,
               domains: t.projects.domains,
               noShot: t.projects.noShot,

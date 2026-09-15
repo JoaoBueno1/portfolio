@@ -75,7 +75,23 @@ export default async function LocaleLayout({ children, params }: LayoutProps<"/[
         <div className="pointer-events-none fixed inset-0 -z-10" aria-hidden="true">
           <RouteField />
         </div>
-        <Sidebar locale={locale} t={t} />
+        <Sidebar
+          locale={locale}
+          t={{
+            about: t.nav.about,
+            skills: t.nav.skills,
+            soft: t.nav.soft,
+            projects: t.nav.projects,
+            menu: t.nav.menu,
+            language: t.nav.language,
+            theme: t.nav.theme,
+            role: t.sidebar.role,
+            location: t.sidebar.location,
+            photoAlt: t.sidebar.photoAlt,
+            open: t.sidebar.open,
+            close: t.sidebar.close,
+          }}
+        />
         <div className="lg:pl-(--sidebar-w)">{children}</div>
       </body>
     </html>

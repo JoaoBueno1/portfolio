@@ -5,7 +5,6 @@ import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 import { PROFILE } from "@/lib/content/profile";
 import { LOCALE_LABELS, LOCALES, type Locale } from "@/lib/i18n/config";
-import type { Dictionary } from "@/lib/i18n/dictionaries";
 import { ContactIcon } from "./brand-icons";
 import { ThemeToggle } from "./theme-toggle";
 
@@ -24,16 +23,41 @@ import { ThemeToggle } from "./theme-toggle";
  * Em tela pequena vira barra no topo com gaveta: um `<aside>` de 28% num
  * celular nao deixa conteudo nenhum.
  */
-export function Sidebar({ locale, t }: { locale: Locale; t: Dictionary }) {
+/**
+ * So o que a coluna usa, e nao o dicionario inteiro.
+ *
+ * Este e um componente de CLIENTE, e tudo que cruza essa fronteira vai
+ * serializado dentro do HTML. Recebendo `Dictionary` inteiro, TODO texto do
+ * idioma viajava para o browser em toda pagina, incluindo o corpo dos
+ * projetos e as legendas das capturas, que a coluna nunca mostra. Foi assim
+ * que "external systems integrated" apareceu no HTML da pagina Sobre, onde
+ * aquele numero nem existe mais.
+ */
+export interface SidebarLabels {
+  readonly about: string;
+  readonly skills: string;
+  readonly soft: string;
+  readonly projects: string;
+  readonly menu: string;
+  readonly language: string;
+  readonly theme: string;
+  readonly role: string;
+  readonly location: string;
+  readonly photoAlt: string;
+  readonly open: string;
+  readonly close: string;
+}
+
+export function Sidebar({ locale, t }: { locale: Locale; t: SidebarLabels }) {
   const pathname = usePathname();
   const router = useRouter();
   const [open, setOpen] = useState(false);
 
   const items = [
-    { href: `/${locale}`, label: t.nav.about },
-    { href: `/${locale}/skills`, label: t.nav.skills },
-    { href: `/${locale}/soft-skills`, label: t.nav.soft },
-    { href: `/${locale}/projects`, label: t.nav.projects },
+    { href: `/${locale}`, label: t.about },
+    { href: `/${locale}/skills`, label: t.skills },
+    { href: `/${locale}/soft-skills`, label: t.soft },
+    { href: `/${locale}/projects`, label: t.projects },
   ];
 
   const contacts = [
@@ -55,7 +79,7 @@ export function Sidebar({ locale, t }: { locale: Locale; t: Dictionary }) {
   const avatar = (
     <div
       role="img"
-      aria-label={t.sidebar.photoAlt}
+      aria-label={t.photoAlt}
       className="grid size-32 place-items-center rounded-full border border-line-strong bg-canvas font-mono text-2xl font-semibold text-ink-subtle shadow-sm"
     >
       JB
@@ -63,7 +87,7 @@ export function Sidebar({ locale, t }: { locale: Locale; t: Dictionary }) {
   );
 
   const nav = (
-    <nav aria-label={t.nav.menu} className="flex w-full flex-col gap-2">
+    <nav aria-label={t.menu} className="flex w-full flex-col gap-2">
       {items.map((item) => {
         const active = pathname === item.href;
         return (
@@ -98,13 +122,13 @@ export function Sidebar({ locale, t }: { locale: Locale; t: Dictionary }) {
           <ContactIcon name={contact.name} label={contact.label} />
         </a>
       ))}
-      <ThemeToggle label={t.nav.theme} />
+      <ThemeToggle label={t.theme} />
     </div>
   );
 
   const localePicker = (
     <label className="flex items-center justify-center gap-2">
-      <span className="sr-only">{t.nav.language}</span>
+      <span className="sr-only">{t.language}</span>
       <select
         value={locale}
         onChange={(event) => switchLocale(event.target.value)}
@@ -127,7 +151,7 @@ export function Sidebar({ locale, t }: { locale: Locale; t: Dictionary }) {
           type="button"
           onClick={() => setOpen((value) => !value)}
           aria-expanded={open}
-          aria-label={open ? t.sidebar.close : t.sidebar.open}
+          aria-label={open ? t.close : t.open}
           className="grid size-9 place-items-center rounded-md border border-line text-ink-muted"
         >
           <svg
@@ -147,7 +171,7 @@ export function Sidebar({ locale, t }: { locale: Locale; t: Dictionary }) {
         </button>
         <p className="text-sm font-semibold tracking-tight">{PROFILE.name}</p>
         <div className="ml-auto">
-          <ThemeToggle label={t.nav.theme} />
+          <ThemeToggle label={t.theme} />
         </div>
       </div>
 
@@ -168,8 +192,8 @@ export function Sidebar({ locale, t }: { locale: Locale; t: Dictionary }) {
           {avatar}
           <div className="text-center">
             <p className="text-lg font-semibold tracking-tight">{PROFILE.name}</p>
-            <p className="mt-1 text-xs text-ink-subtle">{t.sidebar.role}</p>
-            <p className="text-xs text-ink-faint">{t.sidebar.location}</p>
+            <p className="mt-1 text-xs text-ink-subtle">{t.role}</p>
+            <p className="text-xs text-ink-faint">{t.location}</p>
           </div>
         </div>
 

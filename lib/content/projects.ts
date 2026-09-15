@@ -1,32 +1,28 @@
-import dispatchCentre from "@/public/screenshots/dispatch-centre.webp";
-import fleetLive from "@/public/screenshots/fleet-live.webp";
-import ordersBoard from "@/public/screenshots/orders-board.webp";
+import { SHOTS } from "./shots";
 import type { Project } from "./types";
 
 /**
  * A VITRINE.
  *
- * Ordenada por IMPACTO, nao por data: quem abre o site tem poucos segundos, e
- * o primeiro card precisa ser o sistema que roda uma operacao de verdade. A
- * cronologia existe, mas mora na timeline e na pagina de formacao.
+ * Ordenada por IMPACTO e nao por data: quem abre tem poucos segundos, e o
+ * primeiro card precisa ser o sistema que roda uma operacao de verdade.
  *
- * TODO numero aqui foi contado por mim no repositorio de origem, nao
- * estimado. Nenhum numero descreve cliente, receita ou contrato — a regra em
- * CLAUDE.md nao abre excecao.
+ * DUAS REGRAS QUE NAO SE NEGOCIAM AQUI:
  *
- * `cover` ausente nao e pendencia esquecida: significa que ainda nao existe
- * captura com dado sintetico daquele sistema. As capturas do driver app, por
- * exemplo, tem endereco, telefone e assinatura de cliente real e por isso
- * NUNCA vao entrar.
+ * 1. NOME E TEXTO GENERICOS. Nenhum nome de empresa, de produto interno nem
+ *    de repositorio. O recrutador quer saber que TIPO de sistema e; o nome
+ *    interno so serviria para amarrar um empregador a um portfolio pessoal.
+ * 2. NUMERO ARREDONDADO. "1,100+" em vez de "1.155". O numero exato convida
+ *    a ser conferido contra um repositorio privado que ninguem vai abrir, e
+ *    envelhece no dia seguinte. Nenhum numero descreve cliente ou receita.
  */
 export const PROJECTS: readonly Project[] = [
   {
-    slug: "rapid-tms",
-    name: "Rapid Express TMS",
+    slug: "tms",
+    name: "Transport Management System",
     order: 1,
     domain: "production",
     status: "live",
-    featured: true,
     period: { from: "2025-06" },
     stack: [
       "python",
@@ -40,61 +36,62 @@ export const PROJECTS: readonly Project[] = [
       "render",
       "sentry",
     ],
-    hasCaseStudy: false,
-    cover: dispatchCentre,
-    coverAlt: {
-      en: "Dispatch Center: an active run with twelve stops listed on the left and the same stops numbered on a map, the route drawn between them.",
-      pt: "Dispatch Center: uma rota ativa com doze paradas listadas à esquerda e as mesmas paradas numeradas num mapa, com o caminho desenhado entre elas.",
-      es: "Dispatch Center: una ruta activa con doce paradas listadas a la izquierda y las mismas paradas numeradas en un mapa, con el recorrido dibujado entre ellas.",
-    },
+    shots: [
+      SHOTS.dispatch,
+      SHOTS.orders,
+      SHOTS.manifest,
+      SHOTS.fleet,
+      SHOTS.run,
+      SHOTS.open,
+      SHOTS.analytics,
+      SHOTS.tracking,
+      SHOTS.trackingMobile,
+    ],
     metrics: [
-      {
-        value: "1,155",
-        label: {
-          en: "commits since June 2025",
-          pt: "commits desde junho de 2025",
-          es: "commits desde junio de 2025",
-        },
-      },
+      { value: "1,100+", label: { en: "commits", pt: "commits", es: "commits" } },
       {
         value: "4",
         label: {
-          en: "freight carriers integrated",
-          pt: "transportadoras integradas",
-          es: "transportistas integrados",
+          en: "carriers quoted in parallel",
+          pt: "transportadoras cotadas em paralelo",
+          es: "transportistas cotizados en paralelo",
         },
       },
       {
-        value: "67",
+        value: "9",
+        label: {
+          en: "external systems integrated",
+          pt: "sistemas externos integrados",
+          es: "sistemas externos integrados",
+        },
+      },
+      {
+        value: "60+",
         label: {
           en: "database migrations",
           pt: "migrations de banco",
           es: "migraciones de base de datos",
         },
       },
-      {
-        value: "119",
-        label: { en: "technical documents", pt: "documentos técnicos", es: "documentos técnicos" },
-      },
     ],
     copy: {
       en: {
-        tagline: "The transport management system that runs the operation",
+        tagline: "Quoting, booking and dispatching freight, plus the company's own vans",
         summary:
-          "Quotes four carriers in parallel, books the cheapest, prints the thermal label, plans the van run, tracks the delivery and reconciles the carrier invoice weeks later. It replaced logging into four carrier portals by hand and checking invoices line by line in a spreadsheet. A wrong click here books a real, billable freight job — so the repo carries a written policy on which tests are allowed to touch the outside world.",
-        role: "Sole developer — requirements, architecture, build, deploy and on-call",
+          "Four carriers get quoted at once, the cheapest gets booked, the thermal label prints, and weeks later the carrier invoice gets matched line by line against what was quoted. The company's own vans compete for the same jobs on the same rate card, so dispatch, live tracking and run sheets live in here too. A wrong click books real, billable freight, which is why the repository carries a written policy on which tests may touch the outside world.",
+        role: "Sole developer. Requirements, architecture, build, deploy and on-call.",
       },
       pt: {
-        tagline: "O sistema de transporte que roda a operação",
+        tagline: "Cotar, reservar e despachar frete, mais as vans da própria empresa",
         summary:
-          "Cota quatro transportadoras em paralelo, reserva a mais barata, imprime a etiqueta térmica, planeja a rota da van, rastreia a entrega e reconcilia a fatura da transportadora semanas depois. Substituiu logar em quatro portais de carrier na mão e conferir fatura linha a linha no Excel. Um clique errado aqui reserva um frete faturável de verdade — por isso o repositório tem uma política escrita sobre quais testes podem tocar o mundo externo.",
-        role: "Desenvolvedor único — requisitos, arquitetura, construção, deploy e plantão",
+          "Quatro transportadoras são cotadas de uma vez, a mais barata é reservada, a etiqueta térmica sai na impressora, e semanas depois a fatura da transportadora é conferida linha a linha contra o que foi cotado. As vans da própria empresa disputam os mesmos trabalhos pela mesma tabela, então despacho, rastreio ao vivo e folha de rota também moram aqui. Um clique errado reserva frete faturável de verdade, e por isso o repositório tem política escrita sobre quais testes podem tocar o mundo externo.",
+        role: "Desenvolvedor único. Requisitos, arquitetura, construção, deploy e plantão.",
       },
       es: {
-        tagline: "El sistema de transporte que hace funcionar la operación",
+        tagline: "Cotizar, reservar y despachar envíos, más las furgonetas propias",
         summary:
-          "Cotiza cuatro transportistas en paralelo, reserva el más barato, imprime la etiqueta térmica, planifica la ruta de la furgoneta, rastrea la entrega y concilia la factura del transportista semanas después. Reemplazó entrar a cuatro portales a mano y revisar facturas línea por línea en una hoja de cálculo. Un clic equivocado aquí reserva un envío facturable real — por eso el repositorio tiene una política escrita sobre qué pruebas pueden tocar el mundo exterior.",
-        role: "Único desarrollador — requisitos, arquitectura, construcción, despliegue y guardia",
+          "Cuatro transportistas se cotizan a la vez, se reserva el más barato, la etiqueta térmica sale por impresora, y semanas después la factura del transportista se compara línea por línea contra lo cotizado. Las furgonetas propias compiten por los mismos trabajos con la misma tarifa, así que despacho, rastreo en vivo y hojas de ruta también viven aquí. Un clic equivocado reserva un envío facturable real, y por eso el repositorio tiene una política escrita sobre qué pruebas pueden tocar el mundo exterior.",
+        role: "Único desarrollador. Requisitos, arquitectura, construcción, despliegue y guardia.",
       },
     },
   },
@@ -104,61 +101,59 @@ export const PROJECTS: readonly Project[] = [
     order: 2,
     domain: "mobile",
     status: "live",
-    featured: true,
     period: { from: "2025-06" },
     stack: ["typescript", "react", "expo", "supabase", "googlemaps", "sentry"],
-    hasCaseStudy: false,
+    shots: [],
     metrics: [
       { value: "15", label: { en: "screens", pt: "telas", es: "pantallas" } },
-      { value: "110", label: { en: "commits", pt: "commits", es: "commits" } },
       {
         value: "iOS + Android",
         label: {
-          en: "built and shipped with EAS",
+          en: "built and released with EAS",
           pt: "build e publicação com EAS",
           es: "compilado y publicado con EAS",
         },
       },
+      { value: "100+", label: { en: "commits", pt: "commits", es: "commits" } },
     ],
     copy: {
       en: {
         tagline: "What the driver holds while the van is moving",
         summary:
-          "The other half of dispatch: the driver claims a run, sees the stops in optimised order, navigates, checks the load, captures a photo and a signature at the door, and closes the stop. It keeps working when the signal drops — deliveries queue locally and sync when the phone comes back, and photos have their own upload queue. Location keeps reporting with the screen off, which is the part that actually took the longest to get right on iOS.",
-        role: "Sole developer — app, store releases, and the API it talks to",
+          "The driver claims a run, sees the stops in optimised order, navigates, checks the load, captures a photo and a signature at the door, and closes the stop. It keeps working when the signal drops: deliveries queue on the phone and sync when it comes back, and photos have their own upload queue. Location keeps reporting with the screen off, which was the part that took longest to get right on iOS.",
+        role: "Sole developer. App, store releases and the API it talks to.",
       },
       pt: {
         tagline: "O que o motorista segura enquanto a van anda",
         summary:
-          "A outra metade do despacho: o motorista assume a rota, vê as paradas na ordem otimizada, navega, confere a carga, tira a foto e colhe a assinatura na porta, e fecha a parada. Continua funcionando quando o sinal cai — entrega fica em fila local e sobe quando o celular volta, e a foto tem fila própria de upload. A localização segue reportando com a tela apagada, e essa foi a parte que mais deu trabalho no iOS.",
-        role: "Desenvolvedor único — app, publicação nas lojas e a API com que ele conversa",
+          "O motorista assume a rota, vê as paradas na ordem otimizada, navega, confere a carga, tira a foto e colhe a assinatura na porta, e fecha a parada. Continua funcionando quando o sinal cai: a entrega fica em fila no celular e sobe quando ele volta, e a foto tem fila própria de upload. A localização segue reportando com a tela apagada, e essa foi a parte que mais deu trabalho no iOS.",
+        role: "Desenvolvedor único. App, publicação nas lojas e a API com que ele conversa.",
       },
       es: {
         tagline: "Lo que el conductor sostiene mientras la furgoneta anda",
         summary:
-          "La otra mitad del despacho: el conductor toma la ruta, ve las paradas en orden optimizado, navega, revisa la carga, toma la foto y la firma en la puerta, y cierra la parada. Sigue funcionando cuando se cae la señal — las entregas se encolan localmente y suben cuando el teléfono vuelve, y las fotos tienen su propia cola de subida. La ubicación sigue reportando con la pantalla apagada, y esa fue la parte más difícil en iOS.",
-        role: "Único desarrollador — app, publicación en tiendas y la API con la que habla",
+          "El conductor toma la ruta, ve las paradas en orden optimizado, navega, revisa la carga, toma la foto y la firma en la puerta, y cierra la parada. Sigue funcionando cuando se cae la señal: la entrega se encola en el teléfono y sube cuando vuelve, y las fotos tienen su propia cola de subida. La ubicación sigue reportando con la pantalla apagada, y esa fue la parte más difícil en iOS.",
+        role: "Único desarrollador. App, publicación en tiendas y la API con la que habla.",
       },
     },
   },
   {
-    slug: "rapid-labels",
-    name: "Rapid Labels",
+    slug: "warehouse",
+    name: "Warehouse Operations Platform",
     order: 3,
     domain: "tools",
     status: "live",
-    featured: false,
     period: { from: "2025-07" },
     stack: ["javascript", "express", "postgresql", "supabase", "vercel", "actions"],
-    hasCaseStudy: false,
+    shots: [],
     metrics: [
       {
-        value: "21",
+        value: "20+",
         label: { en: "warehouse features", pt: "features de armazém", es: "funciones de almacén" },
       },
-      { value: "653", label: { en: "commits", pt: "commits", es: "commits" } },
+      { value: "650+", label: { en: "commits", pt: "commits", es: "commits" } },
       {
-        value: "22",
+        value: "20+",
         label: {
           en: "scheduled sync jobs",
           pt: "jobs de sync agendados",
@@ -168,186 +163,90 @@ export const PROJECTS: readonly Project[] = [
     ],
     copy: {
       en: {
-        tagline: "The software on the warehouse floor",
+        tagline: "The software the warehouse floor runs on",
         summary:
-          "Started as a container label printer and grew into the layer the floor actually runs on: pick and pack, replenishment against live demand, cycle counting, returns, picking anomalies and stock planning. Deliberately plain — server-rendered pages, no framework, no build step — because it is used on a tablet by people wearing gloves, and every second of load time is a second someone stands still.",
-        role: "Sole developer — and the person who watched it being used to know what to fix",
+          "Started as a container label printer and grew into the layer the floor works from: pick and pack, replenishment against live demand, cycle counting, returns, picking anomalies and stock planning. Deliberately plain, with server-rendered pages, no framework and no build step, because it runs on a tablet held by someone wearing gloves and every second of load time is a second somebody stands still.",
+        role: "Sole developer, and the person who watched it being used to know what to fix.",
       },
       pt: {
-        tagline: "O software do chão de armazém",
+        tagline: "O software em que o chão de armazém trabalha",
         summary:
-          "Nasceu impressor de etiqueta de container e virou a camada em que o chão de fato roda: pick e pack, reposição contra demanda viva, contagem cíclica, devoluções, anomalias de picking e planejamento de estoque. Simples de propósito — páginas renderizadas no servidor, sem framework e sem build — porque quem usa está de luva num tablet, e cada segundo de carregamento é um segundo de gente parada.",
-        role: "Desenvolvedor único — e a pessoa que via o sistema sendo usado para saber o que consertar",
+          "Nasceu impressor de etiqueta de container e virou a camada em que o chão trabalha: pick e pack, reposição contra demanda viva, contagem cíclica, devoluções, anomalias de picking e planejamento de estoque. Simples de propósito, com páginas renderizadas no servidor, sem framework e sem build, porque roda num tablet segurado por alguém de luva e cada segundo de carregamento é um segundo de gente parada.",
+        role: "Desenvolvedor único, e a pessoa que via o sistema em uso para saber o que consertar.",
       },
       es: {
-        tagline: "El software del piso del almacén",
+        tagline: "El software con el que trabaja el piso del almacén",
         summary:
-          "Nació como impresor de etiquetas de contenedor y se convirtió en la capa sobre la que el piso realmente funciona: pick y pack, reposición contra demanda viva, conteo cíclico, devoluciones, anomalías de picking y planificación de stock. Simple a propósito — páginas renderizadas en el servidor, sin framework ni build — porque quien lo usa lleva guantes y una tablet, y cada segundo de carga es un segundo de gente parada.",
-        role: "Único desarrollador — y la persona que veía el sistema en uso para saber qué arreglar",
+          "Nació como impresor de etiquetas de contenedor y se convirtió en la capa sobre la que el piso trabaja: pick y pack, reposición contra demanda viva, conteo cíclico, devoluciones, anomalías de picking y planificación de stock. Simple a propósito, con páginas renderizadas en el servidor, sin framework ni build, porque corre en una tablet sostenida por alguien con guantes y cada segundo de carga es un segundo de gente parada.",
+        role: "Único desarrollador, y la persona que veía el sistema en uso para saber qué arreglar.",
       },
     },
   },
   {
-    slug: "rapid-portal",
-    name: "Rapid Portal",
+    slug: "bi-ai",
+    name: "BI and AI Data Layer",
     order: 4,
-    domain: "platform",
-    status: "live",
-    featured: false,
+    domain: "data",
+    status: "building",
     period: { from: "2026-09" },
-    stack: ["typescript", "nextjs", "react", "tailwind", "supabase", "zod", "vercel", "claude"],
-    hasCaseStudy: false,
-    cover: ordersBoard,
-    coverAlt: {
-      en: "Orders board: twenty-eight orders split across four carriers and two own-fleet runs, with status per consignment.",
-      pt: "Quadro de pedidos: vinte e oito pedidos divididos entre quatro transportadoras e duas rotas da frota própria, com status por consignment.",
-      es: "Tablero de pedidos: veintiocho pedidos repartidos entre cuatro transportistas y dos rutas de flota propia, con estado por consignment.",
-    },
+    stack: ["microsoft", "postgresql", "sql", "claude", "python", "rest"],
+    shots: [],
     metrics: [
-      {
-        value: "3",
-        label: {
-          en: "systems behind one login",
-          pt: "sistemas atrás de um login",
-          es: "sistemas detrás de un login",
-        },
-      },
-      {
-        value: "EdDSA",
-        label: {
-          en: "signed, seconds-long handoff token",
-          pt: "token de handoff assinado, de segundos",
-          es: "token de handoff firmado, de segundos",
-        },
-      },
-    ],
-    copy: {
-      en: {
-        tagline: "One login, three systems, and an AI that is not allowed to improvise",
-        summary:
-          'Three systems grew separately and each had its own login. The portal authenticates once and hands off: it signs a token that lives for seconds, the target system verifies it against a public key and opens its own session. It also answers questions about the data in plain English — through a closed catalogue of hand-written read-only queries. The model picks a query; it never writes SQL. A question outside the catalogue is answered with "I don\'t know", never with a plausible number.',
-        role: "Sole developer — auth, handoff, admin, AI module and the public site",
-      },
-      pt: {
-        tagline: "Um login, três sistemas, e uma IA que não tem permissão de improvisar",
-        summary:
-          'Três sistemas cresceram separados e cada um tinha o próprio login. O portal autentica uma vez e faz handoff: assina um token que vive segundos, e o sistema de destino valida contra uma chave pública e abre a própria sessão. Ele também responde pergunta sobre os dados em linguagem natural — por um catálogo fechado de consultas só-leitura escritas à mão. O modelo escolhe a consulta; ele nunca escreve SQL. Pergunta fora do catálogo é respondida com "não sei", nunca com um número plausível.',
-        role: "Desenvolvedor único — auth, handoff, admin, módulo de IA e o site público",
-      },
-      es: {
-        tagline: "Un login, tres sistemas y una IA que no tiene permiso de improvisar",
-        summary:
-          'Tres sistemas crecieron por separado y cada uno tenía su propio login. El portal autentica una vez y hace handoff: firma un token que vive segundos, y el sistema destino lo valida contra una clave pública y abre su propia sesión. También responde preguntas sobre los datos en lenguaje natural — mediante un catálogo cerrado de consultas de solo lectura escritas a mano. El modelo elige la consulta; nunca escribe SQL. Una pregunta fuera del catálogo se responde con "no lo sé", nunca con un número plausible.',
-        role: "Único desarrollador — auth, handoff, admin, módulo de IA y el sitio público",
-      },
-    },
-  },
-  {
-    slug: "own-fleet",
-    name: "Own Fleet",
-    order: 5,
-    domain: "production",
-    status: "live",
-    featured: false,
-    period: { from: "2026-04" },
-    stack: ["python", "flask", "postgresql", "googlemaps"],
-    hasCaseStudy: false,
-    cover: fleetLive,
-    coverAlt: {
-      en: "Fleet Live: two drivers on a map of south-east Queensland, each with progress through their run, the next stop and an estimated finish time.",
-      pt: "Fleet Live: dois motoristas num mapa do sudeste de Queensland, cada um com o progresso da rota, a próxima parada e a hora estimada de término.",
-      es: "Fleet Live: dos conductores en un mapa del sureste de Queensland, cada uno con el progreso de su ruta, la siguiente parada y la hora estimada de fin.",
-    },
-    metrics: [
-      {
-        value: "1/3/5/7 km",
-        label: {
-          en: "proximity tiers for catching savings",
-          pt: "faixas de proximidade para achar economia",
-          es: "rangos de proximidad para hallar ahorro",
-        },
-      },
-    ],
-    copy: {
-      en: {
-        tagline: "Treating our own vans as one more carrier",
-        summary:
-          "The vans the company already owns compete for every job against the four external carriers, priced on the same rate card so the two can never drift apart. The dispatcher builds each run, the stops get ordered for the shortest drive, and once the driver starts, re-ordering is locked — adding a stop is not. That distinction exists because of a specific day in May 2026 when a mid-route re-order scrambled a driver's sequence.",
-        role: "Sole developer — pricing, coverage, dispatch and the rules that guard it",
-      },
-      pt: {
-        tagline: "Tratar a frota própria como mais uma transportadora",
-        summary:
-          "As vans que a empresa já tem competem por cada trabalho contra as quatro transportadoras externas, precificadas pela mesma tabela para que as duas nunca se descolem. O dispatcher monta a rota, as paradas são ordenadas pelo menor trajeto, e assim que o motorista começa, reordenar fica travado — acrescentar parada, não. Essa distinção existe por causa de um dia específico de maio de 2026, quando uma reordenação no meio do caminho embaralhou a sequência de um motorista.",
-        role: "Desenvolvedor único — precificação, cobertura, despacho e as regras que protegem isso",
-      },
-      es: {
-        tagline: "Tratar la flota propia como un transportista más",
-        summary:
-          "Las furgonetas que la empresa ya tiene compiten por cada trabajo contra los cuatro transportistas externos, con la misma tarifa para que ambas nunca se separen. El despachador arma la ruta, las paradas se ordenan por el trayecto más corto, y en cuanto el conductor arranca, reordenar queda bloqueado — agregar una parada, no. Esa distinción existe por un día concreto de mayo de 2026, cuando un reordenamiento a mitad de ruta desordenó la secuencia de un conductor.",
-        role: "Único desarrollador — precios, cobertura, despacho y las reglas que lo protegen",
-      },
-    },
-  },
-  {
-    slug: "ai-engineering",
-    name: "Agent Guard Rails",
-    order: 6,
-    domain: "platform",
-    status: "shipped",
-    featured: false,
-    period: { from: "2026-09", to: "2026-09" },
-    stack: ["claude", "git", "github"],
-    hasCaseStudy: false,
-    metrics: [
-      {
-        value: "5",
-        label: {
-          en: "guard rails, one per real incident",
-          pt: "travas, uma por incidente real",
-          es: "barreras, una por incidente real",
-        },
-      },
       {
         value: "4",
         label: {
-          en: "repositories consuming them",
-          pt: "repositórios que as consomem",
-          es: "repositorios que las consumen",
+          en: "systems being connected",
+          pt: "sistemas sendo conectados",
+          es: "sistemas en conexión",
+        },
+      },
+      {
+        value: "read only",
+        label: {
+          en: "access the model is given",
+          pt: "acesso dado ao modelo",
+          es: "acceso dado al modelo",
+        },
+      },
+      {
+        value: "per role",
+        label: {
+          en: "what each person can ask about",
+          pt: "o que cada pessoa pode perguntar",
+          es: "lo que cada persona puede preguntar",
         },
       },
     ],
     copy: {
       en: {
-        tagline: "Writing down the trap so nobody falls in it twice",
+        tagline: "One question, answered across the ERP, the warehouse and the freight system",
         summary:
-          "A shared set of rules that four repositories pull from, where every single rule exists because something already went wrong: the TMS .env points at production, so a local run starts calling real carriers; the warehouse repo serves its own root, so committing a file publishes it; in Next 16 a middleware.ts is ignored in silence and the admin area ships public with a green build. None of that is a lint rule you can buy. Turning an incident into a rule that survives the person who was there is the work.",
-        role: "Author — the rules and the incidents they came from",
+          "Real-time dashboards built around the decisions each department actually makes, not around what is easy to chart. Behind them, a hybrid chat that reads across systems that never spoke to each other: stock on hand, what shipped, what sold, and where it went. The model gets read-only access, scoped by the user's role, with no image generation and no write path. One plain question returns what used to take three logins and a spreadsheet.",
+        role: "Designing the data layer, the access limits and the dashboards.",
       },
       pt: {
-        tagline: "Escrever a armadilha para ninguém cair nela duas vezes",
+        tagline: "Uma pergunta, respondida através do ERP, do armazém e do sistema de frete",
         summary:
-          "Um conjunto de regras que quatro repositórios consomem, em que cada regra existe porque alguma coisa já deu errado: o .env do TMS aponta para produção, então rodar local passa a chamar transportadora de verdade; o repo do armazém serve a própria raiz, então commitar um arquivo é publicar; no Next 16 um middleware.ts é ignorado em silêncio e a área de admin sobe pública com o build verde. Nada disso é regra de lint que se compra pronta. Transformar incidente em regra que sobrevive a quem estava lá é o trabalho.",
-        role: "Autor — as regras e os incidentes de que elas vieram",
+          "Painéis em tempo real construídos em volta das decisões que cada setor realmente toma, e não em volta do que é fácil de plotar. Atrás deles, um chat híbrido que lê sistemas que nunca conversaram entre si: estoque em mãos, o que saiu, o que vendeu e para onde foi. O modelo recebe acesso só de leitura, limitado pelo papel do usuário, sem geração de imagem e sem caminho de escrita. Uma pergunta simples devolve o que antes custava três logins e uma planilha.",
+        role: "Desenhando a camada de dados, os limites de acesso e os painéis.",
       },
       es: {
-        tagline: "Escribir la trampa para que nadie caiga dos veces",
+        tagline: "Una pregunta, respondida a través del ERP, el almacén y el sistema de transporte",
         summary:
-          "Un conjunto compartido de reglas que consumen cuatro repositorios, donde cada regla existe porque algo ya salió mal: el .env del TMS apunta a producción, así que correr local empieza a llamar transportistas reales; el repo del almacén sirve su propia raíz, así que commitear un archivo es publicarlo; en Next 16 un middleware.ts se ignora en silencio y el área de admin sale pública con el build en verde. Nada de eso es una regla de lint que se compre hecha. Convertir un incidente en una regla que sobreviva a quien estuvo allí es el trabajo.",
-        role: "Autor — las reglas y los incidentes de los que vinieron",
+          "Paneles en tiempo real construidos alrededor de las decisiones que cada área realmente toma, no de lo que es fácil de graficar. Detrás, un chat híbrido que lee sistemas que nunca se hablaron: stock disponible, lo que salió, lo que se vendió y adónde fue. El modelo recibe acceso de solo lectura, limitado por el rol del usuario, sin generación de imágenes y sin camino de escritura. Una pregunta simple devuelve lo que antes costaba tres logins y una hoja de cálculo.",
+        role: "Diseñando la capa de datos, los límites de acceso y los paneles.",
       },
     },
   },
   {
     slug: "van-booking",
-    name: "Van Booking",
-    order: 7,
+    name: "Van Booking Tool",
+    order: 5,
     domain: "tools",
     status: "shipped",
-    featured: false,
     period: { from: "2024-11", to: "2024-11" },
     stack: ["javascript", "express", "sqlite"],
-    hasCaseStudy: false,
+    shots: [],
     metrics: [
       {
         value: "2024",
@@ -362,33 +261,32 @@ export const PROJECTS: readonly Project[] = [
       en: {
         tagline: "Where all of this started",
         summary:
-          "Still working on the warehouse floor, I built a small browser app on Node, Express and SQLite so the van bookings stopped living in a spreadsheet that two people edited at once. It ran on one machine and it was enough. Everything above is the same instinct with more years on it: watch the manual work, then delete it.",
-        role: "Built it on my own initiative, alongside the warehouse job",
+          "Still working on the warehouse floor, I built a small browser app on Node, Express and SQLite so van bookings stopped living in a spreadsheet two people edited at once. It ran on one machine and it was enough. Everything above is the same instinct with more years on it: watch the manual work, then delete it.",
+        role: "Built on my own initiative, alongside the warehouse job.",
       },
       pt: {
         tagline: "Onde tudo isso começou",
         summary:
-          "Ainda no chão de armazém, montei um app de navegador em Node, Express e SQLite para o agendamento das vans parar de viver numa planilha que duas pessoas editavam ao mesmo tempo. Rodava numa máquina só, e era o suficiente. Tudo acima é o mesmo instinto com mais anos em cima: olhar o trabalho manual e apagar ele.",
-        role: "Feito por iniciativa própria, em paralelo ao trabalho de armazém",
+          "Ainda no chão de armazém, montei um app de navegador em Node, Express e SQLite para o agendamento das vans parar de viver numa planilha que duas pessoas editavam ao mesmo tempo. Rodava numa máquina só, e era suficiente. Tudo acima é o mesmo instinto com mais anos em cima: olhar o trabalho manual e apagar ele.",
+        role: "Feito por iniciativa própria, em paralelo ao trabalho de armazém.",
       },
       es: {
         tagline: "Donde empezó todo esto",
         summary:
-          "Todavía en el piso del almacén, armé una pequeña app de navegador en Node, Express y SQLite para que la reserva de furgonetas dejara de vivir en una hoja de cálculo que dos personas editaban a la vez. Corría en una sola máquina y alcanzaba. Todo lo de arriba es el mismo instinto con más años encima: mirar el trabajo manual y borrarlo.",
-        role: "Hecho por iniciativa propia, junto al trabajo de almacén",
+          "Todavía en el piso del almacén, armé una pequeña app de navegador en Node, Express y SQLite para que la reserva de furgonetas dejara de vivir en una hoja que dos personas editaban a la vez. Corría en una sola máquina y alcanzaba. Todo lo de arriba es el mismo instinto con más años encima: mirar el trabajo manual y borrarlo.",
+        role: "Hecho por iniciativa propia, junto al trabajo de almacén.",
       },
     },
   },
   {
-    slug: "collectables-dwh",
-    name: "Collectables DWH",
-    order: 8,
+    slug: "data-warehouse",
+    name: "Sales Data Warehouse",
+    order: 6,
     domain: "academic",
     status: "study",
-    featured: false,
     period: { from: "2026-03", to: "2026-04" },
-    stack: ["php", "mysql"],
-    hasCaseStudy: false,
+    stack: ["php", "mysql", "sql", "chartjs"],
+    shots: [],
     metrics: [
       {
         value: "1 + 6",
@@ -399,11 +297,19 @@ export const PROJECTS: readonly Project[] = [
         },
       },
       {
-        value: "8",
+        value: "11",
         label: {
-          en: "charts, one JSON endpoint each",
-          pt: "gráficos, um endpoint JSON cada",
-          es: "gráficos, un endpoint JSON cada uno",
+          en: "JSON endpoints, one per chart",
+          pt: "endpoints JSON, um por gráfico",
+          es: "endpoints JSON, uno por gráfico",
+        },
+      },
+      {
+        value: "3",
+        label: {
+          en: "roles, each seeing something different",
+          pt: "papéis, cada um vendo algo diferente",
+          es: "roles, cada uno viendo algo distinto",
         },
       },
     ],
@@ -412,27 +318,240 @@ export const PROJECTS: readonly Project[] = [
         tagline:
           "A star schema, a dashboard over it, and three roles who each see something different",
         summary:
-          "Coursework, but the shape of the real job: a sales data warehouse on a star schema, a reporting site that reads it through one connection function, and eight charts each split into a JSON endpoint and a page so the query never mixes with the presentation. A second pass added multi-role login with hashed passwords, an admin area, and pages only one store can reach.",
-        role: "Diploma of IT, Mindroom Institute",
+          "Coursework with the shape of the real job. Sales load into a star schema, a reporting site reads it through a single connection function, and every chart is split into a JSON endpoint and a page so the query never mixes with the presentation. A second pass added multi-role login with hashed passwords, an admin area, and pages only one store can reach.",
+        role: "Diploma of Information Technology, Queensland.",
       },
       pt: {
-        tagline:
-          "Um star schema, um dashboard em cima dele, e três papéis que veem coisas diferentes",
+        tagline: "Um star schema, um dashboard em cima e três papéis que veem coisas diferentes",
         summary:
-          "Trabalho de curso, mas com a forma do trabalho real: um data warehouse de vendas em star schema, um site de relatório que lê por uma única função de conexão, e oito gráficos cada um partido em endpoint JSON e página, para a consulta nunca se misturar com a apresentação. Uma segunda entrega acrescentou login multi-papel com senha hasheada, área de admin e páginas que só uma loja alcança.",
-        role: "Diploma of IT, Mindroom Institute",
+          "Trabalho de curso com a forma do trabalho real. As vendas entram num star schema, um site de relatório lê por uma única função de conexão, e cada gráfico é partido em endpoint JSON e página, para a consulta nunca se misturar com a apresentação. Uma segunda entrega acrescentou login multi-papel com senha hasheada, área de admin e páginas que só uma loja alcança.",
+        role: "Diploma of Information Technology, Queensland.",
       },
       es: {
-        tagline: "Un star schema, un dashboard encima, y tres roles que ven cosas distintas",
+        tagline: "Un star schema, un dashboard encima y tres roles que ven cosas distintas",
         summary:
-          "Trabajo de curso, pero con la forma del trabajo real: un data warehouse de ventas en star schema, un sitio de reportes que lo lee mediante una única función de conexión, y ocho gráficos cada uno partido en endpoint JSON y página, para que la consulta nunca se mezcle con la presentación. Una segunda entrega agregó login multi-rol con contraseña hasheada, área de admin y páginas que solo una tienda alcanza.",
-        role: "Diploma of IT, Mindroom Institute",
+          "Trabajo de curso con la forma del trabajo real. Las ventas entran en un star schema, un sitio de reportes lo lee mediante una única función de conexión, y cada gráfico se parte en endpoint JSON y página, para que la consulta nunca se mezcle con la presentación. Una segunda entrega agregó login multi-rol con contraseña hasheada, área de admin y páginas que solo una tienda alcanza.",
+        role: "Diploma of Information Technology, Queensland.",
+      },
+    },
+  },
+  {
+    slug: "php-apps",
+    name: "Database-Backed Web Apps",
+    order: 7,
+    domain: "academic",
+    status: "study",
+    period: { from: "2025-08", to: "2026-05" },
+    stack: ["php", "mysql", "sql", "javascript"],
+    shots: [],
+    metrics: [
+      {
+        value: "2",
+        label: {
+          en: "full apps with their own admin",
+          pt: "apps completos com admin próprio",
+          es: "apps completas con admin propio",
+        },
+      },
+      {
+        value: "bcrypt",
+        label: {
+          en: "password hashing, not plain text",
+          pt: "hash de senha, não texto puro",
+          es: "hash de contraseña, no texto plano",
+        },
+      },
+    ],
+    copy: {
+      en: {
+        tagline: "Two applications with login, an admin area and a real dataset behind them",
+        summary:
+          "The first loads a public sightings dataset and puts a full record lifecycle on top: create, edit, resolve, delete, with an admin login and a dashboard. The second is a reference site across nine linked sections, with its own admin area for maintaining the records. Both ship with their own schema, and both hash passwords rather than storing them.",
+        role: "Diploma of Information Technology, Queensland.",
+      },
+      pt: {
+        tagline: "Duas aplicações com login, área de admin e um dataset real por trás",
+        summary:
+          "A primeira carrega um dataset público de avistamentos e coloca um ciclo de vida completo de registro em cima: criar, editar, resolver, apagar, com login de admin e dashboard. A segunda é um site de consulta com nove seções ligadas entre si e área de admin própria para manter os registros. As duas trazem o schema junto, e as duas hasheiam senha em vez de guardar.",
+        role: "Diploma of Information Technology, Queensland.",
+      },
+      es: {
+        tagline: "Dos aplicaciones con login, área de admin y un dataset real detrás",
+        summary:
+          "La primera carga un dataset público de avistamientos y pone encima un ciclo de vida completo de registro: crear, editar, resolver, borrar, con login de admin y dashboard. La segunda es un sitio de consulta con nueve secciones enlazadas y su propia área de admin para mantener los registros. Ambas traen su esquema, y ambas hashean la contraseña en vez de guardarla.",
+        role: "Diploma of Information Technology, Queensland.",
+      },
+    },
+  },
+  {
+    slug: "rest-api",
+    name: "REST API and Documentation",
+    order: 8,
+    domain: "academic",
+    status: "study",
+    period: { from: "2026-06", to: "2026-08" },
+    stack: ["python", "django", "rest", "sqlite"],
+    shots: [],
+    metrics: [
+      {
+        value: "12",
+        label: {
+          en: "endpoints documented",
+          pt: "endpoints documentados",
+          es: "endpoints documentados",
+        },
+      },
+      {
+        value: "5",
+        label: {
+          en: "apps, one per category",
+          pt: "apps, um por categoria",
+          es: "apps, una por categoría",
+        },
+      },
+    ],
+    copy: {
+      en: {
+        tagline: "Documenting an authentication API the way a developer needs to read it",
+        summary:
+          "A site that documents twelve endpoints of an authentication framework, with one application per category: authentication, registration, user management, token management and social login. Each page carries the description, an example request and an example response. The endpoints were then turned into a checklist and validated against the site, which is how you find the ones you forgot.",
+        role: "Diploma of Information Technology, Queensland.",
+      },
+      pt: {
+        tagline: "Documentar uma API de autenticação do jeito que um dev precisa ler",
+        summary:
+          "Um site que documenta doze endpoints de um framework de autenticação, com uma aplicação por categoria: autenticação, registro, gestão de usuário, gestão de token e login social. Cada página traz a descrição, um exemplo de requisição e um de resposta. Depois os endpoints viraram checklist e foram validados contra o próprio site, que é como se acha o que ficou faltando.",
+        role: "Diploma of Information Technology, Queensland.",
+      },
+      es: {
+        tagline: "Documentar una API de autenticación como un dev necesita leerla",
+        summary:
+          "Un sitio que documenta doce endpoints de un framework de autenticación, con una aplicación por categoría: autenticación, registro, gestión de usuario, gestión de token y login social. Cada página trae la descripción, un ejemplo de petición y uno de respuesta. Luego los endpoints se volvieron checklist y se validaron contra el propio sitio, que es como se encuentra lo que faltó.",
+        role: "Diploma of Information Technology, Queensland.",
+      },
+    },
+  },
+  {
+    slug: "nosql",
+    name: "NoSQL and Database Hardening",
+    order: 9,
+    domain: "academic",
+    status: "study",
+    period: { from: "2025-10", to: "2025-11" },
+    stack: ["mongodb", "php", "linux"],
+    shots: [],
+    metrics: [
+      {
+        value: "9",
+        label: {
+          en: "exercises, each on its own instance",
+          pt: "exercícios, cada um na própria instância",
+          es: "ejercicios, cada uno en su propia instancia",
+        },
+      },
+    ],
+    copy: {
+      en: {
+        tagline: "Turning authentication on, watching the app break, then fixing it",
+        summary:
+          "Nine exercises on document databases, each running its own server with its own config. The one that mattered went in this order: the site connects with no authentication at all, authentication gets enabled on the database, the site breaks on purpose, and only then does the credential enter the connection. Scaling comes up too, vertical against horizontal, and what each one actually costs.",
+        role: "Diploma of Information Technology, Queensland.",
+      },
+      pt: {
+        tagline: "Ligar a autenticação, ver o app quebrar, e então consertar",
+        summary:
+          "Nove exercícios sobre banco de documento, cada um rodando o próprio servidor com a própria configuração. O que importou seguiu esta ordem: o site conecta sem autenticação nenhuma, a autenticação é ligada no banco, o site quebra de propósito, e só então a credencial entra na conexão. Escala também aparece, vertical contra horizontal, e o que cada uma custa de verdade.",
+        role: "Diploma of Information Technology, Queensland.",
+      },
+      es: {
+        tagline: "Activar la autenticación, ver romperse la app, y recién ahí arreglarla",
+        summary:
+          "Nueve ejercicios sobre bases documentales, cada uno con su propio servidor y su propia configuración. El que importó siguió este orden: el sitio conecta sin autenticación alguna, se activa la autenticación en la base, el sitio se rompe a propósito, y recién entonces la credencial entra en la conexión. La escala también aparece, vertical contra horizontal, y lo que cuesta cada una.",
+        role: "Diploma of Information Technology, Queensland.",
+      },
+    },
+  },
+  {
+    slug: "data-cleaning",
+    name: "Data Cleaning and Reporting in R",
+    order: 10,
+    domain: "academic",
+    status: "study",
+    period: { from: "2025-11", to: "2025-12" },
+    stack: ["r", "sql"],
+    shots: [],
+    metrics: [
+      {
+        value: "2",
+        label: {
+          en: "datasets, before and after on disk",
+          pt: "datasets, antes e depois no disco",
+          es: "datasets, antes y después en disco",
+        },
+      },
+    ],
+    copy: {
+      en: {
+        tagline: "Finding the broken rows before they reach the average",
+        summary:
+          "Two small projects in R with dplyr. The first reads a film dataset, flags rows whose rating is not a number or falls outside its own scale, and only then produces top ten by revenue and average by director. The second cleans a student dataset: coercing types, stripping stray characters from numbers, and writing the cleaned file out beside the original so the difference stays visible.",
+        role: "Diploma of Information Technology, Queensland.",
+      },
+      pt: {
+        tagline: "Achar a linha quebrada antes que ela entre na média",
+        summary:
+          "Dois projetos pequenos em R com dplyr. O primeiro lê um dataset de filmes, sinaliza linha cuja nota não é número ou está fora da própria escala, e só então produz top dez por bilheteria e média por diretor. O segundo limpa um dataset de alunos: coerção de tipo, remoção de caractere solto no meio do número, e escrita do arquivo limpo ao lado do original, para a diferença ficar visível.",
+        role: "Diploma of Information Technology, Queensland.",
+      },
+      es: {
+        tagline: "Encontrar la fila rota antes de que entre en el promedio",
+        summary:
+          "Dos proyectos pequeños en R con dplyr. El primero lee un dataset de películas, marca la fila cuya nota no es número o queda fuera de su propia escala, y recién entonces produce top diez por recaudación y promedio por director. El segundo limpia un dataset de estudiantes: coerción de tipos, quitar caracteres sueltos dentro del número, y escribir el archivo limpio junto al original, para que la diferencia quede visible.",
+        role: "Diploma of Information Technology, Queensland.",
+      },
+    },
+  },
+  {
+    slug: "client-sites",
+    name: "Client Websites",
+    order: 11,
+    domain: "academic",
+    status: "study",
+    period: { from: "2025-08", to: "2026-02" },
+    stack: ["javascript", "php"],
+    shots: [],
+    metrics: [
+      {
+        value: "13",
+        label: {
+          en: "pages in the largest one",
+          pt: "páginas no maior deles",
+          es: "páginas en el más grande",
+        },
+      },
+    ],
+    copy: {
+      en: {
+        tagline: "Briefs taken from a client, built, then validated against the brief",
+        summary:
+          "Multi-page sites built the long way: gather what the client expects, design it, build it, then check the result against what was agreed instead of against taste. The largest runs to thirteen pages for a venue business, with a page per room, pricing, gift certificates and how to find the place.",
+        role: "Diploma of Information Technology, Queensland.",
+      },
+      pt: {
+        tagline: "Briefing tirado de um cliente, construído, e depois validado contra o briefing",
+        summary:
+          "Sites multipágina feitos pelo caminho longo: levantar o que o cliente espera, desenhar, construir, e então conferir o resultado contra o que foi combinado em vez de contra gosto pessoal. O maior chega a treze páginas para um negócio de experiências, com uma página por sala, preço, vale-presente e como chegar.",
+        role: "Diploma of Information Technology, Queensland.",
+      },
+      es: {
+        tagline: "Brief tomado de un cliente, construido, y después validado contra el brief",
+        summary:
+          "Sitios multipágina hechos por el camino largo: levantar lo que el cliente espera, diseñarlo, construirlo, y luego contrastar el resultado con lo acordado en vez de con el gusto personal. El más grande llega a trece páginas para un negocio de experiencias, con una página por sala, precios, vales de regalo y cómo llegar.",
+        role: "Diploma of Information Technology, Queensland.",
       },
     },
   },
 ];
-
-export const FEATURED_PROJECTS = PROJECTS.filter((p) => p.featured);
 
 export function projectBySlug(slug: string): Project | undefined {
   return PROJECTS.find((p) => p.slug === slug);
