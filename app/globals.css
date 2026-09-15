@@ -1,0 +1,186 @@
+@import "tailwindcss";
+
+/* ============================================================
+   PORTFOLIO — TOKENS
+   Ponto unico de verdade. Nenhum hex cravado fora deste arquivo.
+
+   POR QUE ESTA PALETA NAO E A DA RAPID
+   O navy #021E60 e a marca do empregador e vai aparecer DENTRO das
+   capturas de tela. Se o site inteiro tambem fosse navy, o produto
+   sumiria dentro do cenario. A paleta daqui e quente e neutra de
+   proposito: ela emoldura as capturas em vez de competir com elas.
+
+   O acento e um terracota queimado. Nao e o azul padrao de portfolio
+   de dev, e passa contraste AA em corpo de texto nos dois temas — o
+   que a maioria dos acentos quentes nao faz.
+
+   CONTRASTE — medido com a formula da WCAG, nao estimado.
+   Colunas: canvas / sunken / subtle.
+
+   LIGHT  (#FBFAF8 · #F3F1ED · #EAE7E1)
+     ink        #16151A   17.41  16.10  14.72  OK
+     ink-muted  #4A4650    8.82   8.15   7.45  OK
+     ink-subtle #6E6877    5.15   4.76   4.35  OK / OK / so texto grande
+     ink-faint  #8A8394    3.50   3.23   2.96  so texto grande e borda
+     accent     #A03A16    6.47   5.98   5.47  OK
+     ok         #1F6F4A    5.87   5.43   4.96  OK
+     danger     #9B1C1C    7.81   7.23   6.60  OK
+     branco sobre accent #A03A16 = 6.75 OK (botao solido)
+
+   DARK   (#121114 · #1A181D · #232026)
+     ink        #F2F0EC   16.53  15.47  14.13  OK
+     ink-muted  #B3ADB8    8.59   8.04   7.34  OK
+     ink-subtle #8F8899    5.51   5.16   4.71  OK
+     ink-faint  #6E6877    3.50   3.28   2.99  so texto grande e borda
+     accent     #E87A4D    6.56   6.14   5.61  OK
+     ok         #5FBF8F    8.37   7.83   7.15  OK
+     danger     #F08585    7.53   7.04   6.43  OK
+     ink escuro #121114 sobre accent #E87A4D = 6.56 OK (botao solido)
+
+   COMO O TEMA TROCA
+   Os valores crus vivem em `:root` e sao redefinidos em dois lugares:
+   a media query (quem esta no "system") e `[data-theme]` (quem clicou
+   no seletor). O bloco `@theme inline` so APONTA para essas variaveis —
+   sem `inline` o Tailwind congelaria o valor claro dentro da utility e
+   o dark mode nao existiria.
+   ============================================================ */
+
+:root {
+  color-scheme: light dark;
+
+  /* — Superficies — */
+  --c-canvas: #fbfaf8;
+  --c-sunken: #f3f1ed;
+  --c-subtle: #eae7e1;
+  --c-line: #dedad2;
+  --c-line-strong: #c5bfb4;
+
+  /* — Tinta — */
+  --c-ink: #16151a;
+  --c-ink-muted: #4a4650;
+  --c-ink-subtle: #6e6877;
+  --c-ink-faint: #8a8394;
+  --c-ink-inverse: #fbfaf8;
+
+  /* — Acento — */
+  --c-accent: #a03a16;
+  --c-accent-hover: #8a3013;
+  --c-accent-soft: #f6e9e2;
+  --c-on-accent: #ffffff;
+
+  /* — Estado — */
+  --c-ok: #1f6f4a;
+  --c-danger: #9b1c1c;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --c-canvas: #121114;
+    --c-sunken: #1a181d;
+    --c-subtle: #232026;
+    --c-line: #2d2a32;
+    --c-line-strong: #423d49;
+
+    --c-ink: #f2f0ec;
+    --c-ink-muted: #b3adb8;
+    --c-ink-subtle: #8f8899;
+    --c-ink-faint: #6e6877;
+    --c-ink-inverse: #121114;
+
+    --c-accent: #e87a4d;
+    --c-accent-hover: #f0916b;
+    --c-accent-soft: #2b1f1a;
+    --c-on-accent: #121114;
+
+    --c-ok: #5fbf8f;
+    --c-danger: #f08585;
+  }
+}
+
+:root[data-theme="dark"] {
+  --c-canvas: #121114;
+  --c-sunken: #1a181d;
+  --c-subtle: #232026;
+  --c-line: #2d2a32;
+  --c-line-strong: #423d49;
+
+  --c-ink: #f2f0ec;
+  --c-ink-muted: #b3adb8;
+  --c-ink-subtle: #8f8899;
+  --c-ink-faint: #6e6877;
+  --c-ink-inverse: #121114;
+
+  --c-accent: #e87a4d;
+  --c-accent-hover: #f0916b;
+  --c-accent-soft: #2b1f1a;
+  --c-on-accent: #121114;
+
+  --c-ok: #5fbf8f;
+  --c-danger: #f08585;
+}
+
+@theme inline {
+  --color-canvas: var(--c-canvas);
+  --color-sunken: var(--c-sunken);
+  --color-subtle: var(--c-subtle);
+  --color-line: var(--c-line);
+  --color-line-strong: var(--c-line-strong);
+
+  --color-ink: var(--c-ink);
+  --color-ink-muted: var(--c-ink-muted);
+  --color-ink-subtle: var(--c-ink-subtle);
+  --color-ink-faint: var(--c-ink-faint);
+  --color-ink-inverse: var(--c-ink-inverse);
+
+  --color-accent: var(--c-accent);
+  --color-accent-hover: var(--c-accent-hover);
+  --color-accent-soft: var(--c-accent-soft);
+  --color-on-accent: var(--c-on-accent);
+
+  --color-ok: var(--c-ok);
+  --color-danger: var(--c-danger);
+
+  /* Uma familia so, com numeral tabular para as tabelas de numero dos
+     cases. A pilha de sistema evita uma requisicao de fonte e nao tem
+     salto de layout — o que importa mais num site cuja primeira tela e
+     texto. Fonte de display entra depois, se entrar. */
+  --font-sans:
+    ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-mono:
+    ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+
+  /* Um easing so no site inteiro. Nao ha biblioteca de animacao aqui. */
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Movimento e um reforco, nunca o unico sinal. Quem pediu menos movimento
+   recebe o site inteiro, sem transicao nenhuma. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--c-canvas);
+  color: var(--c-ink);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Foco visivel em TODO elemento focavel. Navegacao por teclado nao e
+   detalhe de acessibilidade: e como metade dos desenvolvedores le um
+   portfolio de desenvolvedor. */
+:focus-visible {
+  outline: 2px solid var(--c-accent);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
