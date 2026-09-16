@@ -1,38 +1,45 @@
 import burger01 from "@/public/screenshots/g-burger-01.webp";
-import burger05 from "@/public/screenshots/g-burger-05.webp";
+import burger02 from "@/public/screenshots/g-burger-02.webp";
 import dive01 from "@/public/screenshots/g-dive-01.webp";
 import dive02 from "@/public/screenshots/g-dive-02.webp";
 import dive03 from "@/public/screenshots/g-dive-03.webp";
+import driver01 from "@/public/screenshots/g-driver-01.webp";
+import driver02 from "@/public/screenshots/g-driver-02.webp";
+import driver03 from "@/public/screenshots/g-driver-03.webp";
+import driver04 from "@/public/screenshots/g-driver-04.webp";
+import dwh01 from "@/public/screenshots/g-dwh-01.webp";
+import dwh02 from "@/public/screenshots/g-dwh-02.webp";
 import dwh03 from "@/public/screenshots/g-dwh-03.webp";
 import dwh04 from "@/public/screenshots/g-dwh-04.webp";
-import dwh09 from "@/public/screenshots/g-dwh-09.webp";
-import dwh12 from "@/public/screenshots/g-dwh-12.webp";
-import dwh14 from "@/public/screenshots/g-dwh-14.webp";
-import dwh15 from "@/public/screenshots/g-dwh-15.webp";
+import dwh05 from "@/public/screenshots/g-dwh-05.webp";
+import dwh06 from "@/public/screenshots/g-dwh-06.webp";
 import reel01 from "@/public/screenshots/g-reel-01.webp";
 import reel02 from "@/public/screenshots/g-reel-02.webp";
 import reel03 from "@/public/screenshots/g-reel-03.webp";
 import starwars01 from "@/public/screenshots/g-starwars-01.webp";
 import starwars02 from "@/public/screenshots/g-starwars-02.webp";
+import starwars03 from "@/public/screenshots/g-starwars-03.webp";
 import starwars04 from "@/public/screenshots/g-starwars-04.webp";
-import starwars10 from "@/public/screenshots/g-starwars-10.webp";
 import ufo01 from "@/public/screenshots/g-ufo-01.webp";
 import ufo02 from "@/public/screenshots/g-ufo-02.webp";
 import { type GalleryGroup, t3, toShots } from "./gallery";
 import type { Shot } from "./types";
 
 /**
- * AS GALERIAS DOS SITES.
+ * AS GALERIAS.
  *
- * Todas tiradas com os sistemas RODANDO: banco importado num MariaDB
- * descartavel em container, PHP servido pelo binario embutido, cada tela
- * capturada em 1440x900 com fator 2.
+ * Capturadas com os sistemas RODANDO, e agora de PAGINA INTEIRA: antes eu
+ * fotografava so a area visivel e a tabela terminava no meio de uma linha, o
+ * que parecia corte de CSS e nao era.
  *
- * Sem risco de dado de cliente: os datasets sao publicos ou inventados.
+ * Teto de altura em duas vezes a largura. A tabela de oitenta mil registros
+ * sai com quase quatro vezes, e uma imagem nessa proporcao fica ilegivel em
+ * qualquer moldura. O que passa do teto e cortado no fim, nao no meio, e o
+ * dialogo deixa a imagem alta ROLAR.
  *
- * O site inteiro entra, nao uma amostra. Uma galeria de cinco telas nao
- * mostra um site de catorze paginas, e a extensao do trabalho E parte do que
- * se esta mostrando.
+ * As do app do motorista sao as da loja de aplicativo, e so as quatro que nao
+ * tem endereco, nome, telefone nem marca. A tela de lista de paradas tem
+ * endereco residencial real e NAO entra.
  */
 export const GALLERIES = {
   dwh: {
@@ -48,7 +55,7 @@ export const GALLERIES = {
     ),
     items: [
       {
-        src: dwh03,
+        src: dwh01,
         page: t3("Dashboard", "Painel", "Panel"),
         note: t3(
           "Signed in as the admin. The other two roles see this without the last three tiles.",
@@ -56,13 +63,20 @@ export const GALLERIES = {
           "Con sesión de admin. Los otros dos roles ven esto sin las tres últimas tarjetas.",
         ),
       },
-      { src: dwh04, page: t3("Total sales", "Vendas totais", "Ventas totales") },
       {
-        src: dwh09,
+        src: dwh02,
+        page: t3(
+          "Total sales over time",
+          "Vendas ao longo do tempo",
+          "Ventas a lo largo del tiempo",
+        ),
+      },
+      {
+        src: dwh03,
         page: t3("Sales by day of week", "Vendas por dia da semana", "Ventas por día de la semana"),
       },
       {
-        src: dwh12,
+        src: dwh04,
         page: t3(
           "Sales per product by store",
           "Venda por produto e loja",
@@ -75,7 +89,7 @@ export const GALLERIES = {
         ),
       },
       {
-        src: dwh14,
+        src: dwh05,
         page: t3("Product presence", "Presença de produto", "Presencia de producto"),
         note: t3(
           "A cell is presence, not volume. Fastest way to spot a gap in a range.",
@@ -84,7 +98,7 @@ export const GALLERIES = {
         ),
       },
       {
-        src: dwh15,
+        src: dwh06,
         page: t3("Register user", "Cadastro de usuário", "Registro de usuario"),
         note: t3(
           "Admin only. The password is hashed before it reaches the table.",
@@ -96,116 +110,175 @@ export const GALLERIES = {
   },
   ufo: {
     altTemplate: t3(
-      "{page} screen of a public sightings archive.",
-      "Tela de {page} de um arquivo público de avistamentos.",
-      "Pantalla de {page} de un archivo público de avistamientos.",
+      "{page} of a public sightings archive.",
+      "{page} de um arquivo público de avistamentos.",
+      "{page} de un archivo público de avistamientos.",
     ),
     captionTemplate: t3("{page}.", "{page}.", "{page}."),
     items: [
       { src: ufo01, page: t3("Home", "Home", "Home") },
       {
         src: ufo02,
-        page: t3("Sightings table", "Tabela de avistamentos", "Tabla de avistamientos"),
+        page: t3("The sightings table", "A tabela de avistamentos", "La tabla de avistamientos"),
         note: t3(
-          "80,126 records, paginated on the server across 802 pages.",
-          "80.126 registros, paginados no servidor em 802 páginas.",
-          "80.126 registros, paginados en el servidor en 802 páginas.",
+          "80,126 records across 802 pages, paginated on the server. Scroll to see how far the page runs.",
+          "80.126 registros em 802 páginas, paginados no servidor. Role para ver até onde a página vai.",
+          "80.126 registros en 802 páginas, paginados en el servidor. Desplaza para ver hasta dónde llega la página.",
         ),
       },
     ],
   },
   starwars: {
     altTemplate: t3(
-      "{page} section of a reference site built over a nine-table schema.",
-      "Seção de {page} de um site de consulta sobre um schema de nove tabelas.",
-      "Sección de {page} de un sitio de consulta sobre un esquema de nueve tablas.",
+      "{page} of a reference archive built over a nine-table schema.",
+      "{page} de um arquivo de consulta sobre um schema de nove tabelas.",
+      "{page} de un archivo de consulta sobre un esquema de nueve tablas.",
     ),
     captionTemplate: t3(
-      "{page}, reading from its own table through the shared connection function.",
-      "{page}, lendo da própria tabela pela função de conexão compartilhada.",
-      "{page}, leyendo de su propia tabla por la función de conexión compartida.",
+      "{page}, loaded live from its own table.",
+      "{page}, carregada ao vivo da própria tabela.",
+      "{page}, cargada en vivo de su propia tabla.",
     ),
     items: [
       { src: starwars01, page: t3("Home", "Home", "Home") },
-      { src: starwars02, page: t3("Jedi", "Jedi", "Jedi") },
-      { src: starwars04, page: t3("Characters", "Personagens", "Personajes") },
+      { src: starwars02, page: t3("Jedi section", "Seção Jedi", "Sección Jedi") },
       {
-        src: starwars10,
+        src: starwars03,
+        page: t3("Characters section", "Seção de personagens", "Sección de personajes"),
+      },
+      {
+        src: starwars04,
         page: t3("Summary", "Resumo", "Resumen"),
         note: t3(
-          "A row count per table. This is how you notice an import stopped half way.",
-          "Contagem de linha por tabela. É assim que se percebe importação que parou no meio.",
-          "Conteo de filas por tabla. Así se nota una importación que quedó a medias.",
+          "Tabs switch without reloading, and the row count per table is how you notice a half-finished import.",
+          "As abas trocam sem recarregar, e a contagem por tabela é como se percebe importação pela metade.",
+          "Las pestañas cambian sin recargar, y el conteo por tabla es como se nota una importación a medias.",
         ),
       },
     ],
   },
-  escape: {
-    altTemplate: t3(
-      "{page} page of a thirteen-page website for an escape room venue.",
-      "Página de {page} de um site de treze páginas para um negócio de escape room.",
-      "Página de {page} de un sitio de trece páginas para un negocio de escape room.",
-    ),
-    captionTemplate: t3("{page}.", "{page}.", "{page}."),
-    items: [],
-  },
-  marvel: {
-    altTemplate: t3(
-      "{page} page of a hand-written character site.",
-      "Página de {page} de um site de personagens escrito à mão.",
-      "Página de {page} de un sitio de personajes escrito a mano.",
-    ),
-    captionTemplate: t3(
-      "{page}. Hand-written HTML and CSS, no framework, which was the constraint.",
-      "{page}. HTML e CSS à mão, sem framework, que era a restrição.",
-      "{page}. HTML y CSS a mano, sin framework, que era la restricción.",
-    ),
-    items: [],
-  },
   burger: {
     altTemplate: t3(
-      "{page} page of a menu site built with PHP includes.",
-      "Página de {page} de um site de cardápio feito com includes em PHP.",
-      "Página de {page} de un sitio de menú hecho con includes en PHP.",
+      "{page} of a four-step ordering flow.",
+      "{page} de um fluxo de pedido em quatro passos.",
+      "{page} de un flujo de pedido en cuatro pasos.",
     ),
     captionTemplate: t3("{page}.", "{page}.", "{page}."),
     items: [
-      { src: burger01, page: t3("Burgers", "Hambúrgueres", "Hamburguesas") },
       {
-        src: burger05,
-        page: t3("Your order", "Seu pedido", "Tu pedido"),
+        src: burger01,
+        page: t3(
+          "Step one, pick the burger",
+          "Passo um, escolher o lanche",
+          "Paso uno, elegir la hamburguesa",
+        ),
         note: t3(
-          "The order survives the jump between pages, which was the whole exercise.",
-          "O pedido sobrevive ao pulo entre páginas, que era o exercício inteiro.",
-          "El pedido sobrevive al salto entre páginas, que era todo el ejercicio.",
+          "Four steps with a progress indicator. Each choice has to survive the next page.",
+          "Quatro passos com indicador de progresso. Cada escolha precisa sobreviver à próxima página.",
+          "Cuatro pasos con indicador de progreso. Cada elección tiene que sobrevivir a la página siguiente.",
+        ),
+      },
+      {
+        src: burger02,
+        page: t3("The order summary", "O resumo do pedido", "El resumen del pedido"),
+        note: t3(
+          "Anything skipped shows as not chosen rather than silently disappearing.",
+          "O que foi pulado aparece como não escolhido em vez de sumir em silêncio.",
+          "Lo omitido aparece como no elegido en vez de desaparecer en silencio.",
         ),
       },
     ],
   },
   dive: {
     altTemplate: t3(
-      "{page} page of a dive school site sharing one header and footer.",
-      "Página de {page} de um site de escola de mergulho com header e footer compartilhados.",
-      "Página de {page} de un sitio de escuela de buceo con header y footer compartidos.",
+      "{page} of a dive school site.",
+      "{page} de um site de escola de mergulho.",
+      "{page} de un sitio de escuela de buceo.",
     ),
     captionTemplate: t3("{page}.", "{page}.", "{page}."),
     items: [
       { src: dive01, page: t3("Home", "Home", "Home") },
-      { src: dive02, page: t3("History", "História", "Historia") },
+      {
+        src: dive02,
+        page: t3(
+          "A short history of the sport",
+          "Uma breve história do esporte",
+          "Una breve historia del deporte",
+        ),
+        note: t3(
+          "A dated timeline running from 1535, written rather than filled with placeholder text.",
+          "Uma linha do tempo datada começando em 1535, escrita de verdade e não preenchida com texto de rascunho.",
+          "Una línea de tiempo fechada desde 1535, escrita de verdad y no rellenada con texto de relleno.",
+        ),
+      },
       { src: dive03, page: t3("Gallery", "Galeria", "Galería") },
     ],
   },
   reel: {
     altTemplate: t3(
-      "{page} page of a film reference site with one page per subject.",
-      "Página de {page} de um site de referência de cinema com uma página por pessoa.",
-      "Página de {page} de un sitio de referencia de cine con una página por persona.",
+      "{page} of a film reference site.",
+      "{page} de um site de referência de cinema.",
+      "{page} de un sitio de referencia de cine.",
     ),
     captionTemplate: t3("{page}.", "{page}.", "{page}."),
     items: [
-      { src: reel01, page: t3("Home", "Home", "Home") },
-      { src: reel02, page: t3("Bruce Lee", "Bruce Lee", "Bruce Lee") },
-      { src: reel03, page: t3("Jackie Chan", "Jackie Chan", "Jackie Chan") },
+      {
+        src: reel01,
+        page: t3("Home", "Home", "Home"),
+        note: t3(
+          "Six performers, each with their own page. The layout repeats so the site reads as one thing.",
+          "Seis artistas, cada um com a própria página. O layout se repete, então o site lê como uma coisa só.",
+          "Seis artistas, cada uno con su página. El layout se repite, así el sitio se lee como una sola cosa.",
+        ),
+      },
+      {
+        src: reel02,
+        page: t3("A performer profile", "Um perfil de artista", "Un perfil de artista"),
+        note: t3(
+          "Biography plus a dated filmography, both written rather than borrowed.",
+          "Biografia mais filmografia datada, as duas escritas e não emprestadas.",
+          "Biografía más filmografía fechada, ambas escritas y no prestadas.",
+        ),
+      },
+      { src: reel03, page: t3("A second profile", "Um segundo perfil", "Un segundo perfil") },
+    ],
+  },
+  driver: {
+    altTemplate: t3(
+      "{page} of the driver app, on a phone.",
+      "{page} do app do motorista, num celular.",
+      "{page} de la app del conductor, en un teléfono.",
+    ),
+    captionTemplate: t3("{page}.", "{page}.", "{page}."),
+    items: [
+      {
+        src: driver01,
+        page: t3("The route for the day", "A rota do dia", "La ruta del día"),
+        note: t3(
+          "Stops in optimised order, drawn on the map the driver navigates from.",
+          "Paradas na ordem otimizada, desenhadas no mapa por onde o motorista navega.",
+          "Paradas en orden optimizado, dibujadas en el mapa por donde navega el conductor.",
+        ),
+      },
+      {
+        src: driver02,
+        page: t3("Starting a run", "Começando a rota", "Iniciando la ruta"),
+        note: t3(
+          "Three checks before anything is marked in transit, because a run that starts wrong stays wrong.",
+          "Três checagens antes de qualquer coisa ser marcada em trânsito, porque rota que começa errada continua errada.",
+          "Tres verificaciones antes de marcar nada en tránsito, porque una ruta que empieza mal sigue mal.",
+        ),
+      },
+      {
+        src: driver03,
+        page: t3("Proof of delivery", "Comprovante de entrega", "Comprobante de entrega"),
+        note: t3(
+          "Scan the parcels first. Name, signature and photo are optional, the scan is not.",
+          "Ler os volumes primeiro. Nome, assinatura e foto são opcionais, a leitura não.",
+          "Escanear los bultos primero. Nombre, firma y foto son opcionales, el escaneo no.",
+        ),
+      },
+      { src: driver04, page: t3("Settings", "Ajustes", "Ajustes") },
     ],
   },
 } satisfies Record<string, GalleryGroup>;

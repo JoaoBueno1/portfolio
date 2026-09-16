@@ -104,7 +104,7 @@ export const PROJECTS: readonly Project[] = [
     status: "live",
     period: { from: "2025-06" },
     stack: ["typescript", "react", "expo", "supabase", "googlemaps", "sentry"],
-    shots: [],
+    shots: gallery("driver"),
     metrics: [
       { value: "15", label: { en: "screens", pt: "telas", es: "pantallas" } },
       {
@@ -297,57 +297,98 @@ export const PROJECTS: readonly Project[] = [
     },
   },
   {
-    slug: "db-apps",
-    name: "Database-Backed Web Apps",
+    slug: "ufo-archive",
+    name: "Sightings Archive",
     order: 6,
     domain: "academic",
     status: "study",
     period: { from: "2025-08", to: "2026-05" },
     stack: ["php", "mysql", "sql", "javascript"],
-    shots: [...gallery("starwars"), ...gallery("ufo")],
+    shots: gallery("ufo"),
     metrics: [
       {
         value: "80,126",
-        label: {
-          en: "records in the larger one",
-          pt: "registros no maior deles",
-          es: "registros en el mayor de ellos",
-        },
+        label: { en: "records loaded", pt: "registros carregados", es: "registros cargados" },
       },
       {
-        value: "9",
+        value: "802",
         label: {
-          en: "linked tables in the other",
-          pt: "tabelas ligadas no outro",
-          es: "tablas enlazadas en el otro",
+          en: "pages, paginated server side",
+          pt: "páginas, paginadas no servidor",
+          es: "páginas, paginadas en el servidor",
         },
       },
       {
         value: "bcrypt",
+        label: { en: "password hashing", pt: "hash de senha", es: "hash de contraseña" },
+      },
+    ],
+    copy: {
+      en: {
+        tagline: "Eighty thousand public records, and an admin who can correct them",
+        summary:
+          "A public dataset loaded into MySQL and served as a readable table. Behind a login an administrator adds, edits, resolves and deletes records, and passwords are hashed rather than stored. The interesting part was never the CRUD. It was making eighty thousand rows readable, which meant paginating on the server instead of sending every row to the browser and hoping.",
+        role: "Diploma of Information Technology, Queensland.",
+      },
+      pt: {
+        tagline: "Oitenta mil registros públicos, e um admin que pode corrigi-los",
+        summary:
+          "Um dataset público carregado no MySQL e servido como tabela legível. Atrás de um login, um administrador acrescenta, edita, resolve e apaga registro, e a senha é hasheada em vez de guardada. A parte interessante nunca foi o CRUD. Foi tornar oitenta mil linhas legíveis, o que exigiu paginar no servidor em vez de mandar toda linha para o browser e torcer.",
+        role: "Diploma of Information Technology, Queensland.",
+      },
+      es: {
+        tagline: "Ochenta mil registros públicos, y un admin que puede corregirlos",
+        summary:
+          "Un dataset público cargado en MySQL y servido como tabla legible. Detrás de un login, un administrador agrega, edita, resuelve y borra registros, y la contraseña se hashea en vez de guardarse. La parte interesante nunca fue el CRUD. Fue hacer legibles ochenta mil filas, lo que exigió paginar en el servidor en vez de mandar cada fila al navegador y cruzar los dedos.",
+        role: "Diploma of Information Technology, Queensland.",
+      },
+    },
+  },
+  {
+    slug: "trilogy-archive",
+    name: "Original Trilogy Archive",
+    order: 7,
+    domain: "academic",
+    status: "study",
+    period: { from: "2025-08", to: "2026-05" },
+    stack: ["php", "mysql", "sql", "javascript"],
+    shots: gallery("starwars"),
+    metrics: [
+      { value: "9", label: { en: "linked tables", pt: "tabelas ligadas", es: "tablas enlazadas" } },
+      {
+        value: "1",
         label: {
-          en: "password hashing in both",
-          pt: "hash de senha nos dois",
-          es: "hash de contraseña en ambos",
+          en: "shared connection function",
+          pt: "função de conexão compartilhada",
+          es: "función de conexión compartida",
+        },
+      },
+      {
+        value: "admin",
+        label: {
+          en: "area for maintaining records",
+          pt: "área para manter registros",
+          es: "área para mantener registros",
         },
       },
     ],
     copy: {
       en: {
-        tagline: "Two applications with login, an admin area and a real dataset behind them",
+        tagline: "Nine linked sections over one schema, with an admin area behind them",
         summary:
-          "One is a reference archive where every section reads from its own table through a single connection function, with an admin area to maintain the records and a summary page that counts rows per table, which is how you notice an import stopped half way. The other loads eighty thousand public records and paginates them on the server rather than sending every row to the browser. Both hash passwords instead of storing them.",
+          "Every section reads from its own table through one shared connection function, so adding a section means adding a table and a page rather than rewriting the site. An admin area maintains the records, and the summary page switches between films with tabs that never reload. The page I used most was that summary, because a row count per table is how you notice an import stopped half way.",
         role: "Diploma of Information Technology, Queensland.",
       },
       pt: {
-        tagline: "Duas aplicações com login, área de admin e um dataset real por trás",
+        tagline: "Nove seções ligadas sobre um schema, com área de admin atrás",
         summary:
-          "Uma é um arquivo de consulta em que cada seção lê da própria tabela por uma única função de conexão, com área de admin para manter os registros e uma página de resumo que conta linha por tabela, que é como se percebe importação que parou no meio. A outra carrega oitenta mil registros públicos e pagina no servidor em vez de mandar toda linha para o browser. As duas hasheiam senha em vez de guardar.",
+          "Cada seção lê da própria tabela por uma função de conexão compartilhada, então acrescentar uma seção é acrescentar uma tabela e uma página, não reescrever o site. Uma área de admin mantém os registros, e a página de resumo troca entre filmes com abas que nunca recarregam. A página que eu mais usava era esse resumo, porque contagem de linha por tabela é como se percebe importação que parou no meio.",
         role: "Diploma of Information Technology, Queensland.",
       },
       es: {
-        tagline: "Dos aplicaciones con login, área de admin y un dataset real detrás",
+        tagline: "Nueve secciones enlazadas sobre un esquema, con área de admin detrás",
         summary:
-          "Una es un archivo de consulta donde cada sección lee de su propia tabla mediante una única función de conexión, con área de admin para mantener los registros y una página de resumen que cuenta filas por tabla, que es como se nota una importación a medias. La otra carga ochenta mil registros públicos y pagina en el servidor en vez de mandar cada fila al navegador. Ambas hashean la contraseña en vez de guardarla.",
+          "Cada sección lee de su propia tabla mediante una función de conexión compartida, así que agregar una sección es agregar una tabla y una página, no reescribir el sitio. Un área de admin mantiene los registros, y la página de resumen cambia entre películas con pestañas que nunca recargan. La página que más usaba era ese resumen, porque un conteo de filas por tabla es como se nota una importación a medias.",
         role: "Diploma of Information Technology, Queensland.",
       },
     },
@@ -481,21 +522,21 @@ export const PROJECTS: readonly Project[] = [
     },
   },
   {
-    slug: "content-sites",
-    name: "Content and Reference Sites",
+    slug: "order-flow",
+    name: "Multi-Step Order Flow",
     order: 11,
     domain: "academic",
     status: "study",
-    period: { from: "2025-08", to: "2025-12" },
+    period: { from: "2025-08", to: "2026-05" },
     stack: ["php", "javascript", "sql"],
-    shots: [...gallery("reel"), ...gallery("dive"), ...gallery("burger")],
+    shots: gallery("burger"),
     metrics: [
       {
-        value: "3",
+        value: "4",
         label: {
-          en: "sites on one include structure",
-          pt: "sites sobre uma estrutura de include",
-          es: "sitios sobre una estructura de include",
+          en: "steps, with progress shown",
+          pt: "passos, com progresso à vista",
+          es: "pasos, con progreso a la vista",
         },
       },
       {
@@ -509,24 +550,113 @@ export const PROJECTS: readonly Project[] = [
     ],
     copy: {
       en: {
-        tagline:
-          "Editorial layouts, a timeline, a gallery, and an order that survives the next click",
+        tagline: "An order built across four pages, and it has to survive every jump",
         summary:
-          "Three sites on the same include structure and three very different jobs. One profiles six performers, each with a biography and a dated filmography. One explains a sport, with a history timeline and a photo gallery. The third is a menu where you build an order across four steps, which is the one that taught the most, because the order has to survive the jump between pages and that means session state rather than a page that only looks right.",
+          "A menu where the order is assembled one step at a time: main, side, drink, dessert, then a summary. It looks simple and it is the one that taught the most, because a choice made on page one has to still be there on page four. That is session state, not a page that merely looks right, and anything skipped has to show as not chosen rather than quietly vanish.",
         role: "Diploma of Information Technology, Queensland.",
       },
       pt: {
-        tagline:
-          "Layout editorial, uma linha do tempo, uma galeria, e um pedido que sobrevive ao próximo clique",
+        tagline: "Um pedido montado em quatro páginas, e ele precisa sobreviver a cada pulo",
         summary:
-          "Três sites sobre a mesma estrutura de include e três trabalhos bem diferentes. Um perfila seis artistas, cada um com biografia e filmografia datada. Outro explica um esporte, com linha do tempo histórica e galeria de fotos. O terceiro é um cardápio em que o pedido se monta em quatro passos, e foi o que mais ensinou, porque o pedido precisa sobreviver ao pulo entre páginas, e isso é estado de sessão, não página que só parece certa.",
+          "Um cardápio em que o pedido se monta um passo por vez: principal, acompanhamento, bebida, sobremesa, e então o resumo. Parece simples e foi o que mais ensinou, porque uma escolha feita na página um precisa continuar lá na página quatro. Isso é estado de sessão, não página que só parece certa, e o que foi pulado precisa aparecer como não escolhido em vez de sumir calado.",
         role: "Diploma of Information Technology, Queensland.",
       },
       es: {
-        tagline:
-          "Diseño editorial, una línea de tiempo, una galería, y un pedido que sobrevive al siguiente clic",
+        tagline: "Un pedido armado en cuatro páginas, y tiene que sobrevivir a cada salto",
         summary:
-          "Tres sitios sobre la misma estructura de include y tres trabajos muy distintos. Uno perfila a seis artistas, cada uno con biografía y filmografía fechada. Otro explica un deporte, con línea de tiempo histórica y galería de fotos. El tercero es un menú donde el pedido se arma en cuatro pasos, y fue el que más enseñó, porque el pedido tiene que sobrevivir al salto entre páginas, y eso es estado de sesión, no una página que solo parece correcta.",
+          "Un menú donde el pedido se arma paso a paso: principal, acompañamiento, bebida, postre, y luego el resumen. Parece simple y fue el que más enseñó, porque una elección hecha en la página uno tiene que seguir ahí en la página cuatro. Eso es estado de sesión, no una página que solo parece correcta, y lo omitido tiene que aparecer como no elegido en vez de desaparecer callado.",
+        role: "Diploma of Information Technology, Queensland.",
+      },
+    },
+  },
+  {
+    slug: "dive-school",
+    name: "Dive School Site",
+    order: 12,
+    domain: "academic",
+    status: "study",
+    period: { from: "2025-08", to: "2026-05" },
+    stack: ["php", "javascript"],
+    shots: gallery("dive"),
+    metrics: [
+      {
+        value: "1535",
+        label: {
+          en: "earliest entry on the timeline",
+          pt: "entrada mais antiga da linha do tempo",
+          es: "entrada más antigua de la línea de tiempo",
+        },
+      },
+      {
+        value: "4",
+        label: {
+          en: "pages sharing one header and footer",
+          pt: "páginas com header e footer comuns",
+          es: "páginas con header y footer comunes",
+        },
+      },
+    ],
+    copy: {
+      en: {
+        tagline: "A written site, not a filled-in template",
+        summary:
+          "Four pages for a dive school: what the sport is, a history that runs from a diving bell in 1535 to the modern regulator, a photo gallery and a contact page with a map. Every word on it was written for the brief. It is the difference between a site that is finished and a site that is laid out.",
+        role: "Diploma of Information Technology, Queensland.",
+      },
+      pt: {
+        tagline: "Um site escrito, não um template preenchido",
+        summary:
+          "Quatro páginas para uma escola de mergulho: o que é o esporte, uma história que vai de um sino de mergulho em 1535 até o regulador moderno, uma galeria de fotos e um contato com mapa. Cada palavra foi escrita para o briefing. É a diferença entre um site pronto e um site diagramado.",
+        role: "Diploma of Information Technology, Queensland.",
+      },
+      es: {
+        tagline: "Un sitio escrito, no una plantilla rellenada",
+        summary:
+          "Cuatro páginas para una escuela de buceo: qué es el deporte, una historia que va de una campana de buceo en 1535 hasta el regulador moderno, una galería de fotos y un contacto con mapa. Cada palabra fue escrita para el brief. Es la diferencia entre un sitio terminado y un sitio maquetado.",
+        role: "Diploma of Information Technology, Queensland.",
+      },
+    },
+  },
+  {
+    slug: "film-reference",
+    name: "Film Reference Site",
+    order: 13,
+    domain: "academic",
+    status: "study",
+    period: { from: "2025-08", to: "2026-05" },
+    stack: ["php", "javascript"],
+    shots: gallery("reel"),
+    metrics: [
+      {
+        value: "6",
+        label: {
+          en: "profiles, one page each",
+          pt: "perfis, uma página cada",
+          es: "perfiles, una página cada uno",
+        },
+      },
+      {
+        value: "filmography",
+        label: { en: "dated, per person", pt: "datada, por pessoa", es: "fechada, por persona" },
+      },
+    ],
+    copy: {
+      en: {
+        tagline: "Six profiles, each with a biography and a dated filmography",
+        summary:
+          "An editorial layout over a repeated structure: one page per performer, a written biography, and a filmography listed by year. The header carries the active state so you always know where you are. It is the most finished of the static sites, and the one where the writing does as much work as the CSS.",
+        role: "Diploma of Information Technology, Queensland.",
+      },
+      pt: {
+        tagline: "Seis perfis, cada um com biografia e filmografia datada",
+        summary:
+          "Um layout editorial sobre uma estrutura repetida: uma página por artista, biografia escrita e filmografia listada por ano. O cabeçalho carrega o estado ativo, então você sempre sabe onde está. É o mais acabado dos sites estáticos, e aquele em que o texto trabalha tanto quanto o CSS.",
+        role: "Diploma of Information Technology, Queensland.",
+      },
+      es: {
+        tagline: "Seis perfiles, cada uno con biografía y filmografía fechada",
+        summary:
+          "Un diseño editorial sobre una estructura repetida: una página por artista, biografía escrita y filmografía listada por año. La cabecera lleva el estado activo, así siempre sabes dónde estás. Es el más terminado de los sitios estáticos, y aquel donde el texto trabaja tanto como el CSS.",
         role: "Diploma of Information Technology, Queensland.",
       },
     },

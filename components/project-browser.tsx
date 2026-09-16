@@ -78,60 +78,82 @@ function Gallery({ item, labels }: { item: ProjectView; labels: Labels }) {
 
   return (
     <div className="relative border-b border-line">
-      {/* A CAPTURA INTEIRA, NUNCA CORTADA.
-          As telas aqui vao de 0.56 (celular em pe) a 2.77 (manifesto largo).
-          Um contentor de proporcao fixa com `object-cover` corta TODAS elas,
-          e numa captura de sistema o que se corta e justamente a barra de
-          navegacao ou o rodape da tabela, que e a parte que prova o que a
-          tela faz. Aqui a altura e limitada e a imagem se contem dentro
-          dela, entao cada uma aparece na propria forma. */}
-      <div className="flex max-h-[58vh] w-full items-center justify-center overflow-hidden bg-sunken">
-        <Image
-          src={shot.src}
-          alt={shot.alt}
-          className="max-h-[58vh] w-auto max-w-full object-contain"
-          sizes="56rem"
-          priority={index === 0}
-        />
-        {item.shots.length > 1 && (
-          <>
-            <button
-              type="button"
-              onClick={() => step(-1)}
-              aria-label={labels.previousShot}
-              className="absolute top-1/2 left-3 grid size-8 -translate-y-1/2 place-items-center rounded-full border border-line bg-canvas/90 text-ink-muted backdrop-blur-sm hover:text-ink"
+      {/* A CAPTURA INTEIRA, E A PAGINA INTEIRA.
+
+          Duas coisas diferentes davam a MESMA impressao de corte:
+          1. a captura nascia cortada, porque eu fotografava so a area visivel
+             de 900px e a pagina era mais alta, entao a tabela terminava no
+             meio de uma linha. Agora e captura de pagina inteira;
+          2. o contentor tinha proporcao fixa com `object-cover`.
+
+          E RETRATO NAO E PAISAGEM. Captura de celular tem 0,46 de proporcao:
+          esticada na largura da moldura ela vira uma tira de 1942px de altura
+          e o visitante rola tres telas para ver um aparelho. Entao a decisao
+          sai da PROPRIA imagem, que o import estatico ja descreve: em pe,
+          encaixa pela altura e centraliza; deitada, ocupa a largura e rola se
+          a pagina for longa. */}
+      {(() => {
+        const portrait = shot.src.height > shot.src.width;
+        return (
+          <div
+            className={`max-h-[58vh] w-full bg-sunken ${
+              portrait
+                ? "flex justify-center overflow-hidden py-3"
+                : "overflow-y-auto overscroll-contain"
+            }`}
+          >
+            <Image
+              src={shot.src}
+              alt={shot.alt}
+              className={portrait ? "max-h-[54vh] w-auto object-contain" : "h-auto w-full"}
+              sizes={portrait ? "20rem" : "56rem"}
+              priority={index === 0}
+            />
+          </div>
+        );
+      })()}
+
+      {/* As setas ficam POR CIMA da moldura, nao dentro dela: a moldura agora
+          rola, e botao dentro de area que rola sai da tela junto com o
+          conteudo. */}
+      {item.shots.length > 1 && (
+        <>
+          <button
+            type="button"
+            onClick={() => step(-1)}
+            aria-label={labels.previousShot}
+            className="absolute top-[29%] left-3 z-10 grid size-8 place-items-center rounded-full border border-line bg-canvas/90 text-ink-muted shadow-sm backdrop-blur-sm hover:text-ink"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              className="size-4"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.8"
+              aria-hidden="true"
             >
-              <svg
-                viewBox="0 0 24 24"
-                className="size-4"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.8"
-                aria-hidden="true"
-              >
-                <path d="M15 5l-7 7 7 7" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            </button>
-            <button
-              type="button"
-              onClick={() => step(1)}
-              aria-label={labels.nextShot}
-              className="absolute top-1/2 right-3 grid size-8 -translate-y-1/2 place-items-center rounded-full border border-line bg-canvas/90 text-ink-muted backdrop-blur-sm hover:text-ink"
+              <path d="M15 5l-7 7 7 7" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </button>
+          <button
+            type="button"
+            onClick={() => step(1)}
+            aria-label={labels.nextShot}
+            className="absolute top-[29%] right-3 z-10 grid size-8 place-items-center rounded-full border border-line bg-canvas/90 text-ink-muted shadow-sm backdrop-blur-sm hover:text-ink"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              className="size-4"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.8"
+              aria-hidden="true"
             >
-              <svg
-                viewBox="0 0 24 24"
-                className="size-4"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.8"
-                aria-hidden="true"
-              >
-                <path d="M9 5l7 7-7 7" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            </button>
-          </>
-        )}
-      </div>
+              <path d="M9 5l7 7-7 7" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </button>
+        </>
+      )}
 
       <div className="flex flex-col gap-3 px-5 py-3">
         <p className="text-xs leading-relaxed text-ink-muted">{shot.caption}</p>
