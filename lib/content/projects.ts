@@ -1,3 +1,4 @@
+import { gallery } from "./galleries";
 import { SHOTS } from "./shots";
 import { studyShots } from "./shots-study";
 import type { Project } from "./types";
@@ -247,7 +248,7 @@ export const PROJECTS: readonly Project[] = [
     status: "study",
     period: { from: "2026-03", to: "2026-04" },
     stack: ["php", "mysql", "sql", "chartjs"],
-    shots: studyShots("dwh"),
+    shots: gallery("dwh"),
     metrics: [
       {
         value: "1 + 6",
@@ -304,7 +305,7 @@ export const PROJECTS: readonly Project[] = [
     status: "study",
     period: { from: "2026-04", to: "2026-05" },
     stack: ["php", "mysql", "sql", "javascript"],
-    shots: studyShots("ufo"),
+    shots: gallery("ufo"),
     metrics: [
       {
         value: "80,126",
@@ -352,7 +353,7 @@ export const PROJECTS: readonly Project[] = [
     status: "study",
     period: { from: "2025-08", to: "2025-10" },
     stack: ["php", "mysql", "sql", "javascript"],
-    shots: studyShots("starwars"),
+    shots: gallery("starwars"),
     metrics: [
       {
         value: "9",
@@ -529,14 +530,66 @@ export const PROJECTS: readonly Project[] = [
     },
   },
   {
+    slug: "php-template-sites",
+    name: "Template-Driven PHP Sites",
+    order: 11,
+    domain: "academic",
+    status: "study",
+    period: { from: "2025-08", to: "2025-12" },
+    stack: ["php", "javascript", "sql"],
+    shots: [...gallery("burger"), ...gallery("dive"), ...gallery("reel")],
+    metrics: [
+      {
+        value: "3",
+        label: {
+          en: "sites on one structure",
+          pt: "sites sobre uma estrutura",
+          es: "sitios sobre una estructura",
+        },
+      },
+      {
+        value: "16",
+        label: { en: "pages in total", pt: "páginas no total", es: "páginas en total" },
+      },
+      {
+        value: "session",
+        label: {
+          en: "state carried between pages",
+          pt: "estado levado entre páginas",
+          es: "estado llevado entre páginas",
+        },
+      },
+    ],
+    copy: {
+      en: {
+        tagline: "The same include structure, three different businesses",
+        summary:
+          "A menu with a running order, a dive school and a film reference site, all built on the same shape: one header, one footer, one page per section, and the content swapped underneath. The menu is the one that taught the most, because the order has to survive the jump from page to page, and that means session state rather than a page that only looks right.",
+        role: "Diploma of Information Technology, Queensland.",
+      },
+      pt: {
+        tagline: "A mesma estrutura de include, três negócios diferentes",
+        summary:
+          "Um cardápio com pedido em andamento, uma escola de mergulho e um site de referência de cinema, todos sobre a mesma forma: um header, um footer, uma página por seção, e o conteúdo trocado por baixo. O cardápio foi o que mais ensinou, porque o pedido precisa sobreviver ao pulo de uma página para outra, e isso é estado de sessão, não página que só parece certa.",
+        role: "Diploma of Information Technology, Queensland.",
+      },
+      es: {
+        tagline: "La misma estructura de include, tres negocios distintos",
+        summary:
+          "Un menú con pedido en curso, una escuela de buceo y un sitio de referencia de cine, todos sobre la misma forma: un header, un footer, una página por sección, y el contenido cambiado por debajo. El menú fue el que más enseñó, porque el pedido tiene que sobrevivir al salto de una página a otra, y eso es estado de sesión, no una página que solo parece correcta.",
+        role: "Diploma of Information Technology, Queensland.",
+      },
+    },
+  },
+  {
     slug: "client-sites",
     name: "Client Websites",
-    order: 11,
+    order: 12,
     domain: "academic",
     status: "study",
     period: { from: "2025-08", to: "2026-02" },
     stack: ["javascript", "php"],
-    shots: studyShots("sites"),
+    shots: [...gallery("escape"), ...gallery("marvel")],
     metrics: [
       {
         value: "13",
