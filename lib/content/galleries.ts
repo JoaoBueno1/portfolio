@@ -2,6 +2,9 @@ import an01 from "@/public/screenshots/g-an-01.webp";
 import an02 from "@/public/screenshots/g-an-02.webp";
 import burger01 from "@/public/screenshots/g-burger-01.webp";
 import burger02 from "@/public/screenshots/g-burger-02.webp";
+import burger03 from "@/public/screenshots/g-burger-03.webp";
+import burger04 from "@/public/screenshots/g-burger-04.webp";
+import burger05 from "@/public/screenshots/g-burger-05.webp";
 import dive01 from "@/public/screenshots/g-dive-01.webp";
 import dive02 from "@/public/screenshots/g-dive-02.webp";
 import dive03 from "@/public/screenshots/g-dive-03.webp";
@@ -16,16 +19,16 @@ import dwh03 from "@/public/screenshots/g-dwh-03.webp";
 import dwh04 from "@/public/screenshots/g-dwh-04.webp";
 import dwh05 from "@/public/screenshots/g-dwh-05.webp";
 import dwh06 from "@/public/screenshots/g-dwh-06.webp";
-import linux01 from "@/public/screenshots/g-linux-01.webp";
-import linux02 from "@/public/screenshots/g-linux-02.webp";
-import linux03 from "@/public/screenshots/g-linux-03.webp";
-import linux04 from "@/public/screenshots/g-linux-04.webp";
-import linux05 from "@/public/screenshots/g-linux-05.webp";
-import linux06 from "@/public/screenshots/g-linux-06.webp";
-import linux07 from "@/public/screenshots/g-linux-07.webp";
-import linux08 from "@/public/screenshots/g-linux-08.webp";
+import linux01 from "@/public/screenshots/g-linux-02.webp";
+import linux02 from "@/public/screenshots/g-linux-03.webp";
+import linux03 from "@/public/screenshots/g-linux-04.webp";
+import linux04 from "@/public/screenshots/g-linux-05.webp";
+import linux05 from "@/public/screenshots/g-linux-06.webp";
+import linux06 from "@/public/screenshots/g-linux-07.webp";
+import linux07 from "@/public/screenshots/g-linux-08.webp";
 import portal01 from "@/public/screenshots/g-portal-01.webp";
 import portal02 from "@/public/screenshots/g-portal-02.webp";
+import portal03 from "@/public/screenshots/g-portal-03.webp";
 import reel01 from "@/public/screenshots/g-reel-01.webp";
 import reel02 from "@/public/screenshots/g-reel-02.webp";
 import reel03 from "@/public/screenshots/g-reel-03.webp";
@@ -184,24 +187,41 @@ export const GALLERIES = {
     items: [
       {
         src: burger01,
-        page: t3(
-          "Step one, pick the burger",
-          "Passo um, escolher o lanche",
-          "Paso uno, elegir la hamburguesa",
-        ),
+        page: t3("Step one, the main", "Passo um, o principal", "Paso uno, el principal"),
         note: t3(
-          "Four steps with a progress indicator. Each choice has to survive the next page.",
-          "Quatro passos com indicador de progresso. Cada escolha precisa sobreviver à próxima página.",
-          "Cuatro pasos con indicador de progreso. Cada elección tiene que sobrevivir a la página siguiente.",
+          "Four steps with the progress shown at the top. Each choice has to survive the next page.",
+          "Quatro passos com o progresso no topo. Cada escolha precisa sobreviver à próxima página.",
+          "Cuatro pasos con el progreso arriba. Cada elección tiene que sobrevivir a la página siguiente.",
         ),
       },
       {
         src: burger02,
+        page: t3(
+          "Step two, the side",
+          "Passo dois, o acompanhamento",
+          "Paso dos, el acompañamiento",
+        ),
+        note: t3(
+          "Back and next both work, and going back must not lose what was already chosen.",
+          "Voltar e avançar funcionam, e voltar não pode perder o que já foi escolhido.",
+          "Atrás y siguiente funcionan, y volver no puede perder lo ya elegido.",
+        ),
+      },
+      {
+        src: burger03,
+        page: t3("Step three, the drink", "Passo três, a bebida", "Paso tres, la bebida"),
+      },
+      {
+        src: burger04,
+        page: t3("Step four, the dessert", "Passo quatro, a sobremesa", "Paso cuatro, el postre"),
+      },
+      {
+        src: burger05,
         page: t3("The order summary", "O resumo do pedido", "El resumen del pedido"),
         note: t3(
-          "Anything skipped shows as not chosen rather than silently disappearing.",
-          "O que foi pulado aparece como não escolhido em vez de sumir em silêncio.",
-          "Lo omitido aparece como no elegido en vez de desaparecer en silencio.",
+          "Anything skipped reads as not chosen rather than quietly disappearing, which is the difference between a form and a record.",
+          "O que foi pulado aparece como não escolhido em vez de sumir calado, que é a diferença entre um formulário e um registro.",
+          "Lo omitido aparece como no elegido en vez de desaparecer callado, que es la diferencia entre un formulario y un registro.",
         ),
       },
     ],
@@ -317,10 +337,6 @@ export const GALLERIES = {
     items: [
       {
         src: linux01,
-        page: t3("Naming the server", "Nomeando o servidor", "Nombrando el servidor"),
-      },
-      {
-        src: linux02,
         page: t3(
           "Installing the file sharing service",
           "Instalando o serviço de compartilhamento",
@@ -333,7 +349,7 @@ export const GALLERIES = {
         ),
       },
       {
-        src: linux03,
+        src: linux02,
         page: t3("Fixing the time zone", "Consertando o fuso", "Arreglando la zona horaria"),
         note: t3(
           "The first attempt fails because the zone name is case sensitive. The screen keeps the failure and the fix together, which is the useful part.",
@@ -342,7 +358,7 @@ export const GALLERIES = {
         ),
       },
       {
-        src: linux04,
+        src: linux03,
         page: t3(
           "Writing the shares by hand",
           "Escrevendo os compartilhamentos à mão",
@@ -355,11 +371,11 @@ export const GALLERIES = {
         ),
       },
       {
-        src: linux05,
+        src: linux04,
         page: t3("Restarting the service", "Reiniciando o serviço", "Reiniciando el servicio"),
       },
       {
-        src: linux06,
+        src: linux05,
         page: t3(
           "Opening it from another machine",
           "Abrindo de outra máquina",
@@ -372,7 +388,7 @@ export const GALLERIES = {
         ),
       },
       {
-        src: linux07,
+        src: linux06,
         page: t3(
           "Installing the web server",
           "Instalando o servidor web",
@@ -380,7 +396,7 @@ export const GALLERIES = {
         ),
       },
       {
-        src: linux08,
+        src: linux07,
         page: t3(
           "Serving a page of my own",
           "Servindo uma página minha",
@@ -479,6 +495,11 @@ export const GALLERIES = {
       {
         src: portal01,
         page: t3("Signing in once", "Entrando uma vez", "Iniciando sesión una vez"),
+        note: t3(
+          "One door to the whole operation. The wordmark is blurred here; everything else is the real screen.",
+          "Uma porta para a operação inteira. A marca está borrada aqui; o resto é a tela real.",
+          "Una puerta a toda la operación. La marca está difuminada aquí; el resto es la pantalla real.",
+        ),
       },
       {
         src: portal02,
@@ -488,9 +509,22 @@ export const GALLERIES = {
           "Los módulos que puedes alcanzar",
         ),
         note: t3(
-          "Administration is shown greyed out rather than hidden. Hiding it makes people think it does not exist; greying it tells them who to ask.",
-          "A administração aparece apagada em vez de escondida. Esconder faz a pessoa achar que não existe; apagada diz a quem pedir.",
-          "La administración aparece atenuada en vez de oculta. Ocultarla hace pensar que no existe; atenuarla dice a quién pedir.",
+          "Two are separate systems reached by handoff, three live inside the portal, and the card says which. The difference changes what happens when you click.",
+          "Dois são sistemas separados alcançados por handoff, três vivem dentro do portal, e o card diz qual é qual. A diferença muda o que acontece no clique.",
+          "Dos son sistemas separados alcanzados por handoff, tres viven dentro del portal, y la tarjeta dice cuál es cuál. La diferencia cambia lo que pasa al hacer clic.",
+        ),
+      },
+      {
+        src: portal03,
+        page: t3(
+          "Asking across both systems",
+          "Perguntando aos dois sistemas",
+          "Preguntando a ambos sistemas",
+        ),
+        note: t3(
+          "Every category carries the roles allowed to ask it. The empty state is honest too: with no assistant configured, it says so instead of pretending.",
+          "Cada categoria carrega os papéis que podem perguntar. O estado vazio também é honesto: sem assistente configurado, ele avisa em vez de fingir.",
+          "Cada categoría lleva los roles que pueden preguntar. El estado vacío también es honesto: sin asistente configurado, lo dice en vez de fingir.",
         ),
       },
     ],
