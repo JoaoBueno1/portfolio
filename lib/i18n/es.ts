@@ -69,9 +69,8 @@ export const es: Dictionary = {
   },
   projects: {
     title: "Proyectos",
-    lead: "Haz clic en una tarjeta para abrirla.",
+    lead: "",
     inProduction: "Funcionando en producción",
-    building: "En construcción ahora",
     other: "Trabajo anterior y formación",
     close: "Cerrar",
     roleLabel: "Rol",
@@ -80,6 +79,9 @@ export const es: Dictionary = {
     previous: "Proyecto anterior",
     next: "Proyecto siguiente",
     previousShot: "Captura anterior",
+    zoom: "Abrir esta captura a tamaño real",
+    closeZoom: "Cerrar la vista a tamaño real",
+    shotPosition: "Captura {n} de {total}",
     nextShot: "Captura siguiente",
     shotCount: "Captura",
     status: {

@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ProjectBrowser } from "@/components/project-browser";
-import { HEADLINE_STATS } from "@/lib/content/profile";
 import { projectViews } from "@/lib/content/view";
 import { isLocale, LOCALES } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
@@ -41,30 +40,15 @@ export default async function ProjectsPage({ params }: PageProps<"/[locale]/proj
   return (
     <main id="main" className="flex min-h-svh flex-col justify-center px-6 py-12 lg:px-14 lg:py-16">
       <div className="max-w-5xl">
-        <h1 className="font-mono text-xs tracking-wide text-ink-faint uppercase">
+        <h1 className="text-3xl font-semibold tracking-tight text-balance sm:text-4xl lg:text-5xl">
           {t.projects.title}
         </h1>
-        <p className="mt-3 text-base text-ink">{t.projects.lead}</p>
 
-        {/* Os numeros vivem AQUI e nao no Sobre. No Sobre eles competiam com a
-            apresentacao; aqui eles dizem o tamanho do que esta logo abaixo. */}
-        <dl className="mt-6 grid grid-cols-2 gap-x-8 gap-y-4 border-y border-line py-5 sm:grid-cols-4">
-          {HEADLINE_STATS.map((stat) => (
-            <div key={stat.id}>
-              <dd className="font-mono text-xl font-semibold tracking-tight tabular-nums">
-                {stat.value}
-              </dd>
-              <dt className="mt-0.5 text-xs leading-snug text-ink-subtle">{t.stats[stat.id]}</dt>
-            </div>
-          ))}
-        </dl>
-
-        <div className="mt-8">
+        <div className="mt-10">
           <ProjectBrowser
             items={cards}
             labels={{
               inProduction: t.projects.inProduction,
-              building: t.projects.building,
               other: t.projects.other,
               close: t.projects.close,
               roleLabel: t.projects.roleLabel,
@@ -72,6 +56,9 @@ export default async function ProjectsPage({ params }: PageProps<"/[locale]/proj
               previous: t.projects.previous,
               next: t.projects.next,
               previousShot: t.projects.previousShot,
+              zoom: t.projects.zoom,
+              closeZoom: t.projects.closeZoom,
+              shotPosition: t.projects.shotPosition,
               nextShot: t.projects.nextShot,
               shotCount: t.projects.shotCount,
               status: t.projects.status,

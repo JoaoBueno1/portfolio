@@ -7,7 +7,6 @@ import type { ProjectView } from "@/lib/content/view";
 
 interface Labels {
   readonly inProduction: string;
-  readonly building: string;
   readonly other: string;
   readonly close: string;
   readonly roleLabel: string;
@@ -17,6 +16,9 @@ interface Labels {
   readonly previousShot: string;
   readonly nextShot: string;
   readonly shotCount: string;
+  readonly zoom: string;
+  readonly closeZoom: string;
+  readonly shotPosition: string;
   readonly status: Record<Status, string>;
   readonly domains: Record<Domain, string>;
   readonly noShot: string;
@@ -56,16 +58,49 @@ function StackBlock({ item, big }: { item: ProjectView; big?: boolean }) {
  */
 function Gallery({ item, labels }: { item: ProjectView; labels: Labels }) {
   const [index, setIndex] = useState(0);
+  const zoomRef = useRef<HTMLDialogElement>(null);
+  const [zoomed, setZoomed] = useState(false);
   const shot = item.shots[index];
+  const total = item.shots.length;
 
-  // Trocar de projeto tem que voltar a galeria para a primeira imagem, senao
-  // o proximo projeto abre na terceira tela sem motivo nenhum.
+  // Trocar de projeto volta a galeria para a primeira imagem e fecha a tela
+  // cheia, senao o proximo projeto abre na terceira tela sem motivo.
   // biome-ignore lint/correctness/useExhaustiveDependencies: o gatilho e a troca de projeto, e `item.slug` e exatamente isso.
   useEffect(() => {
     setIndex(0);
+    setZoomed(false);
   }, [item.slug]);
 
-  if (item.shots.length === 0) {
+  const step = useCallback(
+    (delta: number) => setIndex((c) => (c + delta + total) % total),
+    [total],
+  );
+
+  // AS SETAS DO TECLADO ANDAM ENTRE IMAGENS, e nao entre projetos. Quem esta
+  // olhando uma galeria aberta espera que a seta mostre a proxima TELA; pular
+  // para outro projeto ali seria perder o lugar sem pedir.
+  useEffect(() => {
+    if (total < 2) return;
+    function onKey(event: KeyboardEvent) {
+      if (event.key === "ArrowRight") step(1);
+      if (event.key === "ArrowLeft") step(-1);
+    }
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [step, total]);
+
+  // O dialogo de tela cheia e um `<dialog>` PROPRIO, empilhado sobre o do
+  // projeto. Dois dialogos nativos empilham de verdade: o Esc fecha o de
+  // cima, e o de baixo continua aberto atras, que e o comportamento que o
+  // visitante espera de um zoom.
+  useEffect(() => {
+    const dialog = zoomRef.current;
+    if (!dialog) return;
+    if (zoomed && !dialog.open) dialog.showModal();
+    if (!zoomed && dialog.open) dialog.close();
+  }, [zoomed]);
+
+  if (total === 0) {
     return (
       <div className="relative aspect-[16/8] w-full overflow-hidden border-b border-line bg-sunken">
         <StackBlock item={item} big />
@@ -73,28 +108,60 @@ function Gallery({ item, labels }: { item: ProjectView; labels: Labels }) {
     );
   }
 
-  const step = (delta: number) =>
-    setIndex((current) => (current + delta + item.shots.length) % item.shots.length);
+  const arrows = (size: "sm" | "lg") => (
+    <>
+      <button
+        type="button"
+        onClick={() => step(-1)}
+        aria-label={labels.previousShot}
+        className={`absolute top-1/2 left-3 z-10 grid -translate-y-1/2 place-items-center rounded-full border border-line bg-canvas/90 text-ink-muted shadow-sm backdrop-blur-sm transition-colors hover:text-ink ${size === "lg" ? "size-11" : "size-8"}`}
+      >
+        <svg
+          viewBox="0 0 24 24"
+          className={size === "lg" ? "size-5" : "size-4"}
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.8"
+          aria-hidden="true"
+        >
+          <path d="M15 5l-7 7 7 7" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      </button>
+      <button
+        type="button"
+        onClick={() => step(1)}
+        aria-label={labels.nextShot}
+        className={`absolute top-1/2 right-3 z-10 grid -translate-y-1/2 place-items-center rounded-full border border-line bg-canvas/90 text-ink-muted shadow-sm backdrop-blur-sm transition-colors hover:text-ink ${size === "lg" ? "size-11" : "size-8"}`}
+      >
+        <svg
+          viewBox="0 0 24 24"
+          className={size === "lg" ? "size-5" : "size-4"}
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.8"
+          aria-hidden="true"
+        >
+          <path d="M9 5l7 7-7 7" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      </button>
+    </>
+  );
+
+  const position = labels.shotPosition
+    .replace("{n}", String(index + 1))
+    .replace("{total}", String(total));
 
   return (
     <div className="relative border-b border-line">
-      {/* SEM ROLAGEM DENTRO DA MOLDURA, E SEM CORTE.
-
-          Tres tentativas ate acertar, e as duas que falharam valem registro:
-          `object-cover` numa proporcao fixa cortava a tela no meio de uma
-          linha da tabela; pagina inteira com rolagem mostrava tudo, mas a
-          imagem ficava ate quatro vezes mais alta que larga, encolhia para
-          caber e o texto virava borrao.
-
-          O que resolveu foi CAPTURAR diferente, nao exibir diferente: janela
-          de 1440x1120 em vez de 1440x900. Entra quase tudo que importa numa
-          proporcao de 0,78, que cabe inteira e continua legivel.
-
-          A moldura tem ALTURA FIXA e a imagem enche essa altura. Com
-          `w-auto` sozinho a imagem parava no tamanho do arquivo servido, que
-          e menor: ela aparecia a 750px numa area de 892px. `h-full` resolve,
-          e serve para retrato e paisagem com a mesma regra. */}
-      <div className="flex h-[62vh] w-full items-center justify-center bg-sunken">
+      {/* A imagem inteira cabe na moldura, sem corte e sem rolagem: a captura
+          e feita numa janela de 1440x1120, que da proporcao 0,78. Clicar abre
+          em tela cheia, para quem quiser ler o texto pequeno. */}
+      <button
+        type="button"
+        onClick={() => setZoomed(true)}
+        aria-label={labels.zoom}
+        className="group/zoom flex h-[62vh] w-full cursor-zoom-in items-center justify-center bg-sunken"
+      >
         <Image
           src={shot.src}
           alt={shot.alt}
@@ -102,53 +169,37 @@ function Gallery({ item, labels }: { item: ProjectView; labels: Labels }) {
           sizes="(max-width: 1024px) 100vw, 1000px"
           priority={index === 0}
         />
-      </div>
+        <span className="pointer-events-none absolute top-3 left-3 flex items-center gap-1.5 rounded-full bg-ink/70 px-2.5 py-1 text-xs text-ink-inverse opacity-0 transition-opacity group-hover/zoom:opacity-100">
+          <svg
+            viewBox="0 0 24 24"
+            className="size-3.5"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            aria-hidden="true"
+          >
+            <path
+              d="M9 4H4v5M15 4h5v5M9 20H4v-5M15 20h5v-5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+          {labels.zoom}
+        </span>
+      </button>
 
-      {/* As setas ficam POR CIMA da moldura, nao dentro dela: a moldura agora
-          rola, e botao dentro de area que rola sai da tela junto com o
-          conteudo. */}
-      {item.shots.length > 1 && (
-        <>
-          <button
-            type="button"
-            onClick={() => step(-1)}
-            aria-label={labels.previousShot}
-            className="absolute top-[29%] left-3 z-10 grid size-8 place-items-center rounded-full border border-line bg-canvas/90 text-ink-muted shadow-sm backdrop-blur-sm hover:text-ink"
-          >
-            <svg
-              viewBox="0 0 24 24"
-              className="size-4"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.8"
-              aria-hidden="true"
-            >
-              <path d="M15 5l-7 7 7 7" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          </button>
-          <button
-            type="button"
-            onClick={() => step(1)}
-            aria-label={labels.nextShot}
-            className="absolute top-[29%] right-3 z-10 grid size-8 place-items-center rounded-full border border-line bg-canvas/90 text-ink-muted shadow-sm backdrop-blur-sm hover:text-ink"
-          >
-            <svg
-              viewBox="0 0 24 24"
-              className="size-4"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.8"
-              aria-hidden="true"
-            >
-              <path d="M9 5l7 7-7 7" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          </button>
-        </>
-      )}
+      {total > 1 && arrows("sm")}
 
       <div className="flex flex-col gap-3 px-5 py-3">
-        <p className="text-xs leading-relaxed text-ink-muted">{shot.caption}</p>
-        {item.shots.length > 1 && (
+        <div className="flex items-baseline gap-3">
+          <p className="flex-1 text-xs leading-relaxed text-ink-muted">{shot.caption}</p>
+          {total > 1 && (
+            <span className="shrink-0 font-mono text-[0.625rem] text-ink-faint tabular-nums">
+              {position}
+            </span>
+          )}
+        </div>
+        {total > 1 && (
           <div className="flex items-center gap-2 overflow-x-auto pb-1">
             {item.shots.map((thumb, i) => (
               <button
@@ -172,6 +223,51 @@ function Gallery({ item, labels }: { item: ProjectView; labels: Labels }) {
           </div>
         )}
       </div>
+
+      {/* biome-ignore lint/a11y/useKeyWithClickEvents: o Esc do <dialog> nativo e o equivalente de teclado, tratado em onClose. */}
+      <dialog
+        ref={zoomRef}
+        onClose={() => setZoomed(false)}
+        onClick={(event) => {
+          if (event.target === zoomRef.current) setZoomed(false);
+        }}
+        className="m-0 h-dvh max-h-none w-screen max-w-none bg-ink/95 p-0 backdrop:bg-ink/80"
+      >
+        {zoomed && (
+          <div className="relative flex h-dvh w-screen flex-col items-center justify-center gap-4 px-14 py-12">
+            <Image
+              src={shot.src}
+              alt={shot.alt}
+              className="max-h-[82vh] w-auto max-w-full object-contain"
+              sizes="100vw"
+            />
+            <p className="max-w-3xl text-center text-sm text-ink-inverse/80">{shot.caption}</p>
+            {total > 1 && arrows("lg")}
+            <button
+              type="button"
+              onClick={() => setZoomed(false)}
+              aria-label={labels.closeZoom}
+              className="absolute top-5 right-5 grid size-10 place-items-center rounded-full border border-ink-inverse/25 text-ink-inverse/80 transition-colors hover:text-ink-inverse"
+            >
+              <svg
+                viewBox="0 0 24 24"
+                className="size-5"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.8"
+                aria-hidden="true"
+              >
+                <path d="M6 6l12 12M18 6L6 18" strokeLinecap="round" />
+              </svg>
+            </button>
+            {total > 1 && (
+              <span className="absolute top-6 left-6 font-mono text-xs text-ink-inverse/70 tabular-nums">
+                {position}
+              </span>
+            )}
+          </div>
+        )}
+      </dialog>
     </div>
   );
 }
@@ -246,8 +342,10 @@ export function ProjectBrowser({
 
   const open = index === null ? null : items[index];
 
-  const live = items.filter((i) => i.status === "live");
-  const building = items.filter((i) => i.status === "building");
+  // Producao e obra em curso na MESMA secao. O que distingue os dois ja e a
+  // pastilha e o ponto colorido dentro do card, e uma secao so para um item
+  // criava um degrau de hierarquia que nao existe na pratica.
+  const live = items.filter((i) => i.status === "live" || i.status === "building");
   const rest = items.filter((i) => i.status !== "live" && i.status !== "building");
 
   function openProject(slug: string) {
@@ -323,7 +421,6 @@ export function ProjectBrowser({
   return (
     <>
       {section(labels.inProduction, live, true)}
-      {section(labels.building, building)}
       {section(labels.other, rest)}
 
       {/* A regra useKeyWithClickEvents pede um equivalente de teclado para

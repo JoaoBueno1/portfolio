@@ -82,9 +82,8 @@ export const en = {
   },
   projects: {
     title: "Projects",
-    lead: "Click a card to open it.",
+    lead: "",
     inProduction: "Running in production",
-    building: "Being built now",
     other: "Earlier work and study",
     close: "Close",
     roleLabel: "Role",
@@ -93,6 +92,9 @@ export const en = {
     previous: "Previous project",
     next: "Next project",
     previousShot: "Previous screenshot",
+    zoom: "Open this screenshot full size",
+    closeZoom: "Close full size view",
+    shotPosition: "Screenshot {n} of {total}",
     nextShot: "Next screenshot",
     shotCount: "Screenshot",
     status: {
