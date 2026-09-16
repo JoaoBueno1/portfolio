@@ -240,49 +240,9 @@ export const PROJECTS: readonly Project[] = [
     },
   },
   {
-    slug: "van-booking",
-    name: "Van Booking Tool",
-    order: 5,
-    domain: "tools",
-    status: "shipped",
-    period: { from: "2024-11", to: "2024-11" },
-    stack: ["javascript", "express", "sqlite"],
-    shots: [],
-    metrics: [
-      {
-        value: "2024",
-        label: {
-          en: "the first thing I shipped",
-          pt: "a primeira coisa que entreguei",
-          es: "lo primero que entregué",
-        },
-      },
-    ],
-    copy: {
-      en: {
-        tagline: "Where all of this started",
-        summary:
-          "Still working on the warehouse floor, I built a small browser app on Node, Express and SQLite so van bookings stopped living in a spreadsheet two people edited at once. It ran on one machine and it was enough. Everything above is the same instinct with more years on it: watch the manual work, then delete it.",
-        role: "Built on my own initiative, alongside the warehouse job.",
-      },
-      pt: {
-        tagline: "Onde tudo isso começou",
-        summary:
-          "Ainda no chão de armazém, montei um app de navegador em Node, Express e SQLite para o agendamento das vans parar de viver numa planilha que duas pessoas editavam ao mesmo tempo. Rodava numa máquina só, e era suficiente. Tudo acima é o mesmo instinto com mais anos em cima: olhar o trabalho manual e apagar ele.",
-        role: "Feito por iniciativa própria, em paralelo ao trabalho de armazém.",
-      },
-      es: {
-        tagline: "Donde empezó todo esto",
-        summary:
-          "Todavía en el piso del almacén, armé una pequeña app de navegador en Node, Express y SQLite para que la reserva de furgonetas dejara de vivir en una hoja que dos personas editaban a la vez. Corría en una sola máquina y alcanzaba. Todo lo de arriba es el mismo instinto con más años encima: mirar el trabajo manual y borrarlo.",
-        role: "Hecho por iniciativa propia, junto al trabajo de almacén.",
-      },
-    },
-  },
-  {
     slug: "data-warehouse",
     name: "Sales Data Warehouse",
-    order: 6,
+    order: 5,
     domain: "academic",
     status: "study",
     period: { from: "2026-03", to: "2026-04" },
@@ -337,49 +297,105 @@ export const PROJECTS: readonly Project[] = [
     },
   },
   {
-    slug: "php-apps",
-    name: "Database-Backed Web Apps",
-    order: 7,
+    slug: "ufo-archive",
+    name: "Sightings Archive",
+    order: 6,
     domain: "academic",
     status: "study",
-    period: { from: "2025-08", to: "2026-05" },
+    period: { from: "2026-04", to: "2026-05" },
     stack: ["php", "mysql", "sql", "javascript"],
-    shots: studyShots("apps"),
+    shots: studyShots("ufo"),
     metrics: [
       {
-        value: "2",
+        value: "80,126",
+        label: { en: "records loaded", pt: "registros carregados", es: "registros cargados" },
+      },
+      {
+        value: "802",
         label: {
-          en: "full apps with their own admin",
-          pt: "apps completos com admin próprio",
-          es: "apps completas con admin propio",
+          en: "pages, paginated server side",
+          pt: "páginas, paginadas no servidor",
+          es: "páginas, paginadas en el servidor",
         },
       },
       {
         value: "bcrypt",
+        label: { en: "password hashing", pt: "hash de senha", es: "hash de contraseña" },
+      },
+    ],
+    copy: {
+      en: {
+        tagline: "Eighty thousand public records, and an admin who can correct them",
+        summary:
+          "A public dataset of sightings loaded into MySQL and served as a readable table. Behind a login, an administrator adds, edits, resolves and deletes records, and passwords are hashed rather than stored. The interesting part was never the CRUD. It was making eighty thousand rows readable, which meant paginating on the server instead of sending every row to the browser and hoping.",
+        role: "Diploma of Information Technology, Queensland.",
+      },
+      pt: {
+        tagline: "Oitenta mil registros públicos, e um admin que pode corrigi-los",
+        summary:
+          "Um dataset público de avistamentos carregado no MySQL e servido como tabela legível. Atrás de um login, um administrador acrescenta, edita, resolve e apaga registro, e a senha é hasheada em vez de guardada. A parte interessante nunca foi o CRUD. Foi tornar oitenta mil linhas legíveis, o que exigiu paginar no servidor em vez de mandar toda linha para o browser e torcer.",
+        role: "Diploma of Information Technology, Queensland.",
+      },
+      es: {
+        tagline: "Ochenta mil registros públicos, y un admin que puede corregirlos",
+        summary:
+          "Un dataset público de avistamientos cargado en MySQL y servido como tabla legible. Detrás de un login, un administrador agrega, edita, resuelve y borra registros, y la contraseña se hashea en vez de guardarse. La parte interesante nunca fue el CRUD. Fue hacer legibles ochenta mil filas, lo que exigió paginar en el servidor en vez de mandar cada fila al navegador y cruzar los dedos.",
+        role: "Diploma of Information Technology, Queensland.",
+      },
+    },
+  },
+  {
+    slug: "reference-db",
+    name: "Reference Database Site",
+    order: 7,
+    domain: "academic",
+    status: "study",
+    period: { from: "2025-08", to: "2025-10" },
+    stack: ["php", "mysql", "sql", "javascript"],
+    shots: studyShots("starwars"),
+    metrics: [
+      {
+        value: "9",
         label: {
-          en: "password hashing, not plain text",
-          pt: "hash de senha, não texto puro",
-          es: "hash de contraseña, no texto plano",
+          en: "tables, one per section",
+          pt: "tabelas, uma por seção",
+          es: "tablas, una por sección",
+        },
+      },
+      {
+        value: "1",
+        label: {
+          en: "shared connection function",
+          pt: "função de conexão compartilhada",
+          es: "función de conexión compartida",
+        },
+      },
+      {
+        value: "admin",
+        label: {
+          en: "area for maintaining records",
+          pt: "área para manter os registros",
+          es: "área para mantener los registros",
         },
       },
     ],
     copy: {
       en: {
-        tagline: "Two applications with login, an admin area and a real dataset behind them",
+        tagline: "Nine linked sections over one schema, with an admin area behind them",
         summary:
-          "The first loads a public sightings dataset and puts a full record lifecycle on top: create, edit, resolve, delete, with an admin login and a dashboard. The second is a reference site across nine linked sections, with its own admin area for maintaining the records. Both ship with their own schema, and both hash passwords rather than storing them.",
+          "Every section reads from its own table through one shared connection function, so adding a section means adding a table and a page rather than rewriting the site. An admin area maintains the records. The page I actually used day to day was the summary: a row count per table is how you notice an import went half way before anybody else does.",
         role: "Diploma of Information Technology, Queensland.",
       },
       pt: {
-        tagline: "Duas aplicações com login, área de admin e um dataset real por trás",
+        tagline: "Nove seções ligadas sobre um schema, com área de admin atrás",
         summary:
-          "A primeira carrega um dataset público de avistamentos e coloca um ciclo de vida completo de registro em cima: criar, editar, resolver, apagar, com login de admin e dashboard. A segunda é um site de consulta com nove seções ligadas entre si e área de admin própria para manter os registros. As duas trazem o schema junto, e as duas hasheiam senha em vez de guardar.",
+          "Cada seção lê da própria tabela por uma função de conexão compartilhada, então acrescentar uma seção é acrescentar uma tabela e uma página, não reescrever o site. Uma área de admin mantém os registros. A página que eu de fato usava era o resumo: contagem de linha por tabela é como se percebe que uma importação parou no meio antes de qualquer outra pessoa perceber.",
         role: "Diploma of Information Technology, Queensland.",
       },
       es: {
-        tagline: "Dos aplicaciones con login, área de admin y un dataset real detrás",
+        tagline: "Nueve secciones enlazadas sobre un esquema, con área de admin detrás",
         summary:
-          "La primera carga un dataset público de avistamientos y pone encima un ciclo de vida completo de registro: crear, editar, resolver, borrar, con login de admin y dashboard. La segunda es un sitio de consulta con nueve secciones enlazadas y su propia área de admin para mantener los registros. Ambas traen su esquema, y ambas hashean la contraseña en vez de guardarla.",
+          "Cada sección lee de su propia tabla mediante una función de conexión compartida, así que agregar una sección es agregar una tabla y una página, no reescribir el sitio. Un área de admin mantiene los registros. La página que realmente usaba era el resumen: un conteo de filas por tabla es como se nota que una importación quedó a medias antes que nadie más.",
         role: "Diploma of Information Technology, Queensland.",
       },
     },
@@ -440,7 +456,7 @@ export const PROJECTS: readonly Project[] = [
     status: "study",
     period: { from: "2025-10", to: "2025-11" },
     stack: ["mongodb", "php", "linux"],
-    shots: [],
+    shots: studyShots("mongo"),
     metrics: [
       {
         value: "9",
@@ -480,7 +496,7 @@ export const PROJECTS: readonly Project[] = [
     status: "study",
     period: { from: "2025-11", to: "2025-12" },
     stack: ["r", "sql"],
-    shots: [],
+    shots: studyShots("r"),
     metrics: [
       {
         value: "2",

@@ -77,12 +77,19 @@ function Gallery({ item, labels }: { item: ProjectView; labels: Labels }) {
     setIndex((current) => (current + delta + item.shots.length) % item.shots.length);
 
   return (
-    <div className="border-b border-line">
-      <div className="relative aspect-[16/8] w-full overflow-hidden bg-sunken">
+    <div className="relative border-b border-line">
+      {/* A CAPTURA INTEIRA, NUNCA CORTADA.
+          As telas aqui vao de 0.56 (celular em pe) a 2.77 (manifesto largo).
+          Um contentor de proporcao fixa com `object-cover` corta TODAS elas,
+          e numa captura de sistema o que se corta e justamente a barra de
+          navegacao ou o rodape da tabela, que e a parte que prova o que a
+          tela faz. Aqui a altura e limitada e a imagem se contem dentro
+          dela, entao cada uma aparece na propria forma. */}
+      <div className="flex max-h-[58vh] w-full items-center justify-center overflow-hidden bg-sunken">
         <Image
           src={shot.src}
           alt={shot.alt}
-          className="h-full w-full object-cover object-left-top"
+          className="max-h-[58vh] w-auto max-w-full object-contain"
           sizes="56rem"
           priority={index === 0}
         />
@@ -144,7 +151,7 @@ function Gallery({ item, labels }: { item: ProjectView; labels: Labels }) {
                 <Image
                   src={thumb.src}
                   alt=""
-                  className="h-full w-full object-cover object-left-top"
+                  className="h-full w-full object-cover object-top"
                   sizes="64px"
                 />
               </button>
