@@ -78,40 +78,31 @@ function Gallery({ item, labels }: { item: ProjectView; labels: Labels }) {
 
   return (
     <div className="relative border-b border-line">
-      {/* A CAPTURA INTEIRA, E A PAGINA INTEIRA.
+      {/* SEM ROLAGEM DENTRO DA MOLDURA, E SEM CORTE.
 
-          Duas coisas diferentes davam a MESMA impressao de corte:
-          1. a captura nascia cortada, porque eu fotografava so a area visivel
-             de 900px e a pagina era mais alta, entao a tabela terminava no
-             meio de uma linha. Agora e captura de pagina inteira;
-          2. o contentor tinha proporcao fixa com `object-cover`.
+          Tres tentativas ate acertar, e as duas que falharam valem registro:
+          `object-cover` numa proporcao fixa cortava a tela no meio de uma
+          linha da tabela; pagina inteira com rolagem mostrava tudo, mas a
+          imagem ficava ate quatro vezes mais alta que larga, encolhia para
+          caber e o texto virava borrao.
 
-          E RETRATO NAO E PAISAGEM. Captura de celular tem 0,46 de proporcao:
-          esticada na largura da moldura ela vira uma tira de 1942px de altura
-          e o visitante rola tres telas para ver um aparelho. Entao a decisao
-          sai da PROPRIA imagem, que o import estatico ja descreve: em pe,
-          encaixa pela altura e centraliza; deitada, ocupa a largura e rola se
-          a pagina for longa. */}
-      {(() => {
-        const portrait = shot.src.height > shot.src.width;
-        return (
-          <div
-            className={`max-h-[58vh] w-full bg-sunken ${
-              portrait
-                ? "flex justify-center overflow-hidden py-3"
-                : "overflow-y-auto overscroll-contain"
-            }`}
-          >
-            <Image
-              src={shot.src}
-              alt={shot.alt}
-              className={portrait ? "max-h-[54vh] w-auto object-contain" : "h-auto w-full"}
-              sizes={portrait ? "20rem" : "56rem"}
-              priority={index === 0}
-            />
-          </div>
-        );
-      })()}
+          O que resolveu foi CAPTURAR diferente, nao exibir diferente: janela
+          de 1440x1120 em vez de 1440x900. Entra quase tudo que importa numa
+          proporcao de 0,78, que cabe inteira e continua legivel.
+
+          A moldura tem ALTURA FIXA e a imagem enche essa altura. Com
+          `w-auto` sozinho a imagem parava no tamanho do arquivo servido, que
+          e menor: ela aparecia a 750px numa area de 892px. `h-full` resolve,
+          e serve para retrato e paisagem com a mesma regra. */}
+      <div className="flex h-[62vh] w-full items-center justify-center bg-sunken">
+        <Image
+          src={shot.src}
+          alt={shot.alt}
+          className="h-full w-auto max-w-full object-contain"
+          sizes="(max-width: 1024px) 100vw, 1000px"
+          priority={index === 0}
+        />
+      </div>
 
       {/* As setas ficam POR CIMA da moldura, nao dentro dela: a moldura agora
           rola, e botao dentro de area que rola sai da tela junto com o
@@ -347,7 +338,7 @@ export function ProjectBrowser({
         onClick={(event) => {
           if (event.target === dialogRef.current) close();
         }}
-        className="m-auto w-[min(56rem,calc(100vw-2rem))] rounded-2xl border border-line bg-canvas p-0 text-ink backdrop:bg-ink/40 backdrop:backdrop-blur-sm"
+        className="m-auto w-[min(62rem,calc(100vw-2rem))] rounded-2xl border border-line bg-canvas p-0 text-ink backdrop:bg-ink/40 backdrop:backdrop-blur-sm"
       >
         {open && (
           <article className="max-h-[88vh] overflow-y-auto">

@@ -92,6 +92,7 @@ export const pt: Dictionary = {
       mobile: "Mobile",
       tools: "Ferramentas internas",
       data: "Dados e BI",
+      platform: "Plataforma",
       academic: "Formação",
     },
     present: "hoje",

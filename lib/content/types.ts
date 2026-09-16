@@ -9,7 +9,7 @@ export type I18nText = Record<Locale, string>;
  * A gaveta do projeto. Nao ha "outros": projeto que nao cabe em nenhuma
  * destas provavelmente nao deveria estar no portfolio.
  */
-export type Domain = "production" | "mobile" | "tools" | "data" | "academic";
+export type Domain = "production" | "mobile" | "tools" | "data" | "platform" | "academic";
 
 /**
  * O estado, dito sem eufemismo.

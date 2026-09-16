@@ -106,6 +106,7 @@ export const en = {
       mobile: "Mobile",
       tools: "Internal tools",
       data: "Data and BI",
+      platform: "Platform",
       academic: "Study",
     },
     present: "now",

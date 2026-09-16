@@ -93,6 +93,7 @@ export const es: Dictionary = {
       mobile: "Móvil",
       tools: "Herramientas internas",
       data: "Datos y BI",
+      platform: "Plataforma",
       academic: "Formación",
     },
     present: "hoy",

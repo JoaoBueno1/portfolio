@@ -146,7 +146,7 @@ export const PROJECTS: readonly Project[] = [
     status: "live",
     period: { from: "2025-07" },
     stack: ["javascript", "express", "postgresql", "supabase", "vercel", "actions"],
-    shots: [],
+    shots: gallery("wh"),
     metrics: [
       {
         value: "20+",
@@ -191,7 +191,7 @@ export const PROJECTS: readonly Project[] = [
     status: "building",
     period: { from: "2026-09" },
     stack: ["microsoft", "postgresql", "sql", "claude", "python", "rest"],
-    shots: [],
+    shots: gallery("an"),
     metrics: [
       {
         value: "4",
@@ -240,9 +240,65 @@ export const PROJECTS: readonly Project[] = [
     },
   },
   {
+    slug: "access-portal",
+    name: "Access Portal and Handoff",
+    order: 5,
+    domain: "platform",
+    status: "live",
+    period: { from: "2026-09" },
+    stack: ["typescript", "nextjs", "react", "tailwind", "supabase", "rest"],
+    shots: gallery("portal"),
+    metrics: [
+      {
+        value: "3",
+        label: {
+          en: "systems behind one account",
+          pt: "sistemas atrás de uma conta",
+          es: "sistemas detrás de una cuenta",
+        },
+      },
+      {
+        value: "seconds",
+        label: {
+          en: "lifetime of the handoff token",
+          pt: "vida do token de handoff",
+          es: "vida del token de handoff",
+        },
+      },
+      {
+        value: "per module",
+        label: {
+          en: "a token is refused elsewhere",
+          pt: "um token é recusado em outro",
+          es: "un token es rechazado en otro",
+        },
+      },
+    ],
+    copy: {
+      en: {
+        tagline: "One account in front of three systems that grew up separately",
+        summary:
+          "Three systems, three logins, three sets of people to chase when someone joins or leaves. The portal authenticates once and hands off: it signs a token that lives for seconds and names exactly one destination, the destination verifies it against a public key and opens its own session. A token minted for the warehouse is refused by transport. Nothing sensitive travels inside it, because it goes in a URL that ends up in server logs and browser history.",
+        role: "Sole developer. Auth, handoff, permissions and the module hub.",
+      },
+      pt: {
+        tagline: "Uma conta na frente de três sistemas que cresceram separados",
+        summary:
+          "Três sistemas, três logins, três lugares para correr atrás quando alguém entra ou sai. O portal autentica uma vez e faz handoff: assina um token que vive segundos e nomeia exatamente um destino, e o destino valida contra uma chave pública e abre a própria sessão. Um token emitido para o armazém é recusado pelo transporte. Nada sensível viaja dentro dele, porque ele vai numa URL que acaba em log de servidor e histórico de navegador.",
+        role: "Desenvolvedor único. Auth, handoff, permissões e o hub de módulos.",
+      },
+      es: {
+        tagline: "Una cuenta delante de tres sistemas que crecieron por separado",
+        summary:
+          "Tres sistemas, tres logins, tres lugares a los que ir cuando alguien entra o sale. El portal autentica una vez y hace handoff: firma un token que vive segundos y nombra exactamente un destino, y el destino lo valida contra una clave pública y abre su propia sesión. Un token emitido para el almacén es rechazado por transporte. Nada sensible viaja dentro, porque va en una URL que termina en registros de servidor e historial del navegador.",
+        role: "Único desarrollador. Auth, handoff, permisos y el hub de módulos.",
+      },
+    },
+  },
+  {
     slug: "data-warehouse",
     name: "Sales Data Warehouse",
-    order: 5,
+    order: 6,
     domain: "academic",
     status: "study",
     period: { from: "2026-03", to: "2026-04" },
@@ -299,7 +355,7 @@ export const PROJECTS: readonly Project[] = [
   {
     slug: "ufo-archive",
     name: "Sightings Archive",
-    order: 7,
+    order: 8,
     domain: "academic",
     status: "study",
     period: { from: "2025-08", to: "2026-05" },
@@ -347,7 +403,7 @@ export const PROJECTS: readonly Project[] = [
   {
     slug: "trilogy-archive",
     name: "Original Trilogy Archive",
-    order: 8,
+    order: 9,
     domain: "academic",
     status: "study",
     period: { from: "2025-08", to: "2026-05" },
@@ -396,7 +452,7 @@ export const PROJECTS: readonly Project[] = [
   {
     slug: "linux-server",
     name: "Linux Server and File Sharing",
-    order: 6,
+    order: 7,
     domain: "academic",
     status: "study",
     period: { from: "2025-08", to: "2025-08" },
@@ -444,7 +500,7 @@ export const PROJECTS: readonly Project[] = [
   {
     slug: "rest-api",
     name: "REST API and Documentation",
-    order: 9,
+    order: 10,
     domain: "academic",
     status: "study",
     period: { from: "2026-06", to: "2026-08" },
@@ -492,7 +548,7 @@ export const PROJECTS: readonly Project[] = [
   {
     slug: "nosql",
     name: "NoSQL and Database Hardening",
-    order: 10,
+    order: 11,
     domain: "academic",
     status: "study",
     period: { from: "2025-10", to: "2025-11" },
@@ -532,7 +588,7 @@ export const PROJECTS: readonly Project[] = [
   {
     slug: "data-cleaning",
     name: "Data Cleaning and Reporting in R",
-    order: 11,
+    order: 12,
     domain: "academic",
     status: "study",
     period: { from: "2025-11", to: "2025-12" },
@@ -572,7 +628,7 @@ export const PROJECTS: readonly Project[] = [
   {
     slug: "order-flow",
     name: "Multi-Step Order Flow",
-    order: 12,
+    order: 13,
     domain: "academic",
     status: "study",
     period: { from: "2025-08", to: "2026-05" },
@@ -620,7 +676,7 @@ export const PROJECTS: readonly Project[] = [
   {
     slug: "dive-school",
     name: "Dive School Site",
-    order: 13,
+    order: 14,
     domain: "academic",
     status: "study",
     period: { from: "2025-08", to: "2026-05" },
@@ -668,7 +724,7 @@ export const PROJECTS: readonly Project[] = [
   {
     slug: "film-reference",
     name: "Film Reference Site",
-    order: 14,
+    order: 15,
     domain: "academic",
     status: "study",
     period: { from: "2025-08", to: "2026-05" },

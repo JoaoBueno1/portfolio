@@ -1,3 +1,5 @@
+import an01 from "@/public/screenshots/g-an-01.webp";
+import an02 from "@/public/screenshots/g-an-02.webp";
 import burger01 from "@/public/screenshots/g-burger-01.webp";
 import burger02 from "@/public/screenshots/g-burger-02.webp";
 import dive01 from "@/public/screenshots/g-dive-01.webp";
@@ -19,6 +21,11 @@ import linux02 from "@/public/screenshots/g-linux-02.webp";
 import linux03 from "@/public/screenshots/g-linux-03.webp";
 import linux04 from "@/public/screenshots/g-linux-04.webp";
 import linux05 from "@/public/screenshots/g-linux-05.webp";
+import linux06 from "@/public/screenshots/g-linux-06.webp";
+import linux07 from "@/public/screenshots/g-linux-07.webp";
+import linux08 from "@/public/screenshots/g-linux-08.webp";
+import portal01 from "@/public/screenshots/g-portal-01.webp";
+import portal02 from "@/public/screenshots/g-portal-02.webp";
 import reel01 from "@/public/screenshots/g-reel-01.webp";
 import reel02 from "@/public/screenshots/g-reel-02.webp";
 import reel03 from "@/public/screenshots/g-reel-03.webp";
@@ -28,6 +35,10 @@ import starwars03 from "@/public/screenshots/g-starwars-03.webp";
 import starwars04 from "@/public/screenshots/g-starwars-04.webp";
 import ufo01 from "@/public/screenshots/g-ufo-01.webp";
 import ufo02 from "@/public/screenshots/g-ufo-02.webp";
+import wh01 from "@/public/screenshots/g-wh-01.webp";
+import wh02 from "@/public/screenshots/g-wh-02.webp";
+import wh03 from "@/public/screenshots/g-wh-03.webp";
+import wh04 from "@/public/screenshots/g-wh-04.webp";
 import { type GalleryGroup, t3, toShots } from "./gallery";
 import type { Shot } from "./types";
 
@@ -298,67 +309,188 @@ export const GALLERIES = {
   },
   linux: {
     altTemplate: t3(
-      "{page}, on an Ubuntu machine.",
-      "{page}, numa máquina Ubuntu.",
-      "{page}, en una máquina Ubuntu.",
+      "{page}, on a server built from scratch.",
+      "{page}, num servidor montado do zero.",
+      "{page}, en un servidor armado desde cero.",
     ),
     captionTemplate: t3("{page}.", "{page}.", "{page}."),
     items: [
       {
         src: linux01,
-        page: t3("Installing packages", "Instalando pacotes", "Instalando paquetes"),
-        note: t3(
-          "A fresh server, updated and then given the file sharing service it is going to run.",
-          "Um servidor novo, atualizado e então recebendo o serviço de compartilhamento que vai rodar.",
-          "Un servidor nuevo, actualizado y luego con el servicio de compartición que va a ejecutar.",
-        ),
+        page: t3("Naming the server", "Nomeando o servidor", "Nombrando el servidor"),
       },
       {
         src: linux02,
-        page: t3("Fixing the time zone", "Consertando o fuso", "Arreglando la zona horaria"),
+        page: t3(
+          "Installing the file sharing service",
+          "Instalando o serviço de compartilhamento",
+          "Instalando el servicio de compartición",
+        ),
         note: t3(
-          "The first attempt fails because the zone name is case sensitive. The screen keeps both the failure and the fix, which is the useful part.",
-          "A primeira tentativa falha porque o nome do fuso diferencia maiúscula. A tela guarda o erro e a correção, que é a parte útil.",
-          "El primer intento falla porque el nombre distingue mayúsculas. La pantalla guarda el error y la corrección, que es lo útil.",
+          "A fresh server, updated, then given the one service it exists to run.",
+          "Um servidor novo, atualizado, e então recebendo o único serviço que ele existe para rodar.",
+          "Un servidor nuevo, actualizado, y luego con el único servicio que existe para ejecutar.",
         ),
       },
       {
         src: linux03,
-        page: t3(
-          "Configuring the shares",
-          "Configurando os compartilhamentos",
-          "Configurando los recursos compartidos",
-        ),
+        page: t3("Fixing the time zone", "Consertando o fuso", "Arreglando la zona horaria"),
         note: t3(
-          "Two shares defined by hand in the config file, each with its own path and write permission.",
-          "Dois compartilhamentos definidos à mão no arquivo de configuração, cada um com caminho e permissão de escrita próprios.",
-          "Dos recursos definidos a mano en el archivo de configuración, cada uno con su ruta y permiso de escritura.",
+          "The first attempt fails because the zone name is case sensitive. The screen keeps the failure and the fix together, which is the useful part.",
+          "A primeira tentativa falha porque o nome do fuso diferencia maiúscula. A tela guarda o erro e a correção juntos, que é a parte útil.",
+          "El primer intento falla porque el nombre distingue mayúsculas. La pantalla guarda el error y la corrección juntos, que es lo útil.",
         ),
       },
       {
         src: linux04,
         page: t3(
-          "Mounting it from another machine",
-          "Montando de outra máquina",
-          "Montándolo desde otra máquina",
+          "Writing the shares by hand",
+          "Escrevendo os compartilhamentos à mão",
+          "Escribiendo los recursos a mano",
         ),
         note: t3(
-          "The share opens in the file browser of a different operating system, which is the only proof that matters.",
-          "O compartilhamento abre no navegador de arquivos de outro sistema operacional, que é a única prova que importa.",
-          "El recurso abre en el explorador de archivos de otro sistema operativo, que es la única prueba que importa.",
+          "Two shares in the config file, each with its own path, its own browse flag and its own write permission.",
+          "Dois compartilhamentos no arquivo de configuração, cada um com caminho, visibilidade e permissão de escrita próprios.",
+          "Dos recursos en el archivo de configuración, cada uno con su ruta, su visibilidad y su permiso de escritura.",
         ),
       },
       {
         src: linux05,
+        page: t3("Restarting the service", "Reiniciando o serviço", "Reiniciando el servicio"),
+      },
+      {
+        src: linux06,
         page: t3(
-          "The web server answering",
-          "O servidor web respondendo",
-          "El servidor web respondiendo",
+          "Opening it from another machine",
+          "Abrindo de outra máquina",
+          "Abriéndolo desde otra máquina",
         ),
         note: t3(
-          "Installed, started, and reached from a browser. Two lines of terminal and one page that says it works.",
-          "Instalado, iniciado e alcançado por um navegador. Duas linhas de terminal e uma página dizendo que funciona.",
-          "Instalado, iniciado y alcanzado desde un navegador. Dos líneas de terminal y una página que dice que funciona.",
+          "The share mounts in the file browser of a different operating system. That is the only proof that matters.",
+          "O compartilhamento monta no navegador de arquivos de outro sistema operacional. É a única prova que importa.",
+          "El recurso monta en el explorador de archivos de otro sistema operativo. Es la única prueba que importa.",
+        ),
+      },
+      {
+        src: linux07,
+        page: t3(
+          "Installing the web server",
+          "Instalando o servidor web",
+          "Instalando el servidor web",
+        ),
+      },
+      {
+        src: linux08,
+        page: t3(
+          "Serving a page of my own",
+          "Servindo uma página minha",
+          "Sirviendo una página propia",
+        ),
+        note: t3(
+          "Not the default welcome page. A page written by hand, dropped into the web root, and answered by the server that was just built.",
+          "Não é a página padrão de boas-vindas. É uma página escrita à mão, colocada na raiz do site, e respondida pelo servidor recém-montado.",
+          "No es la página de bienvenida por defecto. Es una página escrita a mano, puesta en la raíz del sitio, y respondida por el servidor recién montado.",
+        ),
+      },
+    ],
+  },
+  wh: {
+    altTemplate: t3(
+      "{page} of a warehouse operations tool.",
+      "{page} de uma ferramenta de operação de armazém.",
+      "{page} de una herramienta de operación de almacén.",
+    ),
+    captionTemplate: t3("{page}.", "{page}.", "{page}."),
+    items: [
+      {
+        src: wh01,
+        page: t3("Floor dashboard", "Painel do chão", "Panel del piso"),
+        note: t3(
+          "Counters are secondary. The exceptions block is the point: those are the orders that cannot leave.",
+          "Os contadores são secundários. O bloco de exceções é o ponto: são os pedidos que não conseguem sair.",
+          "Los contadores son secundarios. El bloque de excepciones es el punto: son los pedidos que no pueden salir.",
+        ),
+      },
+      {
+        src: wh02,
+        page: t3("Pick list", "Lista de separação", "Lista de picking"),
+        note: t3(
+          "Walk order follows the shelves, not the order lines, and a short line raises an exception instead of being quietly reduced.",
+          "A ordem de caminhada segue as prateleiras, não as linhas do pedido, e uma linha em falta vira exceção em vez de ser reduzida em silêncio.",
+          "El orden de recorrido sigue los estantes, no las líneas del pedido, y una línea corta genera una excepción en vez de reducirse en silencio.",
+        ),
+      },
+      {
+        src: wh03,
+        page: t3("Replenishment", "Reposição", "Reposición"),
+        note: t3(
+          "Sorted by days of cover, not by quantity. Twenty units is plenty of one item and three days of another.",
+          "Ordenado por dias de cobertura, não por quantidade. Vinte unidades é muito de um item e três dias de outro.",
+          "Ordenado por días de cobertura, no por cantidad. Veinte unidades es mucho de un ítem y tres días de otro.",
+        ),
+      },
+      {
+        src: wh04,
+        page: t3("Cyclic count", "Contagem cíclica", "Conteo cíclico"),
+        note: t3(
+          "A first count never writes to stock. A variance is counted again, by someone else, with the reason recorded.",
+          "Uma primeira contagem nunca escreve no estoque. A diferença é contada de novo, por outra pessoa, com o motivo registrado.",
+          "Un primer conteo nunca escribe en stock. La diferencia se cuenta de nuevo, por otra persona, con el motivo registrado.",
+        ),
+      },
+    ],
+  },
+  an: {
+    altTemplate: t3(
+      "{page} of the analytics and AI layer.",
+      "{page} da camada de analytics e IA.",
+      "{page} de la capa de analytics e IA.",
+    ),
+    captionTemplate: t3("{page}.", "{page}.", "{page}."),
+    items: [
+      {
+        src: an01,
+        page: t3("The monthly review", "A revisão mensal", "La revisión mensual"),
+        note: t3(
+          "Built around the decisions each area actually makes. The last column names why the month leaked, which is the only part anyone acts on.",
+          "Construída em volta das decisões que cada área de fato toma. A última coluna diz por que o mês vazou, que é a única parte em que alguém age.",
+          "Construida alrededor de las decisiones que cada área realmente toma. La última columna dice por qué se fugó el mes, que es la única parte donde alguien actúa.",
+        ),
+      },
+      {
+        src: an02,
+        page: t3("Asking the data a question", "Perguntando aos dados", "Preguntando a los datos"),
+        note: t3(
+          "The second answer is a refusal. No catalogue query matches and the data sits outside the role, so it says it does not know rather than producing a plausible number.",
+          "A segunda resposta é uma recusa. Nenhuma consulta do catálogo serve e o dado está fora do papel, então ele diz que não sabe em vez de produzir um número plausível.",
+          "La segunda respuesta es un rechazo. Ninguna consulta del catálogo sirve y el dato queda fuera del rol, así que dice que no sabe en vez de producir un número plausible.",
+        ),
+      },
+    ],
+  },
+  portal: {
+    altTemplate: t3(
+      "{page} of the access portal.",
+      "{page} do portal de acesso.",
+      "{page} del portal de acceso.",
+    ),
+    captionTemplate: t3("{page}.", "{page}.", "{page}."),
+    items: [
+      {
+        src: portal01,
+        page: t3("Signing in once", "Entrando uma vez", "Iniciando sesión una vez"),
+      },
+      {
+        src: portal02,
+        page: t3(
+          "The modules you may reach",
+          "Os módulos que você alcança",
+          "Los módulos que puedes alcanzar",
+        ),
+        note: t3(
+          "Administration is shown greyed out rather than hidden. Hiding it makes people think it does not exist; greying it tells them who to ask.",
+          "A administração aparece apagada em vez de escondida. Esconder faz a pessoa achar que não existe; apagada diz a quem pedir.",
+          "La administración aparece atenuada en vez de oculta. Ocultarla hace pensar que no existe; atenuarla dice a quién pedir.",
         ),
       },
     ],
