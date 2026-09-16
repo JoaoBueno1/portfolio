@@ -1,0 +1,11 @@
+# O repo manda no fim de linha, nao a maquina de quem clona.
+#
+# O Git para Windows liga core.autocrlf=true no escopo "system": ele guarda LF
+# e entrega CRLF no disco. Como o biome.json exige lineEnding "lf", TODO arquivo
+# passava a falhar no `npm run check` — 34 de 34, sem uma linha de codigo errada.
+# O `git status` nunca acusou nada porque o git compara normalizado, entao o
+# problema so aparecia no biome.
+#
+# `npm run fix` nao resolvia: gravava LF no disco, o git nao via mudanca para
+# commitar, e o checkout seguinte trazia CRLF de volta.
+* text=auto eol=lf
