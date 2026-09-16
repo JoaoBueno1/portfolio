@@ -7,12 +7,18 @@ import driver01 from "@/public/screenshots/g-driver-01.webp";
 import driver02 from "@/public/screenshots/g-driver-02.webp";
 import driver03 from "@/public/screenshots/g-driver-03.webp";
 import driver04 from "@/public/screenshots/g-driver-04.webp";
+import driver05 from "@/public/screenshots/g-driver-05.webp";
 import dwh01 from "@/public/screenshots/g-dwh-01.webp";
 import dwh02 from "@/public/screenshots/g-dwh-02.webp";
 import dwh03 from "@/public/screenshots/g-dwh-03.webp";
 import dwh04 from "@/public/screenshots/g-dwh-04.webp";
 import dwh05 from "@/public/screenshots/g-dwh-05.webp";
 import dwh06 from "@/public/screenshots/g-dwh-06.webp";
+import linux01 from "@/public/screenshots/g-linux-01.webp";
+import linux02 from "@/public/screenshots/g-linux-02.webp";
+import linux03 from "@/public/screenshots/g-linux-03.webp";
+import linux04 from "@/public/screenshots/g-linux-04.webp";
+import linux05 from "@/public/screenshots/g-linux-05.webp";
 import reel01 from "@/public/screenshots/g-reel-01.webp";
 import reel02 from "@/public/screenshots/g-reel-02.webp";
 import reel03 from "@/public/screenshots/g-reel-03.webp";
@@ -253,6 +259,24 @@ export const GALLERIES = {
     items: [
       {
         src: driver01,
+        page: t3("Signing in", "Entrando", "Iniciando sesión"),
+        note: t3(
+          "Driver ID, username and password, with biometric sign in once the device is trusted.",
+          "ID do motorista, usuário e senha, com entrada por biometria depois que o aparelho é confiável.",
+          "ID del conductor, usuario y contraseña, con acceso biométrico una vez que el dispositivo es de confianza.",
+        ),
+      },
+      {
+        src: driver02,
+        page: t3("Before the van leaves", "Antes da van sair", "Antes de que salga la furgoneta"),
+        note: t3(
+          "Three checks before anything is marked in transit, because a run that starts wrong stays wrong all day.",
+          "Três checagens antes de qualquer coisa ser marcada em trânsito, porque rota que começa errada continua errada o dia todo.",
+          "Tres verificaciones antes de marcar nada en tránsito, porque una ruta que empieza mal sigue mal todo el día.",
+        ),
+      },
+      {
+        src: driver03,
         page: t3("The route for the day", "A rota do dia", "La ruta del día"),
         note: t3(
           "Stops in optimised order, drawn on the map the driver navigates from.",
@@ -261,16 +285,7 @@ export const GALLERIES = {
         ),
       },
       {
-        src: driver02,
-        page: t3("Starting a run", "Começando a rota", "Iniciando la ruta"),
-        note: t3(
-          "Three checks before anything is marked in transit, because a run that starts wrong stays wrong.",
-          "Três checagens antes de qualquer coisa ser marcada em trânsito, porque rota que começa errada continua errada.",
-          "Tres verificaciones antes de marcar nada en tránsito, porque una ruta que empieza mal sigue mal.",
-        ),
-      },
-      {
-        src: driver03,
+        src: driver04,
         page: t3("Proof of delivery", "Comprovante de entrega", "Comprobante de entrega"),
         note: t3(
           "Scan the parcels first. Name, signature and photo are optional, the scan is not.",
@@ -278,7 +293,74 @@ export const GALLERIES = {
           "Escanear los bultos primero. Nombre, firma y foto son opcionales, el escaneo no.",
         ),
       },
-      { src: driver04, page: t3("Settings", "Ajustes", "Ajustes") },
+      { src: driver05, page: t3("Settings", "Ajustes", "Ajustes") },
+    ],
+  },
+  linux: {
+    altTemplate: t3(
+      "{page}, on an Ubuntu machine.",
+      "{page}, numa máquina Ubuntu.",
+      "{page}, en una máquina Ubuntu.",
+    ),
+    captionTemplate: t3("{page}.", "{page}.", "{page}."),
+    items: [
+      {
+        src: linux01,
+        page: t3("Installing packages", "Instalando pacotes", "Instalando paquetes"),
+        note: t3(
+          "A fresh server, updated and then given the file sharing service it is going to run.",
+          "Um servidor novo, atualizado e então recebendo o serviço de compartilhamento que vai rodar.",
+          "Un servidor nuevo, actualizado y luego con el servicio de compartición que va a ejecutar.",
+        ),
+      },
+      {
+        src: linux02,
+        page: t3("Fixing the time zone", "Consertando o fuso", "Arreglando la zona horaria"),
+        note: t3(
+          "The first attempt fails because the zone name is case sensitive. The screen keeps both the failure and the fix, which is the useful part.",
+          "A primeira tentativa falha porque o nome do fuso diferencia maiúscula. A tela guarda o erro e a correção, que é a parte útil.",
+          "El primer intento falla porque el nombre distingue mayúsculas. La pantalla guarda el error y la corrección, que es lo útil.",
+        ),
+      },
+      {
+        src: linux03,
+        page: t3(
+          "Configuring the shares",
+          "Configurando os compartilhamentos",
+          "Configurando los recursos compartidos",
+        ),
+        note: t3(
+          "Two shares defined by hand in the config file, each with its own path and write permission.",
+          "Dois compartilhamentos definidos à mão no arquivo de configuração, cada um com caminho e permissão de escrita próprios.",
+          "Dos recursos definidos a mano en el archivo de configuración, cada uno con su ruta y permiso de escritura.",
+        ),
+      },
+      {
+        src: linux04,
+        page: t3(
+          "Mounting it from another machine",
+          "Montando de outra máquina",
+          "Montándolo desde otra máquina",
+        ),
+        note: t3(
+          "The share opens in the file browser of a different operating system, which is the only proof that matters.",
+          "O compartilhamento abre no navegador de arquivos de outro sistema operacional, que é a única prova que importa.",
+          "El recurso abre en el explorador de archivos de otro sistema operativo, que es la única prueba que importa.",
+        ),
+      },
+      {
+        src: linux05,
+        page: t3(
+          "The web server answering",
+          "O servidor web respondendo",
+          "El servidor web respondiendo",
+        ),
+        note: t3(
+          "Installed, started, and reached from a browser. Two lines of terminal and one page that says it works.",
+          "Instalado, iniciado e alcançado por um navegador. Duas linhas de terminal e uma página dizendo que funciona.",
+          "Instalado, iniciado y alcanzado desde un navegador. Dos líneas de terminal y una página que dice que funciona.",
+        ),
+      },
     ],
   },
 } satisfies Record<string, GalleryGroup>;

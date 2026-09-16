@@ -299,7 +299,7 @@ export const PROJECTS: readonly Project[] = [
   {
     slug: "ufo-archive",
     name: "Sightings Archive",
-    order: 6,
+    order: 7,
     domain: "academic",
     status: "study",
     period: { from: "2025-08", to: "2026-05" },
@@ -347,7 +347,7 @@ export const PROJECTS: readonly Project[] = [
   {
     slug: "trilogy-archive",
     name: "Original Trilogy Archive",
-    order: 7,
+    order: 8,
     domain: "academic",
     status: "study",
     period: { from: "2025-08", to: "2026-05" },
@@ -394,9 +394,57 @@ export const PROJECTS: readonly Project[] = [
     },
   },
   {
+    slug: "linux-server",
+    name: "Linux Server and File Sharing",
+    order: 6,
+    domain: "academic",
+    status: "study",
+    period: { from: "2025-08", to: "2025-08" },
+    stack: ["linux", "docker", "php"],
+    shots: gallery("linux"),
+    metrics: [
+      {
+        value: "2",
+        label: {
+          en: "services stood up and verified",
+          pt: "serviços no ar e verificados",
+          es: "servicios levantados y verificados",
+        },
+      },
+      {
+        value: "2",
+        label: {
+          en: "operating systems talking to each other",
+          pt: "sistemas operacionais conversando",
+          es: "sistemas operativos hablándose",
+        },
+      },
+    ],
+    copy: {
+      en: {
+        tagline: "A server built from an empty disk until another machine can use it",
+        summary:
+          "A virtual machine, an Ubuntu Server install, then the part that actually counts: packages installed, the time zone corrected after the first attempt failed on a case-sensitive name, two file shares written by hand into the config, and the share opened from a completely different operating system. Then a web server installed and reached from a browser. Nothing here is clicked through a wizard.",
+        role: "Diploma of Information Technology, Queensland.",
+      },
+      pt: {
+        tagline: "Um servidor montado de um disco vazio até outra máquina conseguir usar",
+        summary:
+          "Uma máquina virtual, uma instalação de Ubuntu Server, e então a parte que de fato conta: pacote instalado, fuso corrigido depois de a primeira tentativa falhar por causa de maiúscula no nome, dois compartilhamentos escritos à mão no arquivo de configuração, e o compartilhamento aberto de um sistema operacional completamente diferente. Depois um servidor web instalado e alcançado por um navegador. Nada aqui é assistente com botão de próximo.",
+        role: "Diploma of Information Technology, Queensland.",
+      },
+      es: {
+        tagline: "Un servidor armado desde un disco vacío hasta que otra máquina puede usarlo",
+        summary:
+          "Una máquina virtual, una instalación de Ubuntu Server, y luego lo que de verdad cuenta: paquetes instalados, la zona horaria corregida después de que el primer intento fallara por una mayúscula en el nombre, dos recursos compartidos escritos a mano en la configuración, y el recurso abierto desde un sistema operativo completamente distinto. Después un servidor web instalado y alcanzado desde un navegador. Nada aquí es un asistente con botón de siguiente.",
+        role: "Diploma of Information Technology, Queensland.",
+      },
+    },
+  },
+  {
     slug: "rest-api",
     name: "REST API and Documentation",
-    order: 8,
+    order: 9,
     domain: "academic",
     status: "study",
     period: { from: "2026-06", to: "2026-08" },
@@ -444,7 +492,7 @@ export const PROJECTS: readonly Project[] = [
   {
     slug: "nosql",
     name: "NoSQL and Database Hardening",
-    order: 9,
+    order: 10,
     domain: "academic",
     status: "study",
     period: { from: "2025-10", to: "2025-11" },
@@ -484,7 +532,7 @@ export const PROJECTS: readonly Project[] = [
   {
     slug: "data-cleaning",
     name: "Data Cleaning and Reporting in R",
-    order: 10,
+    order: 11,
     domain: "academic",
     status: "study",
     period: { from: "2025-11", to: "2025-12" },
@@ -524,7 +572,7 @@ export const PROJECTS: readonly Project[] = [
   {
     slug: "order-flow",
     name: "Multi-Step Order Flow",
-    order: 11,
+    order: 12,
     domain: "academic",
     status: "study",
     period: { from: "2025-08", to: "2026-05" },
@@ -572,7 +620,7 @@ export const PROJECTS: readonly Project[] = [
   {
     slug: "dive-school",
     name: "Dive School Site",
-    order: 12,
+    order: 13,
     domain: "academic",
     status: "study",
     period: { from: "2025-08", to: "2026-05" },
@@ -620,7 +668,7 @@ export const PROJECTS: readonly Project[] = [
   {
     slug: "film-reference",
     name: "Film Reference Site",
-    order: 13,
+    order: 14,
     domain: "academic",
     status: "study",
     period: { from: "2025-08", to: "2026-05" },
