@@ -55,10 +55,13 @@ export const en = {
   about: {
     title: "About",
     intro: [
-      "I build software that goes into production and stays there. Four systems in daily use across web, mobile and data, each one designed, shipped and maintained end to end.",
+      "I'm a software developer based on the Gold Coast, Australia. I work across web applications, backend systems, mobile, databases and integrations, and the software I build is in daily production use.",
+      "I take work from requirements and workflow design through development and deployment, then stay with it. I hold a Diploma of Information Technology in Database and Data Management.",
     ],
+    linkProjects: "See what I have built",
+    linkSkills: "See the tools I work with",
     nowTitle: "Right now",
-    now: "Building the analytics and AI layer over the systems above.",
+    now: "Working with analytics, AI integrations and connected business systems.",
     languagesTitle: "Languages",
     languages: "Portuguese (native), English (professional).",
   },

@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { StackMarquee } from "@/components/stack-marquee";
 import { isLocale } from "@/lib/i18n/config";
@@ -39,7 +40,7 @@ export default async function AboutPage({ params }: PageProps<"/[locale]">) {
                 className={
                   i === 0
                     ? "text-lg leading-relaxed text-ink text-pretty sm:text-xl sm:leading-relaxed"
-                    : "text-[0.9375rem] leading-relaxed text-ink-muted text-pretty"
+                    : "text-base leading-relaxed text-ink-muted text-pretty"
                 }
               >
                 {paragraph}
@@ -47,6 +48,26 @@ export default async function AboutPage({ params }: PageProps<"/[locale]">) {
             ))}
           </div>
         </div>
+
+        {/* As duas saidas da pagina. O Sobre diz quem e, e quem quiser
+            continuar tem exatamente dois caminhos: o que foi construido e as
+            ferramentas. Sao os mesmos destinos da coluna da esquerda, mas
+            aqui eles aparecem no fim da leitura, que e quando a pergunta
+            aparece. */}
+        <p className="mt-7 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm">
+          <Link
+            href={`/${locale}/projects`}
+            className="font-medium text-accent underline decoration-accent/30 underline-offset-4 transition-colors hover:decoration-accent"
+          >
+            {t.about.linkProjects} <span aria-hidden="true">&rarr;</span>
+          </Link>
+          <Link
+            href={`/${locale}/skills`}
+            className="font-medium text-ink-muted underline decoration-line-strong underline-offset-4 transition-colors hover:text-ink hover:decoration-ink-subtle"
+          >
+            {t.about.linkSkills} <span aria-hidden="true">&rarr;</span>
+          </Link>
+        </p>
 
         <div className="mt-10 grid max-w-2xl gap-6 sm:grid-cols-2">
           <div>

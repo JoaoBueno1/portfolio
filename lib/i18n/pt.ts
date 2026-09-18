@@ -41,10 +41,13 @@ export const pt: Dictionary = {
   about: {
     title: "Sobre",
     intro: [
-      "Construo software que vai para produção e fica lá. Quatro sistemas em uso diário, entre web, mobile e dados, cada um desenhado, entregue e mantido de ponta a ponta.",
+      "Sou desenvolvedor de software na Gold Coast, Austrália. Trabalho com aplicações web, sistemas de backend, mobile, bancos de dados e integrações, e o software que eu construo está em uso diário em produção.",
+      "Pego o trabalho desde o requisito e o desenho do fluxo até o desenvolvimento e o deploy, e continuo com ele depois. Tenho o Diploma of Information Technology em Database and Data Management.",
     ],
+    linkProjects: "Ver o que eu construí",
+    linkSkills: "Ver as ferramentas com que trabalho",
     nowTitle: "Agora",
-    now: "Construindo a camada de analytics e IA sobre os sistemas acima.",
+    now: "Trabalhando com analytics, integrações de IA e sistemas de negócio conectados.",
     languagesTitle: "Idiomas",
     languages: "Português (nativo), inglês (profissional).",
   },
