@@ -41,8 +41,13 @@ export const es: Dictionary = {
   },
   about: {
     title: "Sobre mí",
-    intro:
-      "Soy desarrollador de software en Gold Coast, Australia. Trabajo dentro de una operación de transporte y almacén y construyo los sistemas sobre los que funciona: un sistema de transporte, una app para conductores y las herramientas que usa el piso del almacén. Empecé en ese piso en 2023, y por eso casi cada función que entrego reemplaza algo que yo hacía a mano.",
+    intro: [
+      "Casi todo lo que construyo tiene una factura detrás. Un clic equivocado en el sistema de transporte reserva un envío real, y alguien lo paga. Eso cambia la forma de escribir código.",
+      "Soy desarrollador full stack en Gold Coast. Python y Flask atrás, React y Next adelante, React Native en la mano del conductor, Postgres debajo, y nueve sistemas externos conectados: cuatro transportistas, un ERP, mapas, notificaciones push, facturación. Cerca de 1.100 commits solo en el sistema de transporte.",
+      "No llegué aquí desde un título en ciencias de la computación. Llegué del piso del almacén, donde hice picking y packing durante tres años y aprendí exactamente qué parte del día se desperdiciaba, porque yo era quien la desperdiciaba. Casi cada función que entregué desde entonces reemplaza algo que yo hacía a mano.",
+      "Antes de Australia, cuatro años atendiendo en un banco en Brasil. KYC, compliance, y una fila de gente que necesitaba algo complicado explicado una sola vez, con claridad. Resultó ser el entrenamiento más útil que tuve.",
+      "Estoy abierto a puestos full stack en Australia. La forma más rápida de saber si encajo es preguntarme por una decisión de cualquiera de los sistemas de aquí. Te cuento por qué cada uno es como es, incluidos los que hice mal.",
+    ],
     nowTitle: "Ahora",
     now: "Construyendo y operando tres sistemas en producción, y estudiando lo que pida el próximo problema.",
     languagesTitle: "Idiomas",

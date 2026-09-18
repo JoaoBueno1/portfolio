@@ -54,8 +54,13 @@ export const en = {
   },
   about: {
     title: "About",
-    intro:
-      "I am a software developer on the Gold Coast, Australia. I work inside a freight and warehouse operation and I build the systems it runs on: a transport management system, a driver app, and the tools the warehouse floor uses. I started on that floor in 2023, which is why almost every feature I ship replaces something I used to do by hand.",
+    intro: [
+      "Most of what I build has a bill attached. A wrong click in the transport system books real freight, and somebody pays for it. That changes how you write code.",
+      "I am a full stack developer on the Gold Coast. Python and Flask at the back, React and Next at the front, React Native in the driver's hand, Postgres underneath, and nine external systems wired into it: four carriers, an ERP, maps, push notifications, billing. Around 1,100 commits in the transport system alone.",
+      "I did not arrive here from a computer science degree. I came off the warehouse floor, where I picked and packed for three years and learned exactly which part of the day was wasted, because I was the one wasting it. Almost every feature I have shipped since replaces something I used to do by hand.",
+      "Before Australia, four years behind a bank counter in Brazil. KYC, compliance, and a queue of people who needed a complicated thing explained once, clearly. That turned out to be the most useful training I had.",
+      "I am open to full stack roles in Australia. The fastest way to find out whether I fit is to ask me about a decision in any of the systems here. I can tell you why each one is the way it is, including the ones I got wrong.",
+    ],
     nowTitle: "Right now",
     now: "Building and running three systems in production, and studying whatever the next problem needs.",
     languagesTitle: "Languages",
