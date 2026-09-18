@@ -41,14 +41,10 @@ export const pt: Dictionary = {
   about: {
     title: "Sobre",
     intro: [
-      "Quase tudo que eu construo tem uma conta anexada. Um clique errado no sistema de transporte reserva frete de verdade, e alguém paga por ele. Isso muda o jeito de escrever código.",
-      "Sou desenvolvedor full stack na Gold Coast. Python e Flask atrás, React e Next na frente, React Native na mão do motorista, Postgres embaixo, e nove sistemas externos ligados nisso: quatro transportadoras, um ERP, mapas, notificação push, faturamento. Cerca de 1.100 commits só no sistema de transporte.",
-      "Não cheguei aqui por um diploma de ciência da computação. Cheguei do chão de armazém, onde separei e embalei por três anos e aprendi exatamente qual parte do dia era desperdiçada, porque era eu quem desperdiçava. Quase toda feature que entreguei desde então substitui alguma coisa que eu fazia na mão.",
-      "Antes da Austrália, quatro anos atendendo num banco no Brasil. KYC, compliance, e uma fila de gente que precisava de uma coisa complicada explicada uma vez só, com clareza. Acabou sendo o treino mais útil que eu tive.",
-      "Estou aberto a vagas full stack na Austrália. O jeito mais rápido de descobrir se eu sirvo é me perguntar sobre uma decisão de qualquer sistema daqui. Eu conto por que cada um é do jeito que é, inclusive os que eu errei.",
+      "Construo software que vai para produção e fica lá. Quatro sistemas em uso diário, entre web, mobile e dados, cada um desenhado, entregue e mantido de ponta a ponta.",
     ],
     nowTitle: "Agora",
-    now: "Construindo e operando três sistemas em produção, e estudando o que o próximo problema pedir.",
+    now: "Construindo a camada de analytics e IA sobre os sistemas acima.",
     languagesTitle: "Idiomas",
     languages: "Português (nativo), inglês (profissional).",
   },
