@@ -54,10 +54,14 @@ export const en = {
   },
   about: {
     title: "About",
-    intro:
-      "I am a software developer on the Gold Coast, Australia. I work inside a freight and warehouse operation and I build the systems it runs on: a transport management system, a driver app, and the tools the warehouse floor uses. I started on that floor in 2023, which is why almost every feature I ship replaces something I used to do by hand.",
+    intro: [
+      "I'm a software developer based on the Gold Coast, Australia. I work across web applications, backend systems, mobile, databases and integrations, and the software I build is in daily production use.",
+      "I take work from requirements and workflow design through development and deployment, then stay with it. I hold a Diploma of Information Technology in Database and Data Management.",
+    ],
+    linkProjects: "See what I have built",
+    linkSkills: "See the tools I work with",
     nowTitle: "Right now",
-    now: "Building and running three systems in production, and studying whatever the next problem needs.",
+    now: "Working with analytics, AI integrations and connected business systems.",
     languagesTitle: "Languages",
     languages: "Portuguese (native), English (professional).",
   },

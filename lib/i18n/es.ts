@@ -41,10 +41,14 @@ export const es: Dictionary = {
   },
   about: {
     title: "Sobre mí",
-    intro:
-      "Soy desarrollador de software en Gold Coast, Australia. Trabajo dentro de una operación de transporte y almacén y construyo los sistemas sobre los que funciona: un sistema de transporte, una app para conductores y las herramientas que usa el piso del almacén. Empecé en ese piso en 2023, y por eso casi cada función que entrego reemplaza algo que yo hacía a mano.",
+    intro: [
+      "Soy desarrollador de software en Gold Coast, Australia. Trabajo con aplicaciones web, sistemas de backend, móvil, bases de datos e integraciones, y el software que construyo está en uso diario en producción.",
+      "Tomo el trabajo desde el requisito y el diseño del flujo hasta el desarrollo y el despliegue, y sigo con él después. Tengo el Diploma of Information Technology en Database and Data Management.",
+    ],
+    linkProjects: "Ver lo que he construido",
+    linkSkills: "Ver las herramientas con las que trabajo",
     nowTitle: "Ahora",
-    now: "Construyendo y operando tres sistemas en producción, y estudiando lo que pida el próximo problema.",
+    now: "Trabajando con analytics, integraciones de IA y sistemas de negocio conectados.",
     languagesTitle: "Idiomas",
     languages: "Portugués (nativo), inglés (profesional).",
   },
