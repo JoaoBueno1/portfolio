@@ -355,20 +355,29 @@ export function ProjectBrowser({
     setUrl(slug);
   }
 
-  const tile = (item: ProjectView) => (
-    <li key={item.slug}>
+  /* O PRIMEIRO card de producao e o destaque: ocupa 2x2 celulas da grade de
+     quatro colunas, e os outros quatro preenchem as 2x2 restantes. Sao
+     exatamente duas linhas, sem card orfao, e a hierarquia aparece sem uma
+     palavra. A imagem do destaque cresce junto (`flex-1` em vez de proporcao
+     fixa), senao sobraria um bloco de texto vazio embaixo dela. */
+  const tile = (item: ProjectView, featured = false) => (
+    <li key={item.slug} className={featured ? "col-span-2 row-span-2" : undefined}>
       <button
         type="button"
         onClick={() => openProject(item.slug)}
         className="group flex h-full w-full flex-col overflow-hidden rounded-xl border border-line bg-canvas/70 text-left backdrop-blur-sm transition-all duration-300 [transition-timing-function:var(--ease-out-soft)] hover:-translate-y-0.5 hover:border-line-strong hover:shadow-sm"
       >
-        <div className="relative aspect-[16/10] w-full overflow-hidden border-b border-line bg-sunken">
+        <div
+          className={`relative w-full overflow-hidden border-b border-line bg-sunken ${featured ? "min-h-56 flex-1" : "aspect-[16/10]"}`}
+        >
           {item.shots.length > 0 ? (
             <Image
               src={item.shots[0].src}
               alt=""
               className="h-full w-full object-cover object-left-top transition-transform duration-500 [transition-timing-function:var(--ease-out-soft)] group-hover:scale-[1.03]"
-              sizes="(max-width: 1024px) 50vw, 300px"
+              sizes={
+                featured ? "(max-width: 1024px) 100vw, 600px" : "(max-width: 1024px) 50vw, 300px"
+              }
             />
           ) : (
             <StackBlock item={item} />
@@ -379,7 +388,7 @@ export function ProjectBrowser({
             </span>
           )}
         </div>
-        <div className="flex flex-1 flex-col gap-1 p-3">
+        <div className={`flex flex-col gap-1 ${featured ? "p-4" : "flex-1 p-3"}`}>
           <div className="flex items-center gap-2">
             {item.status === "live" && (
               <span className="size-1.5 rounded-full bg-ok" aria-hidden="true" />
@@ -387,9 +396,15 @@ export function ProjectBrowser({
             {item.status === "building" && (
               <span className="size-1.5 rounded-full bg-accent" aria-hidden="true" />
             )}
-            <span className="text-sm font-semibold tracking-tight">{item.name}</span>
+            <span className={`font-semibold tracking-tight ${featured ? "text-base" : "text-sm"}`}>
+              {item.name}
+            </span>
           </div>
-          <p className="line-clamp-2 text-xs leading-relaxed text-ink-subtle">{item.tagline}</p>
+          <p
+            className={`leading-relaxed text-ink-subtle ${featured ? "text-sm" : "line-clamp-2 text-xs"}`}
+          >
+            {item.tagline}
+          </p>
           <div className="mt-auto flex items-center gap-2 pt-2 text-ink-faint">
             {item.stack.slice(0, 5).map((tech) => (
               <svg
@@ -408,20 +423,75 @@ export function ProjectBrowser({
     </li>
   );
 
-  const section = (title: string, list: readonly ProjectView[], first?: boolean) =>
-    list.length > 0 && (
-      <section className={first ? "" : "mt-8"}>
-        <h2 className="font-mono text-xs tracking-wide text-ink-faint uppercase">{title}</h2>
-        <ul className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-3 xl:grid-cols-4">
-          {list.map(tile)}
-        </ul>
-      </section>
-    );
+  /* OS TRABALHOS DE ESTUDO SAO LISTA, NAO CARD. Card do mesmo tamanho dava
+     ao exercicio de curso o mesmo peso do sistema em producao, e a tese do
+     site e o contrario. Uma linha por projeto (miniatura, nome, uma frase,
+     stack, periodo) abre o mesmo dialogo, so ocupa um quarto do espaco. */
+  const row = (item: ProjectView) => (
+    <li key={item.slug}>
+      <button
+        type="button"
+        onClick={() => openProject(item.slug)}
+        className="group flex w-full items-center gap-3 px-3 py-2.5 text-left transition-colors duration-200 hover:bg-subtle/60"
+      >
+        <span className="relative hidden h-9 w-14 shrink-0 overflow-hidden rounded border border-line bg-sunken sm:block">
+          {item.shots.length > 0 ? (
+            <Image
+              src={item.shots[0].src}
+              alt=""
+              className="h-full w-full object-cover object-left-top"
+              sizes="56px"
+            />
+          ) : (
+            <StackBlock item={item} />
+          )}
+        </span>
+        <span className="min-w-0 flex-1">
+          <span className="block truncate text-sm font-medium tracking-tight">{item.name}</span>
+          <span className="block truncate text-xs text-ink-subtle">{item.tagline}</span>
+        </span>
+        <span className="hidden shrink-0 items-center gap-2 text-ink-faint md:flex">
+          {item.stack.slice(0, 4).map((tech) => (
+            <svg
+              key={tech.key}
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+              className="size-3.5"
+              fill="currentColor"
+            >
+              <path d={tech.path} />
+            </svg>
+          ))}
+        </span>
+        <span className="hidden shrink-0 font-mono text-[0.625rem] text-ink-faint tabular-nums sm:block">
+          {item.period}
+        </span>
+      </button>
+    </li>
+  );
+
+  const heading = (title: string) => (
+    <h2 className="font-mono text-xs tracking-wide text-ink-faint uppercase">{title}</h2>
+  );
 
   return (
     <>
-      {section(labels.inProduction, live, true)}
-      {section(labels.other, rest)}
+      {live.length > 0 && (
+        <section>
+          {heading(labels.inProduction)}
+          <ul className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-3 xl:grid-cols-4">
+            {live.map((item, i) => tile(item, i === 0))}
+          </ul>
+        </section>
+      )}
+      {rest.length > 0 && (
+        <section className="mt-8">
+          {heading(labels.other)}
+          <ul className="mt-3 divide-y divide-line overflow-hidden rounded-xl border border-line bg-canvas/70 backdrop-blur-sm">
+            {rest.map(row)}
+          </ul>
+        </section>
+      )}
 
       {/* A regra useKeyWithClickEvents pede um equivalente de teclado para
           todo onClick. Aqui ele ja existe e e melhor do que um sintetico: o

@@ -50,9 +50,7 @@ export const es: Dictionary = {
   },
   skills: {
     title: "Skills",
-    lead: "Lo que he usado en algo real. Ordenado por cuánto lo uso.",
-    scaleNote:
-      "Cinco significa que lo abro casi todos los días. Uno significa que lo he usado lo suficiente para resolver.",
+    lead: "Lo que he usado en trabajo real.",
     groups: {
       language: "Lenguajes",
       backend: "Backend",

@@ -63,9 +63,7 @@ export const en = {
   },
   skills: {
     title: "Skills",
-    lead: "What I have used in something real. Ordered by how much I use it.",
-    scaleNote:
-      "Five means I open it most days. One means I have used it enough to get the job done.",
+    lead: "What I have used in real work.",
     groups: {
       language: "Languages",
       backend: "Backend",

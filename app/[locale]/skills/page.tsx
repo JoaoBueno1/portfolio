@@ -24,22 +24,29 @@ export default async function SkillsPage({ params }: PageProps<"/[locale]/skills
   const t = await getDictionary(locale);
   const groups = skillGroups();
 
+  // Ancorado no topo, e nao centrado: a cena do fundo vive no rodape da tela,
+  // e centrar empurrava as ultimas linhas para cima da cidade.
   return (
-    <main id="main" className="flex min-h-svh flex-col justify-center px-6 py-12 lg:px-14 lg:py-16">
+    <main id="main" className="flex min-h-svh flex-col justify-start px-6 py-12 lg:px-14 lg:py-16">
       <div className="max-w-5xl">
         <h1 className="font-mono text-xs tracking-wide text-ink-faint uppercase">
           {t.skills.title}
         </h1>
         <p className="mt-3 text-base text-ink">{t.skills.lead}</p>
-        <p className="mt-1 text-xs text-ink-faint">{t.skills.scaleNote}</p>
 
-        <div className="mt-8 grid gap-x-10 gap-y-8 sm:grid-cols-2 xl:grid-cols-3">
+        {/* Cada grupo num card, como os de Soft skills: fundo translucido com
+            desfoque. E o que faz a lista ler por cima da cena do fundo sem
+            precisar de veu na cena inteira. */}
+        <div className="mt-6 grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
           {groups.map((group) => (
-            <section key={group.id}>
+            <section
+              key={group.id}
+              className="rounded-xl border border-line bg-canvas/70 p-4 backdrop-blur-sm"
+            >
               <h2 className="font-mono text-xs tracking-wide text-ink-faint uppercase">
                 {t.skills.groups[group.id]}
               </h2>
-              <ul className="mt-3 divide-y divide-line border-y border-line">
+              <ul className="mt-2 divide-y divide-line">
                 {group.keys.map((key) => {
                   const tech = STACK[key];
                   return (

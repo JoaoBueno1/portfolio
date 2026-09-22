@@ -12,6 +12,9 @@ type Theme = "light" | "dark";
  * quem escolheu escuro. Este componente so precisa DESCOBRIR o que ja esta
  * valendo e permitir trocar.
  *
+ * Tem o MESMO desenho dos botoes de contato ao lado (circulo com borda e
+ * fundo): sem fundo proprio ele sumia sobre a cena da coluna.
+ *
  * `mounted` existe porque o botao nao tem como saber o tema no servidor: a
  * escolha vive no localStorage do visitante. Renderizar um rotulo no servidor
  * e outro no cliente e erro de hidratacao, entao o botao nasce neutro.
@@ -46,7 +49,7 @@ export function ThemeToggle({ label }: { label: string }) {
       onClick={toggle}
       aria-label={label}
       title={label}
-      className="grid size-9 place-items-center rounded-md text-ink-muted transition-colors hover:bg-subtle hover:text-ink"
+      className="grid size-10 place-items-center rounded-full border border-line bg-canvas text-ink-subtle transition-colors duration-200 hover:border-accent hover:text-accent"
     >
       {/* Sol e lua no mesmo path set, trocados por opacidade para o botao
           nao mudar de tamanho entre os estados. */}

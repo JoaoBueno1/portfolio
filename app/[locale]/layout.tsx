@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import "../globals.css";
-import { RouteField } from "@/components/route-field";
+import { AmbientMotion } from "@/components/ambient-motion";
+import { AmbientScene } from "@/components/ambient-scene";
 import { Sidebar } from "@/components/sidebar";
 import { isLocale, LOCALE_HTML_LANG, LOCALES } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
@@ -71,10 +72,19 @@ export default async function LocaleLayout({ children, params }: LayoutProps<"/[
         {/* O fundo vive AQUI, uma vez so, fixo atras de tudo. Trocar de aba
             nao troca o fundo, e o site passa a parecer uma superficie so em
             vez de quatro telas diferentes. `-z-10` o coloca atras do
-            conteudo; `pointer-events-none` impede que ele roube clique. */}
-        <div className="pointer-events-none fixed inset-0 -z-10" aria-hidden="true">
-          <RouteField />
+            conteudo; `pointer-events-none` impede que ele roube clique.
+
+            TESTE (dev): a cena ilustrada no lugar do campo de rotas. Para
+            voltar, troque `<AmbientScene />` por `<RouteField />`, que
+            continua em `components/route-field.tsx`. O fundo comeca depois da
+            coluna: a cena e do conteudo, nao da coluna, que tem a sua. */}
+        <div
+          className="pointer-events-none fixed inset-0 -z-10 lg:left-(--sidebar-w)"
+          aria-hidden="true"
+        >
+          <AmbientScene />
         </div>
+        <AmbientMotion />
         <Sidebar
           locale={locale}
           t={{

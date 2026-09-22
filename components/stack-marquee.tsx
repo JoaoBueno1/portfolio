@@ -12,10 +12,15 @@ import { ALL_KEYS, STACK } from "@/lib/content/stack";
  * A segunda copia e `aria-hidden`: para o leitor de tela a lista tem 27
  * itens, nao 54.
  *
- * SEM BORDA E SEM FUNDO PROPRIO, de proposito. Como bloco separado ele virava
- * mais um retangulo no rodape, e a tela ja tinha caixas demais. As pontas
- * somem por `mask-image`, e nao por um gradiente colorido: mascara apaga de
- * verdade, entao o campo de rotas do fundo continua aparecendo por baixo.
+ * SEM BORDA, de proposito. Como bloco separado ele virava mais um retangulo
+ * no rodape, e a tela ja tinha caixas demais. As pontas somem por
+ * `mask-image`, e nao por um gradiente colorido: mascara apaga de verdade.
+ *
+ * TESTE (dev): com a cena ilustrada no fundo, o carrossel cai em cima do mar
+ * e icone claro some ali. Ele ganhou uma faixa translucida com desfoque, sem
+ * borda, e a mascara das pontas dissolve a faixa junto com os icones, entao
+ * continua nao parecendo uma caixa. Os icones subiram um tom (`ink-subtle`)
+ * pelo mesmo motivo.
  *
  * Para no hover, porque quem parou o mouse ali quer ler um nome. E nao anda
  * sob `prefers-reduced-motion`, pela regra global do globals.css.
@@ -29,7 +34,7 @@ export function StackMarquee() {
             viewBox="0 0 24 24"
             role={duplicate ? "presentation" : "img"}
             aria-label={duplicate ? undefined : STACK[key].title}
-            className="size-6 text-ink-faint transition-colors duration-300 hover:text-accent"
+            className="size-6 text-ink-subtle transition-colors duration-300 hover:text-accent"
             fill="currentColor"
           >
             {!duplicate && <title>{STACK[key].title}</title>}
@@ -41,7 +46,7 @@ export function StackMarquee() {
   );
 
   return (
-    <div className="marquee overflow-hidden py-4">
+    <div className="marquee overflow-hidden rounded-2xl bg-canvas/70 py-4 backdrop-blur-sm">
       <div className="marquee-track flex w-max">
         {row(false)}
         {row(true)}

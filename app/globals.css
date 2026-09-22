@@ -77,9 +77,26 @@
      precisa de um recuo do MESMO tamanho. Dois numeros escritos a mao
      divergem no primeiro ajuste e o conteudo passa a ficar por baixo do
      menu; uma variavel nao tem como divergir.
-     28% da tela, presa entre 16rem (nao espremer o menu) e 22rem (nao
-     roubar leitura do conteudo num monitor largo). */
-  --sidebar-w: clamp(16rem, 28%, 22rem);
+     24% da tela, presa entre 15rem (nao espremer os quatro botoes de
+     contato, que somam 13rem) e 18rem (nao roubar leitura do conteudo num
+     monitor largo). Era 28% ate 22rem; com a cena ilustrada na coluna, o
+     conteudo pedia mais espaco. */
+  --sidebar-w: clamp(15rem, 24%, 18rem);
+
+  /* — Cenas ilustradas (TESTE, branch dev) —
+     Cor AMOSTRADA da propria arte: o rastro do sol na agua, que serve de
+     brilho nas duas cenas. Nao sao tokens de interface e nao mudam com o tema: no
+     escuro a cena inteira, efeito incluido, e escurecida por `--scene-dim`. */
+  --art-glint: #fbeedd;
+  --scene-dim: none;
+  /* Onde o ceu da baia termina de se dissolver no fundo, medido do topo do
+     palco. No escuro o ceu quase branco vira um bloco cinza, entao ele se
+     dissolve mais tarde e so a faixa do mar e da cidade fica visivel. */
+  --scene-fade: 45%;
+
+  /* Sombra: escura nos DOIS temas de proposito. `ink` inverte no escuro e
+     uma sombra feita com ela vira um halo claro. */
+  --c-shade: #16151a;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -103,6 +120,9 @@
 
     --c-ok: #5fbf8f;
     --c-danger: #f08585;
+
+    --scene-dim: brightness(0.55) saturate(0.85);
+    --scene-fade: 72%;
   }
 }
 
@@ -126,6 +146,9 @@
 
   --c-ok: #5fbf8f;
   --c-danger: #f08585;
+
+  --scene-dim: brightness(0.55) saturate(0.85);
+  --scene-fade: 72%;
 }
 
 @theme inline {
@@ -148,6 +171,7 @@
 
   --color-ok: var(--c-ok);
   --color-danger: var(--c-danger);
+  --color-shade: var(--c-shade);
 
   /* Uma familia so, com numeral tabular para as tabelas de numero dos
      cases. A pilha de sistema evita uma requisicao de fonte e nao tem
@@ -228,29 +252,115 @@ body {
   animation-duration: 19s;
 }
 
-/* Os nos respiram. Sao 7 segundos com atraso escalonado por no, entao nunca
-   pulsam juntos: um pulso sincronizado pareceria um alarme, nao um mapa. */
-.route-node {
-  animation: route-pulse 7s ease-in-out infinite;
+/* ============================================================
+   CENAS ILUSTRADAS (components/ambient-scene.tsx, coast-scene.tsx)
+
+   TESTE de fundo em pixel art, so na branch dev.
+
+   O truque e o palco (`.scene-stage`): um retangulo com a proporcao EXATA
+   da arte, ancorado onde esta o assunto (a praia, embaixo). Na coluna ele
+   cobre a area; no conteudo ele ocupa a largura e deixa o ceu se dissolver
+   no fundo, porque o assunto e uma faixa no rodape da arte. A imagem
+   preenche o palco e o SVG dos efeitos tambem, com `viewBox` no tamanho
+   da arte. Assim imagem e efeito compartilham o sistema de coordenadas:
+   escalam juntos, cortam juntos, e nao ha como o brilho sair da agua.
+
+   `container-type: size` no `.scene` e o que da acesso a `cqw`/`cqh`, as
+   medidas da area a cobrir. Sem isso o palco teria que ser medido em JS.
+
+   No escuro a cena inteira passa por `--scene-dim`, efeito incluido.
+   Com a aba oculta, `data-hidden` no <html> pausa tudo que e `.ambient`.
+   Sob `prefers-reduced-motion` a regra global reduz cada animacao a um
+   quadro so, e como todas terminam em opacidade zero, nao sobra pixel
+   parado por cima da arte.
+   ============================================================ */
+.scene {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  container-type: size;
 }
 
-@keyframes route-pulse {
+.scene-stage {
+  position: absolute;
+  bottom: 0;
+  aspect-ratio: var(--art-w) / var(--art-h);
+  height: max(100cqh, calc(100cqw * var(--art-h) / var(--art-w)));
+  filter: var(--scene-dim);
+}
+
+/* A baia NAO cobre a area: ocupa a largura inteira, ancorada embaixo, e o
+   ceu vazio do topo se dissolve no fundo do site por mascara. `height: auto`
+   devolve a altura a `aspect-ratio`.
+
+   A SEGUNDA mascara, horizontal, e a separacao da coluna: a cena nasce
+   transparente na borda da coluna e so aparece inteira 8rem depois. Fica
+   uma faixa de fundo liso entre as duas artes, e a borda forte com sombra
+   da coluna cai sobre fundo liso, nao sobre mar. As duas mascaras se
+   intersectam; sem `mask-composite` a segunda substituiria a primeira. */
+.scene-stage--bay {
+  left: 0;
+  width: 100%;
+  height: auto;
+  mask-image:
+    linear-gradient(to bottom, transparent 0%, black var(--scene-fade)),
+    linear-gradient(to right, transparent 0, black 8rem);
+  mask-composite: intersect;
+}
+
+/* A costa e simetrica: centra e corta as duas pontas por igual. */
+.scene-stage--coast {
+  left: 50%;
+  translate: -50% 0;
+}
+
+/* Um veu da cor do fundo por cima da cena, so no celular, onde o texto
+   passa por cima da faixa da cidade. No desktop o texto le sobre o ceu,
+   que ja e quase da cor do fundo, e o veu sumiria a cena a toa. */
+.scene-veil {
+  position: absolute;
+  inset: 0;
+  background: color-mix(in srgb, var(--c-canvas) 55%, transparent);
+}
+
+@media (min-width: 64rem) {
+  .scene-veil {
+    background: none;
+  }
+}
+
+/* O veu da coluna existe em todo tamanho: solido da cor da coluna ate 38%
+   da altura, onde ficam foto, nome e cargo, e dissolvido a 62%, acima de
+   onde a paisagem comeca. */
+.scene-veil.scene-veil--coast {
+  background: linear-gradient(to bottom, var(--c-sunken) 0%, var(--c-sunken) 38%, transparent 62%);
+}
+
+/* Reflexo: nao se move, so acende e apaga. Fica apagado metade do ciclo
+   para a agua nao virar um painel de LED. */
+.water-glint {
+  opacity: 0;
+  animation: water-glint ease-in-out infinite;
+}
+
+@keyframes water-glint {
   0%,
   100% {
-    opacity: 1;
+    opacity: 0;
   }
-  50% {
-    opacity: 0.35;
+  35% {
+    opacity: 0.75;
+  }
+  55% {
+    opacity: 0.2;
+  }
+  70% {
+    opacity: 0.6;
   }
 }
 
-@keyframes route-run {
-  from {
-    stroke-dashoffset: 2026;
-  }
-  to {
-    stroke-dashoffset: 0;
-  }
+:root[data-hidden] .ambient * {
+  animation-play-state: paused;
 }
 
 /* ============================================================

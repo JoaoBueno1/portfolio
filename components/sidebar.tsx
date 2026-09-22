@@ -1,11 +1,14 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 import { PROFILE } from "@/lib/content/profile";
 import { LOCALE_LABELS, LOCALES, type Locale } from "@/lib/i18n/config";
+import avatar from "@/public/art/avatar.webp";
 import { ContactIcon } from "./brand-icons";
+import { CoastScene } from "./coast-scene";
 import { ThemeToggle } from "./theme-toggle";
 
 /**
@@ -76,14 +79,16 @@ export function Sidebar({ locale, t }: { locale: Locale; t: SidebarLabels }) {
     router.push(`/${next}${rest ? `/${rest}` : ""}`);
   }
 
-  const avatar = (
-    <div
-      role="img"
-      aria-label={t.photoAlt}
-      className="grid size-32 place-items-center rounded-full border border-line-strong bg-canvas font-mono text-2xl font-semibold text-ink-subtle shadow-sm"
-    >
-      JB
-    </div>
+  /* TESTE (dev): retrato em pixel art no lugar das iniciais. Arquivo de
+     256px sem perda, servido byte a byte, porque pixel art nao sobrevive a
+     recompressao. Depois entra a foto de verdade, no mesmo lugar. */
+  const photo = (
+    <Image
+      src={avatar}
+      alt={t.photoAlt}
+      unoptimized
+      className="size-32 rounded-full border border-line-strong object-cover shadow-sm"
+    />
   );
 
   const nav = (
@@ -187,9 +192,22 @@ export function Sidebar({ locale, t }: { locale: Locale; t: SidebarLabels }) {
           `justify-between` com o bloco de navegacao em `flex-1` e o que
           deixa os quatro botoes centrados no meio vertical, com a foto
           ancorada no topo e o contato no rodape. */}
-      <aside className="fixed inset-y-0 left-0 z-40 hidden w-(--sidebar-w) flex-col items-center justify-between gap-6 overflow-y-auto border-r border-line bg-sunken px-6 py-10 lg:flex">
+      {/* TESTE (dev): a cena da costa por tras da coluna. A borda forte e a
+          sombra na borda direita sao o que separa as duas cenas: sem elas o
+          horizonte da praia emendava no do fundo e as duas artes viravam uma. E um irmao da
+          `<aside>`, e nao um filho, porque a coluna rola quando a tela e
+          baixa e um fundo absoluto rolaria junto. Fica um nivel abaixo no
+          `z-index` e leva o `bg-sunken` que era da coluna, entao nada muda
+          enquanto a imagem carrega. */}
+      <div
+        className="pointer-events-none fixed inset-y-0 left-0 z-30 hidden w-(--sidebar-w) bg-sunken lg:block"
+        aria-hidden="true"
+      >
+        <CoastScene />
+      </div>
+      <aside className="fixed inset-y-0 left-0 z-40 hidden w-(--sidebar-w) flex-col items-center justify-between gap-6 overflow-y-auto border-r border-line-strong px-6 py-10 shadow-[16px_0_40px_-12px] shadow-shade/25 lg:flex">
         <div className="flex flex-col items-center gap-4">
-          {avatar}
+          {photo}
           <div className="text-center">
             <p className="text-lg font-semibold tracking-tight">{PROFILE.name}</p>
             <p className="mt-1 text-xs text-ink-subtle">{t.role}</p>
