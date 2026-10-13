@@ -1,0 +1,406 @@
+@import "tailwindcss";
+
+/* ============================================================
+   PORTFOLIO — TOKENS
+   Ponto unico de verdade. Nenhum hex cravado fora deste arquivo.
+
+   POR QUE ESTA PALETA NAO E A DO EMPREGADOR
+   O navy #021E60 e a marca do empregador e vai aparecer DENTRO das
+   capturas de tela. Se o site inteiro tambem fosse navy, o produto
+   sumiria dentro do cenario. A paleta daqui e quente e neutra de
+   proposito: ela emoldura as capturas em vez de competir com elas.
+
+   O acento e um terracota queimado. Nao e o azul padrao de portfolio
+   de dev, e passa contraste AA em corpo de texto nos dois temas — o
+   que a maioria dos acentos quentes nao faz.
+
+   CONTRASTE — medido com a formula da WCAG, nao estimado.
+   Colunas: canvas / sunken / subtle.
+
+   LIGHT  (#FBFAF8 · #F3F1ED · #EAE7E1)
+     ink        #16151A   17.41  16.10  14.72  OK
+     ink-muted  #4A4650    8.82   8.15   7.45  OK
+     ink-subtle #6E6877    5.15   4.76   4.35  OK / OK / so texto grande
+     ink-faint  #8A8394    3.50   3.23   2.96  so texto grande e borda
+     accent     #A03A16    6.47   5.98   5.47  OK
+     ok         #1F6F4A    5.87   5.43   4.96  OK
+     danger     #9B1C1C    7.81   7.23   6.60  OK
+     branco sobre accent #A03A16 = 6.75 OK (botao solido)
+
+   DARK   (#121114 · #1A181D · #232026)
+     ink        #F2F0EC   16.53  15.47  14.13  OK
+     ink-muted  #B3ADB8    8.59   8.04   7.34  OK
+     ink-subtle #8F8899    5.51   5.16   4.71  OK
+     ink-faint  #6E6877    3.50   3.28   2.99  so texto grande e borda
+     accent     #E87A4D    6.56   6.14   5.61  OK
+     ok         #5FBF8F    8.37   7.83   7.15  OK
+     danger     #F08585    7.53   7.04   6.43  OK
+     ink escuro #121114 sobre accent #E87A4D = 6.56 OK (botao solido)
+
+   COMO O TEMA TROCA
+   Os valores crus vivem em `:root` e sao redefinidos em dois lugares:
+   a media query (quem esta no "system") e `[data-theme]` (quem clicou
+   no seletor). O bloco `@theme inline` so APONTA para essas variaveis —
+   sem `inline` o Tailwind congelaria o valor claro dentro da utility e
+   o dark mode nao existiria.
+   ============================================================ */
+
+:root {
+  color-scheme: light dark;
+
+  /* — Superficies — */
+  --c-canvas: #fbfaf8;
+  --c-sunken: #f3f1ed;
+  --c-subtle: #eae7e1;
+  --c-line: #dedad2;
+  --c-line-strong: #c5bfb4;
+
+  /* — Tinta — */
+  --c-ink: #16151a;
+  --c-ink-muted: #4a4650;
+  --c-ink-subtle: #6e6877;
+  --c-ink-faint: #8a8394;
+  --c-ink-inverse: #fbfaf8;
+
+  /* — Acento — */
+  --c-accent: #a03a16;
+  --c-accent-hover: #8a3013;
+  --c-accent-soft: #f6e9e2;
+  --c-on-accent: #ffffff;
+
+  /* — Estado — */
+  --c-ok: #1f6f4a;
+  --c-danger: #9b1c1c;
+
+  /* A LARGURA DA COLUNA DA ESQUERDA, num lugar so.
+     A coluna e `position: fixed`, entao ela sai do fluxo e o conteudo
+     precisa de um recuo do MESMO tamanho. Dois numeros escritos a mao
+     divergem no primeiro ajuste e o conteudo passa a ficar por baixo do
+     menu; uma variavel nao tem como divergir.
+     24% da tela, presa entre 15rem (nao espremer os quatro botoes de
+     contato, que somam 13rem) e 18rem (nao roubar leitura do conteudo num
+     monitor largo). Era 28% ate 22rem; com a cena ilustrada na coluna, o
+     conteudo pedia mais espaco. */
+  --sidebar-w: clamp(15rem, 24%, 18rem);
+
+  /* — Cenas ilustradas (TESTE, branch dev) —
+     Cor AMOSTRADA da propria arte: o rastro do sol na agua, que serve de
+     brilho nas duas cenas. Nao sao tokens de interface e nao mudam com o tema: no
+     escuro a cena inteira, efeito incluido, e escurecida por `--scene-dim`. */
+  --art-glint: #fbeedd;
+  --scene-dim: none;
+  /* Onde o ceu da baia termina de se dissolver no fundo, medido do topo do
+     palco. No escuro o ceu quase branco vira um bloco cinza, entao ele se
+     dissolve mais tarde e so a faixa do mar e da cidade fica visivel. */
+  --scene-fade: 45%;
+
+  /* Sombra: escura nos DOIS temas de proposito. `ink` inverte no escuro e
+     uma sombra feita com ela vira um halo claro. */
+  --c-shade: #16151a;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --c-canvas: #121114;
+    --c-sunken: #1a181d;
+    --c-subtle: #232026;
+    --c-line: #2d2a32;
+    --c-line-strong: #423d49;
+
+    --c-ink: #f2f0ec;
+    --c-ink-muted: #b3adb8;
+    --c-ink-subtle: #8f8899;
+    --c-ink-faint: #6e6877;
+    --c-ink-inverse: #121114;
+
+    --c-accent: #e87a4d;
+    --c-accent-hover: #f0916b;
+    --c-accent-soft: #2b1f1a;
+    --c-on-accent: #121114;
+
+    --c-ok: #5fbf8f;
+    --c-danger: #f08585;
+
+    --scene-dim: brightness(0.55) saturate(0.85);
+    --scene-fade: 72%;
+  }
+}
+
+:root[data-theme="dark"] {
+  --c-canvas: #121114;
+  --c-sunken: #1a181d;
+  --c-subtle: #232026;
+  --c-line: #2d2a32;
+  --c-line-strong: #423d49;
+
+  --c-ink: #f2f0ec;
+  --c-ink-muted: #b3adb8;
+  --c-ink-subtle: #8f8899;
+  --c-ink-faint: #6e6877;
+  --c-ink-inverse: #121114;
+
+  --c-accent: #e87a4d;
+  --c-accent-hover: #f0916b;
+  --c-accent-soft: #2b1f1a;
+  --c-on-accent: #121114;
+
+  --c-ok: #5fbf8f;
+  --c-danger: #f08585;
+
+  --scene-dim: brightness(0.55) saturate(0.85);
+  --scene-fade: 72%;
+}
+
+@theme inline {
+  --color-canvas: var(--c-canvas);
+  --color-sunken: var(--c-sunken);
+  --color-subtle: var(--c-subtle);
+  --color-line: var(--c-line);
+  --color-line-strong: var(--c-line-strong);
+
+  --color-ink: var(--c-ink);
+  --color-ink-muted: var(--c-ink-muted);
+  --color-ink-subtle: var(--c-ink-subtle);
+  --color-ink-faint: var(--c-ink-faint);
+  --color-ink-inverse: var(--c-ink-inverse);
+
+  --color-accent: var(--c-accent);
+  --color-accent-hover: var(--c-accent-hover);
+  --color-accent-soft: var(--c-accent-soft);
+  --color-on-accent: var(--c-on-accent);
+
+  --color-ok: var(--c-ok);
+  --color-danger: var(--c-danger);
+  --color-shade: var(--c-shade);
+
+  /* Uma familia so, com numeral tabular para as tabelas de numero dos
+     cases. A pilha de sistema evita uma requisicao de fonte e nao tem
+     salto de layout — o que importa mais num site cuja primeira tela e
+     texto. Fonte de display entra depois, se entrar. */
+  --font-sans:
+    ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-mono:
+    ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+
+  /* Um easing so no site inteiro. Nao ha biblioteca de animacao aqui. */
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Movimento e um reforco, nunca o unico sinal. Quem pediu menos movimento
+   recebe o site inteiro, sem transicao nenhuma. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--c-canvas);
+  color: var(--c-ink);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Foco visivel em TODO elemento focavel. Navegacao por teclado nao e
+   detalhe de acessibilidade: e como metade dos desenvolvedores le um
+   portfolio de desenvolvedor. */
+:focus-visible {
+  outline: 2px solid var(--c-accent);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* ============================================================
+   O CAMPO DE ROTAS (components/route-field.tsx)
+
+   Um traco curto correndo por um trajeto longo. `stroke-dasharray`
+   desenha "risco de 26px, buraco de 2000px" — so um pedacinho e
+   visivel por vez — e a animacao empurra o `dashoffset` para que esse
+   pedaco atravesse o caminho inteiro.
+
+   O `2000` do buraco tem que ser maior que o comprimento do path, ou
+   um segundo traco aparece atras. As curvas aqui tem ~1400px.
+
+   As duas linhas correm em tempos diferentes e primos entre si (23s e
+   31s): batendo juntas, a repeticao ficaria obvia.
+
+   O bloco `prefers-reduced-motion` la em cima ja mata isto inteiro.
+   ============================================================ */
+.route-runner {
+  stroke-dasharray: 26 2000;
+  animation: route-run linear infinite;
+}
+
+.route-runner--a {
+  animation-duration: 23s;
+}
+
+.route-runner--b {
+  animation-duration: 31s;
+  animation-direction: reverse;
+}
+
+.route-runner--c {
+  animation-duration: 19s;
+}
+
+/* ============================================================
+   CENAS ILUSTRADAS (components/ambient-scene.tsx, coast-scene.tsx)
+
+   TESTE de fundo em pixel art, so na branch dev.
+
+   O truque e o palco (`.scene-stage`): um retangulo com a proporcao EXATA
+   da arte, ancorado onde esta o assunto (a praia, embaixo). Na coluna ele
+   cobre a area; no conteudo ele ocupa a largura e deixa o ceu se dissolver
+   no fundo, porque o assunto e uma faixa no rodape da arte. A imagem
+   preenche o palco e o SVG dos efeitos tambem, com `viewBox` no tamanho
+   da arte. Assim imagem e efeito compartilham o sistema de coordenadas:
+   escalam juntos, cortam juntos, e nao ha como o brilho sair da agua.
+
+   `container-type: size` no `.scene` e o que da acesso a `cqw`/`cqh`, as
+   medidas da area a cobrir. Sem isso o palco teria que ser medido em JS.
+
+   No escuro a cena inteira passa por `--scene-dim`, efeito incluido.
+   Com a aba oculta, `data-hidden` no <html> pausa tudo que e `.ambient`.
+   Sob `prefers-reduced-motion` a regra global reduz cada animacao a um
+   quadro so, e como todas terminam em opacidade zero, nao sobra pixel
+   parado por cima da arte.
+   ============================================================ */
+.scene {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  container-type: size;
+}
+
+.scene-stage {
+  position: absolute;
+  bottom: 0;
+  aspect-ratio: var(--art-w) / var(--art-h);
+  height: max(100cqh, calc(100cqw * var(--art-h) / var(--art-w)));
+  filter: var(--scene-dim);
+}
+
+/* A baia NAO cobre a area: ocupa a largura inteira, ancorada embaixo, e o
+   ceu vazio do topo se dissolve no fundo do site por mascara. `height: auto`
+   devolve a altura a `aspect-ratio`.
+
+   A SEGUNDA mascara, horizontal, e a separacao da coluna: a cena nasce
+   transparente na borda da coluna e so aparece inteira 8rem depois. Fica
+   uma faixa de fundo liso entre as duas artes, e a borda forte com sombra
+   da coluna cai sobre fundo liso, nao sobre mar. As duas mascaras se
+   intersectam; sem `mask-composite` a segunda substituiria a primeira. */
+.scene-stage--bay {
+  left: 0;
+  width: 100%;
+  height: auto;
+  mask-image:
+    linear-gradient(to bottom, transparent 0%, black var(--scene-fade)),
+    linear-gradient(to right, transparent 0, black 8rem);
+  mask-composite: intersect;
+}
+
+/* A costa e simetrica: centra e corta as duas pontas por igual. */
+.scene-stage--coast {
+  left: 50%;
+  translate: -50% 0;
+}
+
+/* Um veu da cor do fundo por cima da cena, so no celular, onde o texto
+   passa por cima da faixa da cidade. No desktop o texto le sobre o ceu,
+   que ja e quase da cor do fundo, e o veu sumiria a cena a toa. */
+.scene-veil {
+  position: absolute;
+  inset: 0;
+  background: color-mix(in srgb, var(--c-canvas) 55%, transparent);
+}
+
+@media (min-width: 64rem) {
+  .scene-veil {
+    background: none;
+  }
+}
+
+/* O veu da coluna existe em todo tamanho: solido da cor da coluna ate 38%
+   da altura, onde ficam foto, nome e cargo, e dissolvido a 62%, acima de
+   onde a paisagem comeca. */
+.scene-veil.scene-veil--coast {
+  background: linear-gradient(to bottom, var(--c-sunken) 0%, var(--c-sunken) 38%, transparent 62%);
+}
+
+/* Reflexo: nao se move, so acende e apaga. Fica apagado metade do ciclo
+   para a agua nao virar um painel de LED. */
+.water-glint {
+  opacity: 0;
+  animation: water-glint ease-in-out infinite;
+}
+
+@keyframes water-glint {
+  0%,
+  100% {
+    opacity: 0;
+  }
+  35% {
+    opacity: 0.75;
+  }
+  55% {
+    opacity: 0.2;
+  }
+  70% {
+    opacity: 0.6;
+  }
+}
+
+:root[data-hidden] .ambient * {
+  animation-play-state: paused;
+}
+
+/* ============================================================
+   CARROSSEL DE LOGOS (components/stack-marquee.tsx)
+
+   A faixa contem a lista duas vezes. Andar -50% e andar o
+   comprimento de UMA copia: no instante em que a animacao
+   reinicia, o desenho e identico, e a emenda some. Trocar esse
+   valor por qualquer outro traz o salto de volta.
+
+   `will-change` promove a faixa para a propria camada e tira a
+   animacao da thread principal.
+   ============================================================ */
+.marquee {
+  /* Apaga as pontas de verdade, em vez de cobri-las com um gradiente da cor
+     do fundo. Com mascara o campo de rotas continua visivel por baixo; com
+     gradiente colorido ele some numa faixa de 64px de cada lado. */
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    black 5rem,
+    black calc(100% - 5rem),
+    transparent
+  );
+}
+
+.marquee-track {
+  animation: marquee-scroll 55s linear infinite;
+  will-change: transform;
+}
+
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+@keyframes marquee-scroll {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
