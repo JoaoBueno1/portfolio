@@ -31,6 +31,14 @@ interface Labels {
   readonly seeOriginal: string;
   readonly caseStudy: string;
   readonly visitSite: string;
+  /** Os titulos das secoes do estudo de caso dentro do dialogo. */
+  readonly sections: {
+    readonly overview: string;
+    readonly challenge: string;
+    readonly solution: string;
+    readonly impact: string;
+    readonly highlights: string;
+  };
 }
 
 /** O icone de "abrir em tamanho real", o mesmo da galeria. */
@@ -622,12 +630,30 @@ export function ProjectBrowser({
     return { cell: parts.length ? parts.join(" ") : undefined, wide };
   }
 
+  const stackIcons = (item: ProjectView, max: number) =>
+    item.stack.slice(0, max).map((tech) => (
+      <svg
+        key={tech.key}
+        viewBox="0 0 24 24"
+        aria-hidden="true"
+        className="size-3.5"
+        fill="currentColor"
+      >
+        <path d={tech.path} />
+      </svg>
+    ));
+
+  /* O CARD E UM <article> COM UM <h3> DENTRO, e o botao que abre o dialogo
+     mora no h3. Antes o card inteiro era um <button> e o nome do projeto um
+     <span>: para um leitor automatico a pagina tinha um h1, dois h2 e nenhum
+     nome de sistema era titulo de coisa alguma. O botao continua cobrindo o
+     card inteiro, por um pseudo-elemento esticado sobre o <article>
+     (`after:absolute after:inset-0`), entao o alvo de clique e o mesmo. O
+     anel de foco vai no card, onde o olho procura, e nao so no texto. */
   const tile = (item: ProjectView, featured = false, cell?: string, wide = false) => (
     <li key={item.slug} className={cell}>
-      <button
-        type="button"
-        onClick={() => openProject(item.slug)}
-        className={`group flex h-full w-full flex-col overflow-hidden rounded-xl border border-line bg-canvas/70 text-left backdrop-blur-sm transition-all duration-300 [transition-timing-function:var(--ease-out-soft)] hover:-translate-y-0.5 hover:border-line-strong hover:shadow-sm ${wide ? "xl:flex-row" : ""}`}
+      <article
+        className={`group relative flex h-full w-full flex-col overflow-hidden rounded-xl border border-line bg-canvas/70 backdrop-blur-sm transition-all duration-300 [transition-timing-function:var(--ease-out-soft)] hover:-translate-y-0.5 hover:border-line-strong hover:shadow-sm has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-accent ${wide ? "xl:flex-row" : ""}`}
       >
         <div
           className={`relative w-full overflow-hidden border-b border-line bg-sunken ${featured ? "min-h-56 flex-1" : "aspect-[16/10]"} ${wide ? "xl:aspect-[16/8] xl:w-1/2 xl:shrink-0 xl:border-r xl:border-b-0" : ""}`}
@@ -665,14 +691,20 @@ export function ProjectBrowser({
         >
           <div className="flex items-center gap-2">
             {item.status === "live" && (
-              <span className="size-1.5 rounded-full bg-ok" aria-hidden="true" />
+              <span className="size-1.5 shrink-0 rounded-full bg-ok" aria-hidden="true" />
             )}
             {item.status === "building" && (
-              <span className="size-1.5 rounded-full bg-accent" aria-hidden="true" />
+              <span className="size-1.5 shrink-0 rounded-full bg-accent" aria-hidden="true" />
             )}
-            <span className={`font-semibold tracking-tight ${featured ? "text-base" : "text-sm"}`}>
-              {item.name}
-            </span>
+            <h3 className={`font-semibold tracking-tight ${featured ? "text-base" : "text-sm"}`}>
+              <button
+                type="button"
+                onClick={() => openProject(item.slug)}
+                className="text-left after:absolute after:inset-0 after:content-[''] focus:outline-none"
+              >
+                {item.name}
+              </button>
+            </h3>
           </div>
           <p
             className={`leading-relaxed text-ink-subtle ${featured ? "text-sm" : "line-clamp-2 text-xs"} ${wide ? "xl:line-clamp-none xl:text-sm" : ""}`}
@@ -680,34 +712,21 @@ export function ProjectBrowser({
             {item.tagline}
           </p>
           <div className="mt-auto flex items-center gap-2 pt-2 text-ink-faint">
-            {item.stack.slice(0, 5).map((tech) => (
-              <svg
-                key={tech.key}
-                viewBox="0 0 24 24"
-                aria-hidden="true"
-                className="size-3.5"
-                fill="currentColor"
-              >
-                <path d={tech.path} />
-              </svg>
-            ))}
+            {stackIcons(item, 5)}
           </div>
         </div>
-      </button>
+      </article>
     </li>
   );
 
   /* OS TRABALHOS DE ESTUDO SAO LISTA, NAO CARD. Card do mesmo tamanho dava
      ao exercicio de curso o mesmo peso do sistema em producao, e a tese do
      site e o contrario. Uma linha por projeto (miniatura, nome, uma frase,
-     stack, periodo) abre o mesmo dialogo, so ocupa um quarto do espaco. */
+     stack, periodo) abre o mesmo dialogo, so ocupa um quarto do espaco.
+     Mesma estrutura do card: <article>, <h3> e o botao esticado. */
   const row = (item: ProjectView) => (
     <li key={item.slug}>
-      <button
-        type="button"
-        onClick={() => openProject(item.slug)}
-        className="group flex w-full items-center gap-3 px-3 py-2.5 text-left transition-colors duration-200 hover:bg-subtle/60"
-      >
+      <article className="group relative flex w-full items-center gap-3 px-3 py-2.5 transition-colors duration-200 hover:bg-subtle/60 has-[:focus-visible]:bg-subtle/60">
         <span className="relative hidden h-9 w-14 shrink-0 overflow-hidden rounded border border-line bg-sunken sm:block">
           {item.shots.length > 0 ? (
             <Image
@@ -721,31 +740,40 @@ export function ProjectBrowser({
           )}
         </span>
         <span className="min-w-0 flex-1">
-          <span className="block truncate text-sm font-medium tracking-tight">{item.name}</span>
+          <h3 className="truncate text-sm font-medium tracking-tight">
+            <button
+              type="button"
+              onClick={() => openProject(item.slug)}
+              className="text-left after:absolute after:inset-0 after:content-[''] focus:outline-none"
+            >
+              {item.name}
+            </button>
+          </h3>
           <span className="block truncate text-xs text-ink-subtle">{item.tagline}</span>
         </span>
         <span className="hidden shrink-0 items-center gap-2 text-ink-faint md:flex">
-          {item.stack.slice(0, 4).map((tech) => (
-            <svg
-              key={tech.key}
-              viewBox="0 0 24 24"
-              aria-hidden="true"
-              className="size-3.5"
-              fill="currentColor"
-            >
-              <path d={tech.path} />
-            </svg>
-          ))}
+          {stackIcons(item, 4)}
         </span>
         <span className="hidden shrink-0 font-mono text-[0.625rem] text-ink-subtle tabular-nums sm:block">
           {item.period}
         </span>
-      </button>
+      </article>
     </li>
   );
 
   const heading = (title: string) => (
     <h2 className="font-mono text-xs tracking-wide text-ink-subtle uppercase">{title}</h2>
+  );
+
+  const titleId = (slug: string) => `project-title-${slug}`;
+
+  /* Uma secao do estudo de caso: rotulo pequeno em cima, texto embaixo. O
+     rotulo e um h4 de verdade, abaixo do h3 do nome do projeto. */
+  const block = (label: string, text: string) => (
+    <section>
+      <h4 className="font-mono text-[0.625rem] tracking-wide text-ink-subtle uppercase">{label}</h4>
+      <p className="mt-1 text-sm leading-relaxed text-ink-muted text-pretty">{text}</p>
+    </section>
   );
 
   return (
@@ -775,9 +803,18 @@ export function ProjectBrowser({
           `<dialog>` nativo fecha no Esc sozinho, e isso chega no `onClose`
           abaixo. O onClick cobre so o clique no backdrop, que nao tem nem
           como receber foco. */}
+      {/* O TEXTO DE TODO PROJETO ESTA NO HTML, nao so o do dialogo aberto.
+          Antes o dialogo so existia depois do clique: resumo, papel, metricas
+          e estudo de caso nao apareciam para buscador nem para leitor
+          automatico, e a pagina mais importante do site dizia so dezesseis
+          nomes e dezesseis frases. Agora cada projeto e um <article> dentro
+          do <dialog>, escondido com `hidden` ate ser o aberto. Galeria e
+          painel de resultados continuam montados so para o projeto aberto:
+          sao eles que pesam, e o texto e o que precisa estar la. */}
       {/* biome-ignore lint/a11y/useKeyWithClickEvents: o Esc do <dialog> nativo e o equivalente de teclado, tratado em onClose. */}
       <dialog
         ref={dialogRef}
+        aria-labelledby={open ? titleId(open.slug) : undefined}
         onClose={(event) => {
           // O `close` nativo nao borbulha, mas o React repassa o `onClose` dos
           // dialogos de zoom aqui dentro para este. Sem o filtro, o Esc no zoom
@@ -789,152 +826,195 @@ export function ProjectBrowser({
         }}
         className="m-auto w-[min(62rem,calc(100vw-2rem))] rounded-2xl border border-line bg-canvas p-0 text-ink backdrop:bg-ink/40 backdrop:backdrop-blur-sm"
       >
-        {open && (
-          <article className="max-h-[88vh] overflow-y-auto">
-            <div className="relative">
-              <Gallery item={open} labels={labels} />
-              <button
-                type="button"
-                onClick={close}
-                aria-label={labels.close}
-                className="absolute top-3 right-3 grid size-8 place-items-center rounded-full border border-line bg-canvas/90 text-ink-muted backdrop-blur-sm hover:text-ink"
-              >
-                <svg
-                  viewBox="0 0 24 24"
-                  className="size-4"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1.8"
-                  aria-hidden="true"
-                >
-                  <path d="M6 6l12 12M18 6L6 18" strokeLinecap="round" />
-                </svg>
-              </button>
-            </div>
-
-            <div className="flex flex-col gap-5 p-5 sm:p-7">
-              <div>
-                <div className="flex flex-wrap items-center gap-2 text-xs text-ink-subtle">
-                  <span
-                    className={`rounded-full px-2 py-0.5 font-medium ${
-                      open.status === "live"
-                        ? "bg-ok/12 text-ok"
-                        : open.status === "building"
-                          ? "bg-accent-soft text-accent"
-                          : "bg-subtle text-ink-muted"
-                    }`}
+        {items.map((item) => {
+          const isOpen = open?.slug === item.slug;
+          const study = item.caseStudy;
+          return (
+            <article key={item.slug} hidden={!isOpen} className="max-h-[88vh] overflow-y-auto">
+              {isOpen && (
+                <div className="relative">
+                  <Gallery item={item} labels={labels} />
+                  <button
+                    type="button"
+                    onClick={close}
+                    aria-label={labels.close}
+                    className="absolute top-3 right-3 grid size-8 place-items-center rounded-full border border-line bg-canvas/90 text-ink-muted backdrop-blur-sm hover:text-ink"
                   >
-                    {labels.status[open.status]}
-                  </span>
-                  <span>{labels.domains[open.domain]}</span>
-                  <span aria-hidden="true">·</span>
-                  <span>{open.period}</span>
-                </div>
-                <h3 className="mt-3 text-xl font-semibold tracking-tight text-balance">
-                  {open.name}
-                </h3>
-                <p className="mt-1 text-sm text-ink-subtle">{open.tagline}</p>
-                {/* O unico sistema com endereco publico. O dominio aparece
-                    escrito: e o que diz, antes do clique, que aquilo existe. */}
-                {open.link && (
-                  <a
-                    href={open.link.url}
-                    target="_blank"
-                    rel="noopener"
-                    className="mt-4 inline-flex items-center gap-2 rounded-full bg-accent px-4 py-2 text-sm font-medium text-on-accent transition-colors hover:bg-accent-hover"
-                  >
-                    {labels.visitSite}
-                    <span className="font-mono text-xs opacity-80">{open.link.host}</span>
                     <svg
                       viewBox="0 0 24 24"
-                      className="size-3.5"
+                      className="size-4"
                       fill="none"
                       stroke="currentColor"
-                      strokeWidth="2"
+                      strokeWidth="1.8"
                       aria-hidden="true"
                     >
-                      <path d="M7 17L17 7M9 7h8v8" strokeLinecap="round" strokeLinejoin="round" />
+                      <path d="M6 6l12 12M18 6L6 18" strokeLinecap="round" />
                     </svg>
-                  </a>
+                  </button>
+                </div>
+              )}
+
+              <div className="flex flex-col gap-5 p-5 sm:p-7">
+                <div>
+                  <div className="flex flex-wrap items-center gap-2 text-xs text-ink-subtle">
+                    <span
+                      className={`rounded-full px-2 py-0.5 font-medium ${
+                        item.status === "live"
+                          ? "bg-ok/12 text-ok"
+                          : item.status === "building"
+                            ? "bg-accent-soft text-accent"
+                            : "bg-subtle text-ink-muted"
+                      }`}
+                    >
+                      {labels.status[item.status]}
+                    </span>
+                    <span>{labels.domains[item.domain]}</span>
+                    <span aria-hidden="true">·</span>
+                    <span>{item.period}</span>
+                  </div>
+                  <h3
+                    id={titleId(item.slug)}
+                    className="mt-3 text-xl font-semibold tracking-tight text-balance"
+                  >
+                    {item.name}
+                  </h3>
+                  <p className="mt-1 text-sm text-ink-subtle">{item.tagline}</p>
+                  {/* O unico sistema com endereco publico. O dominio aparece
+                      escrito: e o que diz, antes do clique, que aquilo existe. */}
+                  {item.link && (
+                    <a
+                      href={item.link.url}
+                      target="_blank"
+                      rel="noopener"
+                      className="mt-4 inline-flex items-center gap-2 rounded-full bg-accent px-4 py-2 text-sm font-medium text-on-accent transition-colors hover:bg-accent-hover"
+                    >
+                      {labels.visitSite}
+                      <span className="font-mono text-xs opacity-80">{item.link.host}</span>
+                      <svg
+                        viewBox="0 0 24 24"
+                        className="size-3.5"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        aria-hidden="true"
+                      >
+                        <path d="M7 17L17 7M9 7h8v8" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                    </a>
+                  )}
+                </div>
+
+                {block(labels.sections.overview, item.summary)}
+
+                {item.shots.length === 0 && (
+                  <p className="text-xs text-ink-subtle">{labels.noShot}</p>
                 )}
-              </div>
 
-              <p className="text-sm leading-relaxed text-ink-muted text-pretty">{open.summary}</p>
-
-              {open.shots.length === 0 && (
-                <p className="text-xs text-ink-subtle">{labels.noShot}</p>
-              )}
-
-              {open.metrics.length > 0 && (
-                <dl className="grid grid-cols-2 gap-x-6 gap-y-4 rounded-xl bg-sunken p-5 sm:grid-cols-4">
-                  {open.metrics.map((metric) => (
-                    <div key={metric.label}>
-                      <dd className="font-mono text-lg font-semibold tabular-nums">
-                        {metric.value}
-                      </dd>
-                      <dt className="mt-0.5 text-xs leading-snug text-ink-subtle">
-                        {metric.label}
-                      </dt>
-                    </div>
-                  ))}
-                </dl>
-              )}
-
-              {/* `key` pelo projeto: trocar de projeto remonta o topico, que
-                  volta fechado em vez de herdar o estado do anterior. */}
-              {open.insights && (
-                <InsightsPanel key={open.slug} data={open.insights} labels={labels} />
-              )}
-
-              <div className="grid gap-4 border-t border-line pt-5 sm:grid-cols-2">
-                <div>
-                  <p className="font-mono text-[0.625rem] tracking-wide text-ink-subtle uppercase">
-                    {labels.roleLabel}
-                  </p>
-                  <p className="mt-1 text-sm text-ink-muted">{open.role}</p>
-                </div>
-                <div>
-                  <p className="font-mono text-[0.625rem] tracking-wide text-ink-subtle uppercase">
-                    {labels.stackLabel}
-                  </p>
-                  <ul className="mt-2 flex flex-wrap gap-3 text-ink-subtle">
-                    {open.stack.map((tech) => (
-                      <li key={tech.key}>
-                        <svg
-                          viewBox="0 0 24 24"
-                          role="img"
-                          aria-label={tech.title}
-                          className="size-5"
-                          fill="currentColor"
-                        >
-                          <title>{tech.title}</title>
-                          <path d={tech.path} />
-                        </svg>
-                      </li>
+                {/* `dt` antes de `dd`, como o HTML pede; o `flex-col-reverse`
+                    poe o numero em cima so na tela. */}
+                {item.metrics.length > 0 && (
+                  <dl className="grid grid-cols-2 gap-x-6 gap-y-4 rounded-xl bg-sunken p-5 sm:grid-cols-4">
+                    {item.metrics.map((metric) => (
+                      <div key={metric.label} className="flex flex-col-reverse gap-0.5">
+                        <dt className="text-xs leading-snug text-ink-subtle">{metric.label}</dt>
+                        <dd className="font-mono text-lg font-semibold tabular-nums">
+                          {metric.value}
+                        </dd>
+                      </div>
                     ))}
-                  </ul>
+                  </dl>
+                )}
+
+                {/* O ESTUDO DE CASO, na ordem em que se le um: o problema, o
+                    papel, a solucao, o que mudou. Dois a dois, porque sao
+                    paragrafos curtos e lado a lado se leem como par. */}
+                {study && (
+                  <div className="grid gap-5 border-t border-line pt-5 sm:grid-cols-2">
+                    {study.challenge && block(labels.sections.challenge, study.challenge)}
+                    {block(labels.roleLabel, item.role)}
+                    {study.solution && block(labels.sections.solution, study.solution)}
+                    {study.impact && block(labels.sections.impact, study.impact)}
+                  </div>
+                )}
+
+                {/* `key` pelo projeto: trocar de projeto remonta o topico, que
+                    volta fechado em vez de herdar o estado do anterior. */}
+                {isOpen && item.insights && (
+                  <InsightsPanel key={item.slug} data={item.insights} labels={labels} />
+                )}
+
+                {study && study.highlights.length > 0 && (
+                  <section className="border-t border-line pt-5">
+                    <h4 className="font-mono text-[0.625rem] tracking-wide text-ink-subtle uppercase">
+                      {labels.sections.highlights}
+                    </h4>
+                    <ul className="mt-2 flex flex-col gap-2">
+                      {study.highlights.map((line) => (
+                        <li
+                          key={line}
+                          className="flex gap-3 text-sm leading-relaxed text-ink-muted"
+                        >
+                          <span
+                            className="mt-[0.55rem] size-1 shrink-0 rounded-full bg-ink-subtle"
+                            aria-hidden="true"
+                          />
+                          <span className="text-pretty">{line}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </section>
+                )}
+
+                <div className="grid gap-4 border-t border-line pt-5 sm:grid-cols-2">
+                  {!study && block(labels.roleLabel, item.role)}
+                  <div className={study ? "sm:col-span-2" : undefined}>
+                    <h4 className="font-mono text-[0.625rem] tracking-wide text-ink-subtle uppercase">
+                      {labels.stackLabel}
+                    </h4>
+                    {/* O icone so no artigo aberto: sao dezesseis artigos no
+                        HTML e cada path de logo pesa mais que o texto inteiro
+                        do projeto. O nome escrito e o que importa para quem
+                        le sem ver, e ele fica sempre. */}
+                    <ul className="mt-2 flex flex-wrap gap-3 text-ink-subtle">
+                      {item.stack.map((tech) => (
+                        <li key={tech.key} className="flex items-center gap-1.5">
+                          {isOpen && (
+                            <svg
+                              viewBox="0 0 24 24"
+                              aria-hidden="true"
+                              className="size-4"
+                              fill="currentColor"
+                            >
+                              <path d={tech.path} />
+                            </svg>
+                          )}
+                          <span className="text-xs">{tech.title}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+
+                <div className="flex items-center justify-between border-t border-line pt-4">
+                  <button
+                    type="button"
+                    onClick={() => go(-1)}
+                    className="text-sm text-ink-muted hover:text-accent"
+                  >
+                    <span aria-hidden="true">←</span> {labels.previous}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => go(1)}
+                    className="text-sm text-ink-muted hover:text-accent"
+                  >
+                    {labels.next} <span aria-hidden="true">→</span>
+                  </button>
                 </div>
               </div>
-
-              <div className="flex items-center justify-between border-t border-line pt-4">
-                <button
-                  type="button"
-                  onClick={() => go(-1)}
-                  className="text-sm text-ink-muted hover:text-accent"
-                >
-                  <span aria-hidden="true">←</span> {labels.previous}
-                </button>
-                <button
-                  type="button"
-                  onClick={() => go(1)}
-                  className="text-sm text-ink-muted hover:text-accent"
-                >
-                  {labels.next} <span aria-hidden="true">→</span>
-                </button>
-              </div>
-            </div>
-          </article>
-        )}
+            </article>
+          );
+        })}
       </dialog>
     </>
   );

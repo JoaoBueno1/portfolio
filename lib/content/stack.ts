@@ -48,7 +48,8 @@ import {
  * competencia (Jinja2, Zod, Vite, Redis, NGINX, Zoho, Telegram), e o
  * ferramental do proprio repo, que ninguem contrata por (Biome, Vitest,
  * Notion). Nada disso e mentira; e so ruido numa pagina que tem poucos
- * segundos para dizer o que importa.
+ * segundos para dizer o que importa. Render saiu em 13/10/2026: o TMS foi
+ * para a AWS e a plataforma que ficou para tras nao e competencia.
  *
  * `level` de 1 a 5 e auto-avaliacao, e a pagina diz isso em texto. A escala e
  * de USO: 5 e o que eu abro quase todo dia, 1 e o que eu usei o bastante para
@@ -68,6 +69,13 @@ export interface Tech {
 /** O quadrado de quatro da Microsoft. O pacote removeu as marcas dela. */
 const MICROSOFT_PATH =
   "M1 1h10.2v10.2H1zM12.8 1H23v10.2H12.8zM1 12.8h10.2V23H1zM12.8 12.8H23V23H12.8z";
+
+/**
+ * Uma nuvem neutra para a AWS. O pacote tambem nao tem a marca dela, e o
+ * nome escrito ao lado e o que o leitor procura; o desenho so marca o grupo.
+ */
+const CLOUD_PATH =
+  "M19.35 10.04A7.49 7.49 0 0 0 12 4C9.11 4 6.6 5.64 5.35 8.04A5.994 5.994 0 0 0 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96z";
 
 const TECH = {
   // — Linguagens —
@@ -97,16 +105,16 @@ const TECH = {
   // — Nuvem, deploy e operacao —
   git: { title: "Git / GitHub", path: siGit.path, level: 5 },
   actions: { title: "GitHub Actions", path: siGithubactions.path, level: 4 },
+  aws: { title: "AWS", path: CLOUD_PATH, level: 4 },
   vercel: { title: "Vercel", path: siNextdotjs.path, level: 4 },
-  render: { title: "Render", path: siNodedotjs.path, level: 4 },
   sentry: { title: "Sentry", path: siSentry.path, level: 4 },
-  docker: { title: "Docker", path: siDocker.path, level: 3 },
-  linux: { title: "Linux", path: siLinux.path, level: 3 },
+  docker: { title: "Docker", path: siDocker.path, level: 4 },
+  linux: { title: "Linux", path: siLinux.path, level: 4 },
 
   // — Integracao —
   claude: { title: "Claude / AI tooling", path: siAnthropic.path, level: 5 },
   googlemaps: { title: "Google Maps Platform", path: siGooglemaps.path, level: 4 },
-  microsoft: { title: "Microsoft 365 / Excel", path: MICROSOFT_PATH, level: 4 },
+  microsoft: { title: "Excel / Power Query", path: MICROSOFT_PATH, level: 4 },
   zebra: { title: "Zebra ZPL", path: siZebratechnologies.path, level: 4 },
 
   // — Fora da pagina de skills, mas necessarias para os projetos —
@@ -144,7 +152,7 @@ export const STACK_GROUPS = [
   { id: "backend", keys: ["flask", "express", "sqlalchemy", "rest"] },
   { id: "frontend", keys: ["react", "nextjs", "tailwind", "expo"] },
   { id: "data", keys: ["postgresql", "supabase", "sqlite", "pandas"] },
-  { id: "ops", keys: ["git", "actions", "vercel", "render", "sentry", "docker", "linux"] },
+  { id: "ops", keys: ["git", "actions", "aws", "docker", "linux", "vercel", "sentry"] },
   { id: "tools", keys: ["claude", "googlemaps", "microsoft", "zebra"] },
 ] as const satisfies readonly { id: string; keys: readonly StackKey[] }[];
 

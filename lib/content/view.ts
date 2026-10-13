@@ -2,7 +2,7 @@ import type { StaticImageData } from "next/image";
 import { LOCALES, type Locale } from "@/lib/i18n/config";
 import { PROJECTS } from "./projects";
 import { STACK, type StackKey } from "./stack";
-import type { Domain, I18nText, InsightChart, Metric, Shot, Status } from "./types";
+import type { CaseStudy, Domain, I18nText, InsightChart, Metric, Shot, Status } from "./types";
 
 /**
  * O projeto ja resolvido para UM idioma.
@@ -73,7 +73,24 @@ export interface ProjectView {
   }[];
   readonly shots: readonly ShotView[];
   readonly insights: InsightsView | null;
+  readonly caseStudy: CaseStudyView | null;
   readonly link: { readonly url: string; readonly host: string } | null;
+}
+
+export interface CaseStudyView {
+  readonly challenge: string | null;
+  readonly solution: string | null;
+  readonly impact: string | null;
+  readonly highlights: readonly string[];
+}
+
+function caseStudyView(cs: CaseStudy, locale: Locale): CaseStudyView {
+  return {
+    challenge: cs.challenge?.[locale] ?? null,
+    solution: cs.solution?.[locale] ?? null,
+    impact: cs.impact?.[locale] ?? null,
+    highlights: (cs.highlights ?? []).map((h) => h[locale]),
+  };
 }
 
 /** "2025-06" -> "Jun 2025", no idioma pedido. */
@@ -156,6 +173,7 @@ export function projectViews(locale: Locale, present: string): readonly ProjectV
                 : null,
             }
           : null,
+        caseStudy: p.caseStudy ? caseStudyView(p.caseStudy, locale) : null,
         link: p.link ? { url: p.link, host: new URL(p.link).host } : null,
       };
     });

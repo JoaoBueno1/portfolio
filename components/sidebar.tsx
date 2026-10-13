@@ -43,6 +43,8 @@ export interface SidebarLabels {
   readonly language: string;
   readonly theme: string;
   readonly role: string;
+  /** A segunda linha do cargo: a area, nao o titulo. */
+  readonly focus: string;
   readonly location: string;
   readonly photoAlt: string;
   readonly open: string;
@@ -198,7 +200,8 @@ export function Sidebar({ locale, t }: { locale: Locale; t: SidebarLabels }) {
           <div className="text-center">
             <p className="text-xl font-semibold tracking-tight">{PROFILE.name}</p>
             <p className="mt-1 text-xs text-ink-subtle">{t.role}</p>
-            <p className="text-xs text-ink-subtle">{t.location}</p>
+            <p className="text-xs text-ink-subtle">{t.focus}</p>
+            <p className="mt-1 text-xs text-ink-subtle">{t.location}</p>
           </div>
         </div>
 

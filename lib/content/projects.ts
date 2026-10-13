@@ -1,3 +1,4 @@
+import { CASE_STUDIES } from "./case-studies";
 import { gallery } from "./galleries";
 import { INSIGHTS } from "./insights";
 import { SHOTS } from "./shots";
@@ -36,7 +37,7 @@ export const PROJECTS: readonly Project[] = [
       "pandas",
       "zebra",
       "googlemaps",
-      "render",
+      "aws",
       "sentry",
     ],
     shots: [
@@ -50,6 +51,7 @@ export const PROJECTS: readonly Project[] = [
       SHOTS.tracking,
     ],
     insights: INSIGHTS.tms,
+    caseStudy: CASE_STUDIES.tms,
     metrics: [
       { value: "1,200+", label: { en: "commits", pt: "commits", es: "commits" } },
       {
@@ -108,6 +110,7 @@ export const PROJECTS: readonly Project[] = [
     stack: ["python", "flask", "postgresql", "openapi", "postman", "pytest"],
     shots: gallery("api"),
     insights: INSIGHTS.partnerApi,
+    caseStudy: CASE_STUDIES.partnerApi,
     metrics: [
       {
         value: "613",
@@ -174,6 +177,7 @@ export const PROJECTS: readonly Project[] = [
     period: { from: "2025-06" },
     stack: ["typescript", "react", "expo", "supabase", "googlemaps", "sentry"],
     shots: gallery("driver"),
+    caseStudy: CASE_STUDIES.driverApp,
     metrics: [
       { value: "15", label: { en: "screens", pt: "telas", es: "pantallas" } },
       {
@@ -217,6 +221,7 @@ export const PROJECTS: readonly Project[] = [
     stack: ["javascript", "express", "postgresql", "supabase", "vercel", "actions"],
     shots: gallery("wh"),
     insights: INSIGHTS.warehouse,
+    caseStudy: CASE_STUDIES.warehouse,
     metrics: [
       {
         value: "20+",
@@ -263,6 +268,7 @@ export const PROJECTS: readonly Project[] = [
     stack: ["typescript", "nextjs", "claude", "postgresql", "supabase", "sql"],
     shots: gallery("ai"),
     insights: INSIGHTS.biAi,
+    caseStudy: CASE_STUDIES.biAi,
     metrics: [
       {
         value: "22",
@@ -329,6 +335,7 @@ export const PROJECTS: readonly Project[] = [
     period: { from: "2026-09" },
     stack: ["typescript", "nextjs", "react", "tailwind", "supabase", "rest"],
     shots: gallery("portal"),
+    caseStudy: CASE_STUDIES.accessPortal,
     // `link` volta aqui (o endereco publico do portal) quando o subdominio
     // existir no DNS. Botao para endereco que nao abre tira credibilidade.
     metrics: [

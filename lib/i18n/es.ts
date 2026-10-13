@@ -4,16 +4,18 @@ import type { Dictionary } from "./dictionaries";
 export const es: Dictionary = {
   meta: {
     aboutTitle: "João Silva",
+    siteTitle: "João Silva · Desarrollador Full Stack, Gold Coast",
     aboutDescription:
-      "Desarrollador full stack en Gold Coast, Australia. Construyo y opero los sistemas de una operación real de transporte y almacén.",
+      "Desarrollador full stack en Gold Coast, Australia. Web, backend, móvil, datos e integraciones, con software en uso diario en producción: Python, Flask, TypeScript, PostgreSQL, AWS.",
     skillsTitle: "Skills",
     skillsDescription:
-      "Lenguajes, frameworks, datos, infraestructura y herramientas, con cuánto uso realmente cada una.",
+      "Python, Flask, TypeScript, PostgreSQL, Supabase, API REST, AWS y el resto de la stack, con cuánto uso realmente cada una.",
     softTitle: "Soft skills",
     softDescription:
-      "Comunicación, liderazgo, investigación y feedback, con dónde ocurrió cada una.",
+      "Comunicación técnica, coordinación de proyectos, levantamiento de requisitos, formación de usuarios y feedback, con dónde ocurrió cada una.",
     projectsTitle: "Proyectos",
-    projectsDescription: "Sistemas en producción, herramientas internas, móvil y trabajo de curso.",
+    projectsDescription:
+      "Casos de estudio de sistemas en producción: un sistema de gestión de transporte, una plataforma de operaciones de almacén, un asistente de datos con IA, una API de transportista y una app de conductor, además de trabajo de curso.",
   },
   nav: {
     about: "Sobre mí",
@@ -28,21 +30,18 @@ export const es: Dictionary = {
   },
   sidebar: {
     role: "Desarrollador full stack",
+    focus: "Sistemas de negocio y automatización",
     location: "Gold Coast, Australia",
     photoAlt: "Foto de perfil",
     open: "Abrir menú",
     close: "Cerrar menú",
   },
-  stats: {
-    systems: "sistemas en producción",
-    commits: "commits sumando todos",
-    integrations: "sistemas externos integrados",
-  },
   about: {
     title: "Sobre mí",
+    headline: "Desarrollador full stack | Sistemas de negocio y automatización",
     intro: [
-      "Soy desarrollador de software en Gold Coast, Australia. Trabajo con aplicaciones web, sistemas de backend, móvil, bases de datos e integraciones, y el software que construyo está en uso diario en producción.",
-      "Tomo el trabajo desde el requisito y el diseño del flujo hasta el desarrollo y el despliegue, y sigo con él después. Tengo el Diploma of Information Technology en Database and Data Management.",
+      "Soy desarrollador de software en Gold Coast, Australia. Construyo software que la gente usa en el trabajo: aplicaciones web, servicios de backend, apps móviles, bases de datos y las integraciones que lo conectan todo. Lo que más me gusta es tomar un proceso que vive en la cabeza de la gente y en hojas de cálculo y convertirlo en un sistema que funciona solo.",
+      "Me gusta el trabajo de principio a fin: entender cómo la gente hace realmente su trabajo, diseñar el flujo, escribir el código, publicarlo y verlo en uso. Últimamente eso ha sido datos, automatización e IA dentro de las herramientas diarias de una empresa. Tengo el Diploma of Information Technology en Database and Data Management.",
     ],
     linkProjects: "Ver lo que he construido",
     linkSkills: "Ver las herramientas con las que trabajo",
@@ -54,6 +53,15 @@ export const es: Dictionary = {
   skills: {
     title: "Skills",
     lead: "Lo que uso en trabajo real, marcado por la frecuencia.",
+    capabilitiesTitle: "Qué hago con ellas",
+    capabilities: [
+      "Aplicaciones web en producción, del requisito al despliegue y al soporte",
+      "Diseño e integración de API REST, con un contrato que el socio puede probar",
+      "Integraciones con ERP y transportistas para operaciones de almacén y transporte",
+      "Automatización de procesos: trabajos programados, etiquetas, conciliación e informes",
+      "SQL y procesamiento de datos sobre PostgreSQL, con Excel y Power Query encima",
+      "Despliegue y mantenimiento en la nube en AWS y Vercel, con monitoreo y alertas",
+    ],
     groups: {
       language: "Lenguajes",
       backend: "Backend",
@@ -66,7 +74,7 @@ export const es: Dictionary = {
   },
   soft: {
     title: "Soft skills",
-    lead: "Cuatro años atendiendo en el banco, tres en el piso del almacén, y un equipo pequeño que dirigir. De ahí salió esto.",
+    lead: "Cuatro años atendiendo en el banco, tres en el piso del almacén, y un equipo pequeño de proyecto que coordinar. De ahí salió esto.",
   },
   projects: {
     title: "Proyectos",
@@ -106,6 +114,13 @@ export const es: Dictionary = {
     seeOriginal: "Ver la página original",
     caseStudy: "Resultados reales",
     visitSite: "Abrir el sitio en línea",
+    sections: {
+      overview: "Visión general",
+      challenge: "El desafío",
+      solution: "La solución",
+      impact: "Impacto",
+      highlights: "Aspectos técnicos",
+    },
     methodLabel: "Cómo se hizo",
     zoomFigure: "Abrir esta página en tamaño real",
     insightsNote:

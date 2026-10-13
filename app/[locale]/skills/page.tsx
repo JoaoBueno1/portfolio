@@ -20,6 +20,7 @@ export async function generateMetadata({
     title: t.meta.skillsTitle,
     description: t.meta.skillsDescription,
     alternates: alternatesFor(locale, "/skills"),
+    openGraph: { title: t.meta.skillsTitle, description: t.meta.skillsDescription },
   };
 }
 
@@ -38,6 +39,27 @@ export default async function SkillsPage({ params }: PageProps<"/[locale]/skills
           {t.skills.title}
         </h1>
         <p className="mt-3 text-base text-ink">{t.skills.lead}</p>
+
+        {/* O QUE EU FACO COM ELAS. A lista de logos diz as ferramentas; esta
+            diz o trabalho: API, integracao com ERP, automacao, nuvem. E o que
+            uma vaga pede por nome e o que um leitor automatico procura, e nao
+            dava para deduzir de uma grade de icones. Seis linhas, sem logo. */}
+        <section className="mt-6 max-w-4xl rounded-xl border border-line bg-canvas/70 p-4 backdrop-blur-sm">
+          <h2 className="font-mono text-xs tracking-wide text-ink-subtle uppercase">
+            {t.skills.capabilitiesTitle}
+          </h2>
+          <ul className="mt-2 grid gap-x-6 gap-y-1.5 sm:grid-cols-2">
+            {t.skills.capabilities.map((line) => (
+              <li key={line} className="flex gap-2.5 text-sm leading-relaxed text-ink-muted">
+                <span
+                  className="mt-[0.55rem] size-1.5 shrink-0 rounded-full bg-accent"
+                  aria-hidden="true"
+                />
+                <span className="text-pretty">{line}</span>
+              </li>
+            ))}
+          </ul>
+        </section>
 
         {/* Cada grupo num card, como os de Soft skills: fundo translucido com
             desfoque. E o que faz a lista ler por cima da cena do fundo sem

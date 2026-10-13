@@ -17,16 +17,19 @@
 export const en = {
   meta: {
     aboutTitle: "João Silva",
+    /** O titulo da primeira pagina e o padrao do site: nome e cargo juntos. */
+    siteTitle: "João Silva · Full Stack Developer, Gold Coast",
     aboutDescription:
-      "Full stack developer on the Gold Coast, Australia. I build and run the systems behind a real freight and warehouse operation.",
+      "Full stack developer on the Gold Coast, Australia. Web, backend, mobile, data and integrations, with software in daily production use: Python, Flask, TypeScript, PostgreSQL, AWS.",
     skillsTitle: "Skills",
     skillsDescription:
-      "Languages, frameworks, data, infrastructure and tools, rated by how much I actually use them.",
+      "Python, Flask, TypeScript, PostgreSQL, Supabase, REST APIs, AWS and the rest of the stack, rated by how much I actually use each one.",
     softTitle: "Soft skills",
     softDescription:
-      "Communication, leadership, research and feedback, with where each one happened.",
+      "Technical communication, project coordination, requirements gathering, user training and feedback, with where each one happened.",
     projectsTitle: "Projects",
-    projectsDescription: "Systems in production, internal tools, mobile and study work.",
+    projectsDescription:
+      "Case studies of systems in production: a transport management system, a warehouse operations platform, an AI data assistant, a carrier API and a driver app, plus study work.",
   },
   nav: {
     about: "About",
@@ -41,21 +44,18 @@ export const en = {
   },
   sidebar: {
     role: "Full stack developer",
+    focus: "Business systems and automation",
     location: "Gold Coast, Australia",
     photoAlt: "Profile photo",
     open: "Open menu",
     close: "Close menu",
   },
-  stats: {
-    systems: "systems running in production",
-    commits: "commits across them",
-    integrations: "external systems integrated",
-  },
   about: {
     title: "About",
+    headline: "Full stack developer | Business systems and automation",
     intro: [
-      "I'm a software developer based on the Gold Coast, Australia. I work across web applications, backend systems, mobile, databases and integrations, and the software I build is in daily production use.",
-      "I take work from requirements and workflow design through development and deployment, then stay with it. I hold a Diploma of Information Technology in Database and Data Management.",
+      "I'm a software developer based on the Gold Coast, Australia. I build software that people rely on at work: web applications, backend services, mobile apps, databases and the integrations that tie them together. What I like most is taking a process that lives in people's heads and spreadsheets and turning it into a system that runs on its own.",
+      "I like work that goes end to end: understanding how people actually do the job, designing the flow, writing the code, shipping it and seeing it used. Lately that has meant data, automation and AI inside everyday business tools. I hold a Diploma of Information Technology in Database and Data Management.",
     ],
     linkProjects: "See what I have built",
     linkSkills: "See the tools I work with",
@@ -67,6 +67,15 @@ export const en = {
   skills: {
     title: "Skills",
     lead: "What I use in real work, marked by how often.",
+    capabilitiesTitle: "What I do with them",
+    capabilities: [
+      "Production web applications, from requirements to deployment and support",
+      "REST API design and integration, with contracts partners can test against",
+      "ERP and carrier integrations for warehouse and freight operations",
+      "Business process automation: scheduled jobs, labels, reconciliation and reporting",
+      "SQL and data processing over PostgreSQL, with Excel and Power Query on top",
+      "Cloud deployment and maintenance on AWS and Vercel, with monitoring and alerts",
+    ],
     groups: {
       language: "Languages",
       backend: "Backend",
@@ -79,7 +88,7 @@ export const en = {
   },
   soft: {
     title: "Soft skills",
-    lead: "Four years at a bank counter, three on a warehouse floor, and a small team to run. This is what came out of that.",
+    lead: "Four years at a bank counter, three on a warehouse floor, and a small project team to coordinate. This is what came out of that.",
   },
   projects: {
     title: "Projects",
@@ -119,6 +128,13 @@ export const en = {
     seeOriginal: "See the original page",
     caseStudy: "Live results",
     visitSite: "Visit the live site",
+    sections: {
+      overview: "Overview",
+      challenge: "The challenge",
+      solution: "The solution",
+      impact: "Impact",
+      highlights: "Technical highlights",
+    },
     methodLabel: "How it was done",
     zoomFigure: "Open this page full size",
     insightsNote:

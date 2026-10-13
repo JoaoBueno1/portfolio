@@ -232,6 +232,25 @@ export interface Insights {
   };
 }
 
+/**
+ * O ESTUDO DE CASO EM TEXTO, dos sistemas de producao (ver `case-studies.ts`).
+ *
+ * O `summary` diz o que o sistema e. Isto diz o que um recrutador procura
+ * depois: o problema que existia, o que foi construido, o que mudou e as
+ * decisoes tecnicas. Cada campo e opcional de proposito: so entra o que tem
+ * fato por tras, e nenhum numero sem fonte.
+ */
+export interface CaseStudy {
+  /** O problema operacional ou tecnico que existia. */
+  readonly challenge?: I18nText;
+  /** Os componentes e como eles resolvem o problema. */
+  readonly solution?: I18nText;
+  /** O que mudou na operacao. Qualitativo quando nao ha numero conferido. */
+  readonly impact?: I18nText;
+  /** Decisoes de arquitetura, integracao, dados e seguranca. Uma frase cada. */
+  readonly highlights?: readonly I18nText[];
+}
+
 export interface ProjectCopy {
   /** Uma linha. Aparece embaixo do nome. */
   readonly tagline: string;
@@ -262,6 +281,8 @@ export interface Project {
   readonly shots: readonly Shot[];
   /** Ausente = o projeto nao tem analise publicada. */
   readonly insights?: Insights;
+  /** Ausente = so o resumo. Trabalho de curso nao tem "impacto" para contar. */
+  readonly caseStudy?: CaseStudy;
   /**
    * O endereco publico do sistema, quando ele TEM um. So o portal tem: os
    * outros sao internos e ficam atras de login da empresa. Dominio proprio,

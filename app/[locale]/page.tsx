@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { StackMarquee } from "@/components/stack-marquee";
-import { HEADLINE_STATS } from "@/lib/content/profile";
 import { isLocale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 
@@ -15,6 +14,10 @@ import { getDictionary } from "@/lib/i18n/dictionaries";
  * Nao repete o nome: ele ja esta na coluna da esquerda, grande, com a foto.
  * Repetir gastaria a linha mais valiosa da tela para dizer o que ja foi dito.
  *
+ * O H1 E O POSICIONAMENTO, nao a palavra "About". E a unica linha que um
+ * recrutador le com certeza e a que o buscador pesa mais; "About" nao dizia
+ * nada a nenhum dos dois. O rotulo da secao continua ali, menor, como <p>.
+ *
  * Nao tem timeline nem formacao. Isso e assunto de LinkedIn e de entrevista,
  * e aqui rouba o espaco de quem so quer saber o que eu construo.
  */
@@ -27,14 +30,17 @@ export default async function AboutPage({ params }: PageProps<"/[locale]">) {
     <div className="flex min-h-svh flex-col justify-between gap-10 px-6 py-12 lg:px-14 lg:py-16">
       <main id="main" className="flex flex-1 flex-col justify-center py-2">
         <div className="max-w-2xl">
-          <h1 className="font-mono text-xs tracking-wide text-ink-subtle uppercase">
+          <p className="font-mono text-xs tracking-wide text-ink-subtle uppercase">
             {t.about.title}
+          </p>
+          <h1 className="mt-3 text-2xl font-semibold tracking-tight text-balance sm:text-3xl">
+            {t.about.headline}
           </h1>
           {/* O PRIMEIRO PARAGRAFO E MAIOR QUE OS OUTROS.
               E ele que decide se alguem le o segundo, entao carrega o peso
               tipografico junto com o argumento. Os seguintes voltam ao corpo
               normal, senao a pagina inteira grita e nada se destaca. */}
-          <div className="mt-6 flex max-w-2xl flex-col gap-5">
+          <div className="mt-5 flex max-w-2xl flex-col gap-5">
             {t.about.intro.map((paragraph, i) => (
               <p
                 key={paragraph.slice(0, 32)}
@@ -50,33 +56,17 @@ export default async function AboutPage({ params }: PageProps<"/[locale]">) {
           </div>
         </div>
 
-        {/* A FAIXA DE PROVA. O texto diz que o software esta em producao; os
-            tres numeros mostram, e sao os mesmos que os cards de projeto
-            sustentam. Fica entre a leitura e as saidas, que e onde a duvida
-            "sera mesmo?" aparece. */}
-        <dl className="mt-8 grid max-w-2xl grid-cols-3 gap-px overflow-hidden rounded-xl border border-line bg-line">
-          {HEADLINE_STATS.map((stat) => (
-            <div
-              key={stat.id}
-              className="flex flex-col-reverse justify-end gap-1 bg-canvas/85 px-3 py-3 backdrop-blur-sm sm:px-4"
-            >
-              <dt className="text-xs leading-snug text-ink-subtle text-pretty">
-                {t.stats[stat.id]}
-              </dt>
-              <dd className="font-mono text-xl font-semibold tracking-tight text-ink tabular-nums sm:text-2xl">
-                {new Intl.NumberFormat(locale).format(stat.value)}
-                {stat.plus ? "+" : ""}
-              </dd>
-            </div>
-          ))}
-        </dl>
+        {/* SEM FAIXA DE NUMEROS. Houve uma (sistemas, commits, integracoes)
+            e saiu em 13/10/2026: contagem de commit exagera sem provar nada,
+            envelhece todo mes, e amarra o Sobre ao emprego atual. Os numeros
+            que importam ficam no card de cada projeto, com a fonte junto. */}
 
         {/* As duas saidas da pagina. O Sobre diz quem e, e quem quiser
             continuar tem exatamente dois caminhos: o que foi construido e as
             ferramentas. Sao os mesmos destinos da coluna da esquerda, mas
             aqui eles aparecem no fim da leitura, que e quando a pergunta
             aparece. */}
-        <p className="mt-7 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm">
+        <p className="mt-8 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm">
           <Link
             href={`/${locale}/projects`}
             className="font-medium text-accent underline decoration-accent/30 underline-offset-4 transition-colors hover:decoration-accent"

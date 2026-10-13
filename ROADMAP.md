@@ -4,6 +4,45 @@ Plano de 13/10/2026. Duas fases, mais uma opcional. Cada item tem critério de
 pronto; nada entra no ar sem passar por `npm run fix`, `npm run build` e
 `npm run test`.
 
+## Fase 0: auditoria de recrutador (feita em 13/10/2026)
+
+Passada antes da fase 1, a partir do brief "Portfolio Optimization". O que
+mudou, sem redesenho:
+
+- Sobre: o H1 virou o posicionamento ("Full stack developer | Business
+  systems and automation"); "About" ficou como rótulo. Intro reescrita em
+  volta de projetar, construir, integrar, publicar e manter. Título da aba e
+  do Open Graph com nome e cargo. Coluna ganhou a linha "Business systems and
+  automation".
+- Projetos: todo projeto é um `<article>` com `<h3>`; o texto de TODOS os
+  projetos está no HTML (antes só o dialogo aberto existia). Os seis de
+  produção ganharam estudo de caso em texto (`lib/content/case-studies.ts`):
+  desafio, papel, solução, impacto e destaques técnicos. Diálogo com
+  `aria-labelledby`, `dt`/`dd` na ordem certa, stack com nome ao lado do
+  ícone. JSON-LD `ItemList` dos sistemas de produção.
+- Skills: bloco "What I do with them" (seis capacidades, sem logo). AWS
+  entrou no grupo de nuvem e na stack do TMS. "Microsoft 365 / Excel" virou
+  "Excel / Power Query".
+- Soft skills: cada história ganhou o nome da competência em cima
+  (Technical communication, Project coordination and delivery, Requirements
+  gathering, Research coordination and mentoring, User feedback and
+  ownership, User training and adoption). Lead sem "time para tocar".
+- SEO: JSON-LD `Person` + `WebSite` no layout, Open Graph por página,
+  descrições reescritas com a stack.
+
+Pendências que a auditoria deixou para o João (nada inventado no site):
+
+- [ ] Confirmar a frase sobre Excel/Power Query lendo o banco do armazém
+  (veio do brief; se não for assim, tirar de Skills e do case do armazém).
+- [ ] O brief pede "Cin7 Core" pelo nome. O teste de conteúdo bloqueia o nome
+  do ERP de propósito (CLAUDE.md). O site diz "the company's cloud ERP".
+  Decidir se o nome entra; se sim, tirar o hash do teste.
+- [ ] Números de impacto de negócio conferidos (tempo poupado, erros a menos,
+  volume por mês). Hoje o impacto é qualitativo mais os agregados que já
+  existiam (10k+ consignments, 613 testes, etc.).
+- [ ] O brief diz para preservar todos os projetos de estudo; a fase 1 dizia
+  enxugar de 10 para 5. Ficaram os 10. Decidir.
+
 ## A decisão sobre o chat
 
 **Sim, vai ter um chat de IA dentro do portfólio, que o visitante usa ali
@@ -32,12 +71,9 @@ sobre os projetos, sem poder inventar nada.
 
 Nada de projeto novo. Fechar o que um recrutador procura e não encontra.
 
-- [ ] **AWS no site.** O TMS roda uma stack na AWS em Sydney: EC2 com Docker e
-  systemd, segredos no SSM Parameter Store, IAM com permissão mínima,
-  CloudWatch Logs, acesso por Session Manager sem porta aberta, Caddy na
-  frente. Entrar no texto do projeto TMS e em Skills, com o que é real.
-  O pacote de ícones não tem a marca da AWS; usar um ícone neutro de nuvem com
-  o nome escrito.
+- [x] **AWS no site.** (13/10, fase 0) Está nos destaques técnicos do TMS, na
+  stack do card e em Skills, com ícone neutro de nuvem e o nome escrito.
+  AWS, Docker e Linux em "Often" (4 de 5); Render saiu da lista.
 - [ ] **Currículo.** Página `/cv` em inglês, imprimível, e o PDF gerado dela.
   Palavras que os filtros automáticos procuram, só as verdadeiras: Python,
   TypeScript, React, Next.js, PostgreSQL, AWS, Docker, REST, OpenAPI, Postman,
@@ -45,9 +81,10 @@ Nada de projeto novo. Fechar o que um recrutador procura e não encontra.
 - [ ] **Foto real** no lugar marcado na barra lateral.
 - [ ] **GitHub.** Nome João Silva, uma linha de bio, site `joaosilva.app`,
   README de perfil, este repositório fixado.
-- [ ] **Domínio.** `joaosilva.app` como principal na Vercel, `www`
-  redirecionando para ele (hoje está ao contrário).
-- [ ] **Estudos.** Enxugar a lista de 10 para os 5 mais fortes.
+- [x] **Domínio.** Conferido em 13/10: `www.joaosilva.app` responde 307 para
+  `https://joaosilva.app/en`. O apex é o principal.
+- [ ] **Estudos.** Enxugar a lista de 10 para os 5 mais fortes. (Em conflito
+  com o brief da fase 0, que pede para não apagar projeto. Decidir antes.)
 
 Pronto quando: um recrutador acha em menos de um minuto o currículo, a stack
 de nuvem e o GitHub, e o domínio principal não redireciona.

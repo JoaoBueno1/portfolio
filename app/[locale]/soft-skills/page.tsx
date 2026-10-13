@@ -21,6 +21,7 @@ export async function generateMetadata({
     title: t.meta.softTitle,
     description: t.meta.softDescription,
     alternates: alternatesFor(locale, "/soft-skills"),
+    openGraph: { title: t.meta.softTitle, description: t.meta.softDescription },
   };
 }
 
@@ -49,7 +50,12 @@ export default async function SoftSkillsPage({ params }: PageProps<"/[locale]/so
                   <span className="text-accent">
                     <SoftSkillIcon icon={skill.icon} />
                   </span>
-                  <h2 className="mt-2.5 text-sm font-semibold tracking-tight text-balance">
+                  {/* A competencia pelo nome que o recrutador procura; a
+                      historia embaixo e o que a prova. */}
+                  <p className="mt-2.5 font-mono text-[0.625rem] tracking-wide text-accent uppercase">
+                    {skill.competency[locale]}
+                  </p>
+                  <h2 className="mt-1 text-sm font-semibold tracking-tight text-balance">
                     {copy.title}
                   </h2>
                   <p className="mt-1.5 text-xs leading-relaxed text-ink-muted text-pretty">

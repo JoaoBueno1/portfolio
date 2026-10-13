@@ -19,6 +19,12 @@ import type { Locale } from "@/lib/i18n/config";
 export interface SoftSkill {
   readonly id: string;
   readonly icon: "talk" | "lead" | "listen" | "search" | "loop" | "teach";
+  /**
+   * O nome da competencia, como um recrutador a procura ("Technical
+   * communication"). Vai em cima da historia, pequeno. A historia continua
+   * sendo o titulo: e ela que prova; o rotulo so deixa achar.
+   */
+  readonly competency: Record<Locale, string>;
   readonly copy: Record<Locale, { readonly title: string; readonly body: string }>;
 }
 
@@ -26,6 +32,11 @@ export const SOFT_SKILLS: readonly SoftSkill[] = [
   {
     id: "communication",
     icon: "talk",
+    competency: {
+      en: "Technical communication",
+      pt: "Comunicação técnica",
+      es: "Comunicación técnica",
+    },
     copy: {
       en: {
         title: "Explaining a system to people who do not write code",
@@ -44,6 +55,11 @@ export const SOFT_SKILLS: readonly SoftSkill[] = [
   {
     id: "leadership",
     icon: "lead",
+    competency: {
+      en: "Project coordination and delivery",
+      pt: "Coordenação e entrega de projeto",
+      es: "Coordinación y entrega de proyectos",
+    },
     copy: {
       en: {
         title: "Setting the scope, then reviewing what came back",
@@ -62,6 +78,11 @@ export const SOFT_SKILLS: readonly SoftSkill[] = [
   {
     id: "listening",
     icon: "listen",
+    competency: {
+      en: "Requirements gathering",
+      pt: "Levantamento de requisitos",
+      es: "Levantamiento de requisitos",
+    },
     copy: {
       en: {
         title: "Asking the person who does the job",
@@ -80,6 +101,11 @@ export const SOFT_SKILLS: readonly SoftSkill[] = [
   {
     id: "analysis",
     icon: "search",
+    competency: {
+      en: "Research coordination and mentoring",
+      pt: "Coordenação de pesquisa e mentoria",
+      es: "Coordinación de investigación y mentoría",
+    },
     copy: {
       en: {
         title: "Running an intern on competitor research",
@@ -98,6 +124,11 @@ export const SOFT_SKILLS: readonly SoftSkill[] = [
   {
     id: "feedback",
     icon: "loop",
+    competency: {
+      en: "User feedback and ownership",
+      pt: "Feedback dos usuários e responsabilidade",
+      es: "Feedback de usuarios y responsabilidad",
+    },
     copy: {
       en: {
         title: "Feedback collected, and answered",
@@ -116,6 +147,11 @@ export const SOFT_SKILLS: readonly SoftSkill[] = [
   {
     id: "teaching",
     icon: "teach",
+    competency: {
+      en: "User training and adoption",
+      pt: "Treinamento e adoção dos usuários",
+      es: "Formación y adopción de usuarios",
+    },
     copy: {
       en: {
         title: "Training the people who will use it",

@@ -20,6 +20,39 @@ export async function generateMetadata({
     title: t.meta.projectsTitle,
     description: t.meta.projectsDescription,
     alternates: alternatesFor(locale, "/projects"),
+    openGraph: { title: t.meta.projectsTitle, description: t.meta.projectsDescription },
+  };
+}
+
+/**
+ * Os sistemas de producao como lista estruturada (schema.org), para buscador
+ * e leitor automatico. Cada item aponta para o endereco que abre o dialogo
+ * dele. So com o dominio proprio, como o sitemap.
+ */
+function projectList(
+  site: string,
+  locale: string,
+  name: string,
+  cards: readonly { slug: string; name: string; tagline: string; status: string }[],
+) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name,
+    itemListElement: cards
+      .filter((c) => c.status === "live" || c.status === "building")
+      .map((c, i) => ({
+        "@type": "ListItem",
+        position: i + 1,
+        item: {
+          "@type": "SoftwareApplication",
+          name: c.name,
+          description: c.tagline,
+          applicationCategory: "BusinessApplication",
+          url: `${site}/${locale}/projects?p=${c.slug}`,
+          author: { "@id": `${site}/#person` },
+        },
+      })),
   };
 }
 
@@ -41,9 +74,21 @@ export default async function ProjectsPage({ params }: PageProps<"/[locale]/proj
   if (!isLocale(locale)) notFound();
   const t = await getDictionary(locale);
   const cards = projectViews(locale, t.projects.present);
+  const site = process.env.NEXT_PUBLIC_SITE_URL;
 
   return (
     <main id="main" className="flex min-h-svh flex-col justify-center px-6 py-12 lg:px-14 lg:py-16">
+      {site && (
+        <script
+          type="application/ld+json"
+          // biome-ignore lint/security/noDangerouslySetInnerHtml: JSON serializado do conteudo tipado deste repo, sem entrada de usuario; `<` escapado.
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(
+              projectList(site, locale, t.projects.inProduction, cards),
+            ).replace(/</g, "\\u003c"),
+          }}
+        />
+      )}
       <div className="max-w-5xl">
         <h1 className="text-3xl font-semibold tracking-tight text-balance sm:text-4xl lg:text-5xl">
           {t.projects.title}
@@ -77,6 +122,7 @@ export default async function ProjectsPage({ params }: PageProps<"/[locale]/proj
               seeOriginal: t.projects.seeOriginal,
               caseStudy: t.projects.caseStudy,
               visitSite: t.projects.visitSite,
+              sections: t.projects.sections,
             }}
           />
         </div>
