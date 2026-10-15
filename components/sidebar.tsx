@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
+import { CV_PDF } from "@/lib/content/experience";
 import { PROFILE } from "@/lib/content/profile";
 import { LOCALE_LABELS, LOCALES, type Locale } from "@/lib/i18n/config";
 import { ContactIcon } from "./brand-icons";
@@ -36,6 +37,8 @@ import { ThemeToggle } from "./theme-toggle";
  */
 export interface SidebarLabels {
   readonly about: string;
+  readonly experience: string;
+  readonly cv: string;
   readonly skills: string;
   readonly soft: string;
   readonly projects: string;
@@ -58,6 +61,7 @@ export function Sidebar({ locale, t }: { locale: Locale; t: SidebarLabels }) {
 
   const items = [
     { href: `/${locale}`, label: t.about },
+    { href: `/${locale}/experience`, label: t.experience },
     { href: `/${locale}/skills`, label: t.skills },
     { href: `/${locale}/soft-skills`, label: t.soft },
     { href: `/${locale}/projects`, label: t.projects },
@@ -89,17 +93,42 @@ export function Sidebar({ locale, t }: { locale: Locale; t: SidebarLabels }) {
             href={item.href}
             aria-current={active ? "page" : undefined}
             onClick={() => setOpen(false)}
-            className={`rounded-xl border px-4 py-3 text-center text-[0.9375rem] transition-all duration-200 [transition-timing-function:var(--ease-out-soft)] ${
+            className={`relative rounded-lg border px-4 py-2.5 text-center text-[0.9375rem] transition-all duration-200 [transition-timing-function:var(--ease-out-soft)] ${
               active
-                ? "border-accent bg-accent text-on-accent shadow-sm"
-                : "border-line bg-canvas text-ink-muted hover:border-line-strong hover:text-ink"
+                ? "border-line-strong bg-canvas font-semibold text-ink shadow-sm"
+                : "border-line/70 bg-canvas/80 text-ink-muted backdrop-blur-sm hover:border-line-strong hover:text-ink"
             }`}
           >
+            {active && (
+              <span
+                className="absolute top-1/2 left-2 h-4 w-0.5 -translate-y-1/2 rounded-full bg-accent"
+                aria-hidden="true"
+              />
+            )}
             {item.label}
           </Link>
         );
       })}
     </nav>
+  );
+
+  const cvButton = (
+    <a
+      href={CV_PDF[locale]}
+      className="inline-flex w-full items-center justify-center gap-2 rounded-lg border border-accent/50 bg-canvas/90 px-4 py-2 text-sm font-medium text-accent backdrop-blur-sm transition-colors hover:border-accent hover:bg-accent-soft"
+    >
+      <svg
+        viewBox="0 0 24 24"
+        className="size-4"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        aria-hidden="true"
+      >
+        <path d="M12 4v11m0 0-4-4m4 4 4-4M5 19h14" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+      {t.cv}
+    </a>
   );
 
   const contactRow = (
@@ -139,7 +168,7 @@ export function Sidebar({ locale, t }: { locale: Locale; t: SidebarLabels }) {
   return (
     <>
       {/* — Barra do celular — */}
-      <div className="sticky top-0 z-40 flex items-center gap-3 border-b border-line bg-sunken/95 px-4 py-3 backdrop-blur-md lg:hidden">
+      <div className="sticky top-0 z-40 flex items-center gap-3 border-b border-line bg-sunken/95 px-4 py-3 backdrop-blur-md lg:hidden print:hidden">
         <button
           type="button"
           onClick={() => setOpen((value) => !value)}
@@ -169,8 +198,9 @@ export function Sidebar({ locale, t }: { locale: Locale; t: SidebarLabels }) {
       </div>
 
       {open && (
-        <div className="flex flex-col items-center gap-5 border-b border-line bg-sunken px-5 py-6 lg:hidden">
+        <div className="flex flex-col items-center gap-5 border-b border-line bg-sunken px-5 py-6 lg:hidden print:hidden">
           {nav}
+          {cvButton}
           {contactRow}
           {localePicker}
         </div>
@@ -188,24 +218,27 @@ export function Sidebar({ locale, t }: { locale: Locale; t: SidebarLabels }) {
           `z-index` e leva o `bg-sunken` que era da coluna, entao nada muda
           enquanto a imagem carrega. */}
       <div
-        className="pointer-events-none fixed inset-y-0 left-0 z-30 hidden w-(--sidebar-w) bg-sunken lg:block"
+        className="pointer-events-none fixed inset-y-0 left-0 z-30 hidden w-(--sidebar-w) bg-sunken lg:block print:hidden"
         aria-hidden="true"
       >
         <CoastScene />
       </div>
-      <aside className="fixed inset-y-0 left-0 z-40 hidden w-(--sidebar-w) flex-col items-center justify-between gap-6 overflow-y-auto border-r border-line-strong px-6 py-10 shadow-[16px_0_40px_-12px] shadow-shade/25 lg:flex">
+      <aside className="fixed inset-y-0 left-0 z-40 hidden w-(--sidebar-w) flex-col items-center justify-between gap-6 overflow-y-auto border-r border-line-strong px-6 py-10 shadow-[16px_0_40px_-12px] shadow-shade/25 lg:flex print:hidden">
         {/* SEM FOTO por enquanto: o retrato em pixel art saiu, e a foto de
             verdade entra aqui, acima do nome, quando existir. */}
         <div className="flex flex-col items-center gap-4 pt-4">
           <div className="text-center">
-            <p className="text-xl font-semibold tracking-tight">{PROFILE.name}</p>
+            <p className="text-2xl font-semibold tracking-tight">{PROFILE.name}</p>
             <p className="mt-1 text-xs text-ink-subtle">{t.role}</p>
             <p className="text-xs text-ink-subtle">{t.focus}</p>
             <p className="mt-1 text-xs text-ink-subtle">{t.location}</p>
           </div>
         </div>
 
-        <div className="flex w-full flex-1 items-center">{nav}</div>
+        <div className="flex w-full flex-1 flex-col justify-center gap-4">
+          {nav}
+          {cvButton}
+        </div>
 
         <div className="flex w-full flex-col items-center gap-3">
           {contactRow}

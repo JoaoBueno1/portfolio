@@ -9,7 +9,7 @@ import type { CaseStudy, Domain, I18nText, InsightChart, Metric, Shot, Status } 
  *
  * Por que isto existe: a vitrine tem estado (o dialogo aberto) e portanto e
  * um componente de cliente. Se ela recebesse `PROJECTS` cru, o bundle levaria
- * os TRES idiomas de todo texto de todo projeto para o browser. Achatar aqui,
+ * os DOIS idiomas de todo texto de todo projeto para o browser. Achatar aqui,
  * no servidor, manda so o que aquela pagina mostra.
  */
 export interface ShotView {
@@ -75,6 +75,7 @@ export interface ProjectView {
   readonly insights: InsightsView | null;
   readonly caseStudy: CaseStudyView | null;
   readonly link: { readonly url: string; readonly host: string } | null;
+  readonly minor: boolean;
 }
 
 export interface CaseStudyView {
@@ -137,6 +138,7 @@ export function projectViews(locale: Locale, present: string): readonly ProjectV
       return {
         slug: p.slug,
         name: p.name,
+        minor: p.minor ?? false,
         domain: p.domain,
         status: p.status,
         period: from === to ? from : `${from} — ${to}`,

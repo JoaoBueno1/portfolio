@@ -6,19 +6,25 @@ export const pt: Dictionary = {
     aboutTitle: "João Silva",
     siteTitle: "João Silva · Desenvolvedor Full Stack, Gold Coast",
     aboutDescription:
-      "Desenvolvedor full stack na Gold Coast, Austrália. Web, backend, mobile, dados e integrações, com software em uso diário em produção: Python, Flask, TypeScript, PostgreSQL, AWS.",
+      "Desenvolvedor full stack na Gold Coast, Austrália. Construo os sistemas operacionais de uma distribuidora: um TMS, uma plataforma de armazém, um app de motorista, uma API para parceiros e um portal de operações com IA. Python, Flask, TypeScript, PostgreSQL, AWS.",
     skillsTitle: "Skills",
     skillsDescription:
       "Python, Flask, TypeScript, PostgreSQL, Supabase, APIs REST, AWS e o resto da stack, com o quanto eu realmente uso cada uma.",
     softTitle: "Soft skills",
     softDescription:
       "Comunicação técnica, coordenação de projeto, levantamento de requisitos, treinamento e feedback, com onde cada uma aconteceu.",
+    experienceTitle: "Experiência",
+    experienceDescription:
+      "Dez anos de trabalho, do caixa de um banco no Brasil aos sistemas de uma distribuidora na Gold Coast, mais formação e idiomas.",
+    cvTitle: "Currículo",
+    cvDescription: "Currículo de João Silva, desenvolvedor full stack na Gold Coast, Austrália.",
     projectsTitle: "Projetos",
     projectsDescription:
       "Estudos de caso de sistemas em produção: um sistema de gestão de transporte, uma plataforma de operações de armazém, um assistente de dados com IA, uma API de transportadora e um app de motorista, além de trabalho de curso.",
   },
   nav: {
     about: "Sobre",
+    experience: "Experiência",
     skills: "Skills",
     soft: "Soft skills",
     projects: "Projetos",
@@ -38,15 +44,15 @@ export const pt: Dictionary = {
   },
   about: {
     title: "Sobre",
-    headline: "Desenvolvedor full stack | Sistemas de negócio e automação",
+    headline: "Construo o software operacional que uma distribuidora usa todos os dias.",
     intro: [
-      "Sou desenvolvedor de software na Gold Coast, Austrália. Construo software que as pessoas usam no trabalho: aplicações web, serviços de backend, apps mobile, bancos de dados e as integrações que ligam tudo isso. O que eu mais gosto é pegar um processo que vive na cabeça das pessoas e em planilhas e transformar num sistema que roda sozinho.",
-      "Gosto de trabalho que vai de ponta a ponta: entender como as pessoas realmente fazem o trabalho, desenhar o fluxo, escrever o código, publicar e ver em uso. Ultimamente isso tem sido dado, automação e IA dentro das ferramentas do dia a dia de uma empresa. Tenho o Diploma of Information Technology em Database and Data Management.",
+      "Desenvolvedor full stack na Gold Coast, construindo software desde 2022. Em 2023 entrei numa distribuidora atacadista pelo chão do armazém. Propus software para digitalizar a operação do dia a dia, e depois construí: um TMS, uma plataforma de armazém, um app de motorista, uma API para parceiros e um portal de operações com assistente de IA, todos em produção hoje. Antes disso, quatro anos em banco no Brasil. Formado em Tecnologia da Informação, com especialização em banco de dados e gestão de dados.",
     ],
     linkProjects: "Ver o que eu construí",
-    linkSkills: "Ver as ferramentas com que trabalho",
     nowTitle: "Agora",
-    now: "Trabalhando com analytics, integrações de IA e sistemas de negócio conectados.",
+    now: "Um portal de operações onde o time pergunta em linguagem simples, e a IA responde só a partir de consultas revisadas, com a tabela por trás de cada resposta.",
+    emailMe: "Mandar e-mail",
+    downloadCv: "Baixar currículo (PDF)",
     languagesTitle: "Idiomas",
     languages: "Português (nativo), inglês (profissional).",
   },
@@ -74,13 +80,17 @@ export const pt: Dictionary = {
   },
   soft: {
     title: "Soft skills",
-    lead: "Quatro anos atendendo no banco, três no chão de armazém, e um time pequeno de projeto para coordenar. Foi daí que saiu isto.",
+    headline:
+      "Quatro anos atendendo no banco, três no chão de armazém, e um time pequeno de projeto para coordenar.",
+    lead: "Foi daí que saiu isto.",
   },
   projects: {
     title: "Projetos",
-    lead: "",
+    headline:
+      "Sistemas que rodam uma operação de verdade hoje, e os trabalhos de curso antes deles.",
     inProduction: "Rodando em produção",
-    other: "Trabalho anterior e formação",
+    other: "Trabalhos de curso e anteriores",
+    moreCoursework: "Mais trabalhos de curso ({n})",
     close: "Fechar",
     roleLabel: "Papel",
     periodLabel: "Período",
@@ -114,6 +124,7 @@ export const pt: Dictionary = {
     seeOriginal: "Ver a página original",
     caseStudy: "Resultados reais",
     visitSite: "Abrir o site no ar",
+    flagship: "Projeto principal",
     sections: {
       overview: "Visão geral",
       challenge: "O desafio",
@@ -125,6 +136,32 @@ export const pt: Dictionary = {
     zoomFigure: "Abrir esta página em tamanho real",
     insightsNote:
       "Dado real, agregado e anonimizado. Transportadora vira letra, e nenhum cliente, pedido, endereço ou valor aparece.",
+  },
+  experience: {
+    title: "Experiência",
+    headline: "Dez anos de trabalho, do caixa de um banco aos sistemas que uma distribuidora usa.",
+    lead: "A empresa atual não é nomeada neste site público. Todo o resto está como aconteceu.",
+    present: "hoje",
+    since: "Desde",
+    earlierTitle: "Antes disso",
+    educationTitle: "Formação",
+    languagesTitle: "Idiomas",
+    cvLink: "Baixar currículo (PDF)",
+  },
+  cv: {
+    role: "Desenvolvedor full stack",
+    summaryTitle: "Resumo",
+    summary:
+      "Desenvolvedor full stack na Gold Coast, construindo software desde 2022. Entrei numa distribuidora atacadista pelo chão do armazém em 2023, propus software para digitalizar a operação do dia a dia e o construí: um TMS, uma plataforma de armazém, um app de motorista, uma API para parceiros e um portal de operações com assistente de IA, todos em produção. Antes disso, quatro anos em banco. Formado em Tecnologia da Informação, com especialização em banco de dados e gestão de dados.",
+    experienceTitle: "Experiência",
+    projectsTitle: "Sistemas em produção",
+    skillsTitle: "Habilidades",
+    dailyLabel: "Diário",
+    oftenLabel: "Frequente",
+    educationTitle: "Formação",
+    languagesTitle: "Idiomas",
+    portfolioLabel: "Portfólio",
+    print: "Imprimir ou salvar em PDF",
   },
   footer: {
     source: "Código",

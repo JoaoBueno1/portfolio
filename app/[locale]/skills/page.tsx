@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { PageHeader } from "@/components/page-header";
 import { SkillMeter, usageOf } from "@/components/skill-meter";
 import { STACK, skillGroups } from "@/lib/content/stack";
 import { isLocale, LOCALES } from "@/lib/i18n/config";
@@ -30,15 +31,12 @@ export default async function SkillsPage({ params }: PageProps<"/[locale]/skills
   const t = await getDictionary(locale);
   const groups = skillGroups();
 
-  // Ancorado no topo, e nao centrado: a cena do fundo vive no rodape da tela,
-  // e centrar empurrava as ultimas linhas para cima da cidade.
+  // Ancorado no topo, e nao centrado: a pagina e mais alta que a tela, e
+  // centrar faria o cabecalho pular conforme o tamanho da janela.
   return (
     <main id="main" className="flex min-h-svh flex-col justify-start px-6 py-12 lg:px-14 lg:py-16">
       <div className="max-w-5xl">
-        <h1 className="font-mono text-xs tracking-wide text-ink-subtle uppercase">
-          {t.skills.title}
-        </h1>
-        <p className="mt-3 text-base text-ink">{t.skills.lead}</p>
+        <PageHeader eyebrow={t.skills.title} title={t.skills.lead} />
 
         {/* O QUE EU FACO COM ELAS. A lista de logos diz as ferramentas; esta
             diz o trabalho: API, integracao com ERP, automacao, nuvem. E o que
@@ -61,9 +59,7 @@ export default async function SkillsPage({ params }: PageProps<"/[locale]/skills
           </ul>
         </section>
 
-        {/* Cada grupo num card, como os de Soft skills: fundo translucido com
-            desfoque. E o que faz a lista ler por cima da cena do fundo sem
-            precisar de veu na cena inteira. */}
+        {/* Cada grupo num card, como os de Soft skills. */}
         <div className="mt-6 grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
           {groups.map((group) => (
             <section

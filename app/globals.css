@@ -83,16 +83,12 @@
      conteudo pedia mais espaco. */
   --sidebar-w: clamp(15rem, 24%, 18rem);
 
-  /* — Cenas ilustradas (TESTE, branch dev) —
+  /* — Cena ilustrada da coluna —
      Cor AMOSTRADA da propria arte: o rastro do sol na agua, que serve de
-     brilho nas duas cenas. Nao sao tokens de interface e nao mudam com o tema: no
+     brilho na cena. Nao sao tokens de interface e nao mudam com o tema: no
      escuro a cena inteira, efeito incluido, e escurecida por `--scene-dim`. */
   --art-glint: #fbeedd;
   --scene-dim: none;
-  /* Onde o ceu da baia termina de se dissolver no fundo, medido do topo do
-     palco. No escuro o ceu quase branco vira um bloco cinza, entao ele se
-     dissolve mais tarde e so a faixa do mar e da cidade fica visivel. */
-  --scene-fade: 45%;
 
   /* Sombra: escura nos DOIS temas de proposito. `ink` inverte no escuro e
      uma sombra feita com ela vira um halo claro. */
@@ -122,7 +118,6 @@
     --c-danger: #f08585;
 
     --scene-dim: brightness(0.55) saturate(0.85);
-    --scene-fade: 72%;
   }
 }
 
@@ -148,7 +143,6 @@
   --c-danger: #f08585;
 
   --scene-dim: brightness(0.55) saturate(0.85);
-  --scene-fade: 72%;
 }
 
 @theme inline {
@@ -253,9 +247,7 @@ body {
 }
 
 /* ============================================================
-   CENAS ILUSTRADAS (components/ambient-scene.tsx, coast-scene.tsx)
-
-   TESTE de fundo em pixel art, so na branch dev.
+   A CENA ILUSTRADA DA COLUNA (components/coast-scene.tsx)
 
    O truque e o palco (`.scene-stage`): um retangulo com a proporcao EXATA
    da arte, ancorado onde esta o assunto (a praia, embaixo). Na coluna ele
@@ -287,25 +279,6 @@ body {
   aspect-ratio: var(--art-w) / var(--art-h);
   height: max(100cqh, calc(100cqw * var(--art-h) / var(--art-w)));
   filter: var(--scene-dim);
-}
-
-/* A baia NAO cobre a area: ocupa a largura inteira, ancorada embaixo, e o
-   ceu vazio do topo se dissolve no fundo do site por mascara. `height: auto`
-   devolve a altura a `aspect-ratio`.
-
-   A SEGUNDA mascara, horizontal, e a separacao da coluna: a cena nasce
-   transparente na borda da coluna e so aparece inteira 8rem depois. Fica
-   uma faixa de fundo liso entre as duas artes, e a borda forte com sombra
-   da coluna cai sobre fundo liso, nao sobre mar. As duas mascaras se
-   intersectam; sem `mask-composite` a segunda substituiria a primeira. */
-.scene-stage--bay {
-  left: 0;
-  width: 100%;
-  height: auto;
-  mask-image:
-    linear-gradient(to bottom, transparent 0%, black var(--scene-fade)),
-    linear-gradient(to right, transparent 0, black 8rem);
-  mask-composite: intersect;
 }
 
 /* A costa e simetrica: centra e corta as duas pontas por igual. */
@@ -363,44 +336,57 @@ body {
   animation-play-state: paused;
 }
 
-/* ============================================================
-   CARROSSEL DE LOGOS (components/stack-marquee.tsx)
+/* O PROJETO PRINCIPAL ganha uma borda com um brilho que gira devagar.
+   E o unico movimento continuo da vitrine, de proposito: marca o card sem
+   competir com o resto. Feito so com os tokens do tema, entao funciona no
+   claro e no escuro. Sob `prefers-reduced-motion` a regra global ja para a
+   animacao, e a borda fica parada no mesmo gradiente. */
+@property --flagship-angle {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
 
-   A faixa contem a lista duas vezes. Andar -50% e andar o
-   comprimento de UMA copia: no instante em que a animacao
-   reinicia, o desenho e identico, e a emenda some. Trocar esse
-   valor por qualquer outro traz o salto de volta.
-
-   `will-change` promove a faixa para a propria camada e tira a
-   animacao da thread principal.
-   ============================================================ */
-.marquee {
-  /* Apaga as pontas de verdade, em vez de cobri-las com um gradiente da cor
-     do fundo. Com mascara o campo de rotas continua visivel por baixo; com
-     gradiente colorido ele some numa faixa de 64px de cada lado. */
-  mask-image: linear-gradient(
-    to right,
-    transparent,
-    black 5rem,
-    black calc(100% - 5rem),
-    transparent
+.flagship-ring {
+  background: conic-gradient(
+    from var(--flagship-angle),
+    var(--c-accent),
+    var(--c-accent-soft) 22%,
+    var(--c-line) 50%,
+    var(--c-accent-soft) 78%,
+    var(--c-accent)
   );
+  /* O halo e a mesma cor do acento, so que difusa: o card parece aceso, nao contornado. */
+  box-shadow: 0 0 32px -10px color-mix(in oklab, var(--c-accent) 70%, transparent);
+  animation: flagship-spin 7s linear infinite;
 }
 
-.marquee-track {
-  animation: marquee-scroll 55s linear infinite;
-  will-change: transform;
-}
-
-.marquee:hover .marquee-track {
-  animation-play-state: paused;
-}
-
-@keyframes marquee-scroll {
-  from {
-    transform: translate3d(0, 0, 0);
-  }
+@keyframes flagship-spin {
   to {
-    transform: translate3d(-50%, 0, 0);
+    --flagship-angle: 360deg;
+  }
+}
+
+/* O PAPEL DO CURRICULO (app/[locale]/cv) e sempre claro: e uma folha, nao
+   uma tela. Os tokens voltam aos valores do tema claro dentro dele, entao a
+   impressao sai igual para quem esta no escuro. Mesmos valores do `:root`. */
+.paper {
+  --c-canvas: #ffffff;
+  --c-line: #dedad2;
+  --c-ink: #16151a;
+  --c-ink-muted: #4a4650;
+  --c-ink-subtle: #6e6877;
+  --c-accent: #a03a16;
+  color-scheme: light;
+}
+
+@page {
+  size: A4;
+  margin: 12mm 14mm;
+}
+
+@media print {
+  body {
+    background: #ffffff;
   }
 }

@@ -31,6 +31,10 @@ interface Labels {
   readonly seeOriginal: string;
   readonly caseStudy: string;
   readonly visitSite: string;
+  /** O selo do projeto em destaque. */
+  readonly flagship: string;
+  /** "Mais trabalhos de curso ({n})". */
+  readonly moreCoursework: string;
   /** Os titulos das secoes do estudo de caso dentro do dialogo. */
   readonly sections: {
     readonly overview: string;
@@ -196,19 +200,43 @@ function Gallery({ item, labels }: { item: ProjectView; labels: Labels }) {
       {/* A imagem inteira cabe na moldura, sem corte e sem rolagem: a captura
           e feita numa janela de 1440x1120, que da proporcao 0,78. Clicar abre
           em tela cheia, para quem quiser ler o texto pequeno. */}
+      {/* TODAS AS TELAS FICAM MONTADAS, empilhadas, e so a atual aparece.
+          Antes a proxima imagem so era pedida no clique, e cada troca esperava
+          rede e decodificacao (mais de um segundo na primeira visita). Agora
+          a galeria inteira carrega quando o projeto abre, a atual primeiro,
+          e trocar e so mudar a opacidade.
+
+          `unoptimized`: as capturas ja sao WebP comprimido. Sem o otimizador,
+          a imagem grande, a miniatura e o zoom usam a MESMA URL estatica, um
+          download so, e nenhuma espera por conversao no servidor. */}
       <button
         type="button"
         onClick={() => setZoomed(true)}
         aria-label={labels.zoom}
-        className="group/zoom flex h-[62vh] w-full cursor-zoom-in items-center justify-center bg-sunken"
+        className="group/zoom relative flex h-[62vh] w-full cursor-zoom-in items-center justify-center overflow-hidden bg-sunken"
       >
-        <Image
-          src={shot.src}
-          alt={shot.alt}
-          className="h-full w-auto max-w-full object-contain"
-          sizes="(max-width: 1024px) 100vw, 1000px"
-          priority={index === 0}
-        />
+        {item.shots.map((s, i) => (
+          <Image
+            key={s.src.src}
+            src={s.src}
+            alt={i === index ? s.alt : ""}
+            aria-hidden={i === index ? undefined : true}
+            unoptimized
+            loading="eager"
+            // A atual primeiro, as vizinhas logo depois (sao as que o proximo
+            // clique mostra), o resto no fim da fila.
+            fetchPriority={
+              i === index
+                ? "high"
+                : (i - index + total) % total === 1 || (index - i + total) % total === 1
+                  ? "auto"
+                  : "low"
+            }
+            className={`absolute inset-0 m-auto h-full w-auto max-w-full object-contain transition-opacity duration-200 [transition-timing-function:var(--ease-out-soft)] ${
+              i === index ? "opacity-100" : "opacity-0"
+            }`}
+          />
+        ))}
         <span className="pointer-events-none absolute top-3 left-3 flex items-center gap-1.5 rounded-full bg-ink/70 px-2.5 py-1 text-xs text-ink-inverse opacity-0 transition-opacity group-hover/zoom:opacity-100">
           <svg
             viewBox="0 0 24 24"
@@ -255,8 +283,8 @@ function Gallery({ item, labels }: { item: ProjectView; labels: Labels }) {
                 <Image
                   src={thumb.src}
                   alt=""
+                  unoptimized
                   className="h-full w-full object-cover object-top"
-                  sizes="64px"
                 />
               </button>
             ))}
@@ -278,8 +306,8 @@ function Gallery({ item, labels }: { item: ProjectView; labels: Labels }) {
             <Image
               src={shot.src}
               alt={shot.alt}
+              unoptimized
               className="max-h-[82vh] w-auto max-w-full object-contain"
-              sizes="100vw"
             />
             <p className="max-w-3xl text-center text-sm text-ink-inverse/80">{shot.caption}</p>
             {total > 1 && arrows("lg")}
@@ -424,8 +452,8 @@ function InsightsPanel({ data, labels }: { data: InsightsView; labels: Labels })
                       <Image
                         src={fig.page}
                         alt={fig.alt}
+                        unoptimized
                         className="h-auto max-h-[74vh] w-auto max-w-full"
-                        sizes="(max-width: 1024px) 100vw, 900px"
                       />
                       <span className="pointer-events-none absolute top-2.5 right-2.5 flex items-center gap-1.5 rounded-full bg-ink/70 px-2.5 py-1 text-xs text-ink-inverse opacity-0 transition-opacity group-hover/fig:opacity-100 group-focus-visible/fig:opacity-100">
                         <ZoomIcon />
@@ -490,8 +518,8 @@ function InsightsPanel({ data, labels }: { data: InsightsView; labels: Labels })
             <Image
               src={figure.page}
               alt={figure.alt}
+              unoptimized
               className="max-h-[82vh] w-auto max-w-full rounded-lg object-contain"
-              sizes="100vw"
             />
             <p className="max-w-3xl text-center text-sm text-ink-inverse/80">{figure.caption}</p>
             <button
@@ -593,6 +621,8 @@ export function ProjectBrowser({
   // criava um degrau de hierarquia que nao existe na pratica.
   const live = items.filter((i) => i.status === "live" || i.status === "building");
   const rest = items.filter((i) => i.status !== "live" && i.status !== "building");
+  const main = rest.filter((i) => !i.minor);
+  const minor = rest.filter((i) => i.minor);
 
   function openProject(slug: string) {
     const found = items.findIndex((item) => item.slug === slug);
@@ -650,72 +680,90 @@ export function ProjectBrowser({
      card inteiro, por um pseudo-elemento esticado sobre o <article>
      (`after:absolute after:inset-0`), entao o alvo de clique e o mesmo. O
      anel de foco vai no card, onde o olho procura, e nao so no texto. */
+  /* O DESTAQUE ganha uma moldura com brilho girando (`.flagship-ring` em
+     globals.css) e um selo embaixo. O card dentro dela perde a borda propria,
+     senao viram duas linhas paralelas. */
   const tile = (item: ProjectView, featured = false, cell?: string, wide = false) => (
     <li key={item.slug} className={cell}>
-      <article
-        className={`group relative flex h-full w-full flex-col overflow-hidden rounded-xl border border-line bg-canvas/70 backdrop-blur-sm transition-all duration-300 [transition-timing-function:var(--ease-out-soft)] hover:-translate-y-0.5 hover:border-line-strong hover:shadow-sm has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-accent ${wide ? "xl:flex-row" : ""}`}
-      >
-        <div
-          className={`relative w-full overflow-hidden border-b border-line bg-sunken ${featured ? "min-h-56 flex-1" : "aspect-[16/10]"} ${wide ? "xl:aspect-[16/8] xl:w-1/2 xl:shrink-0 xl:border-r xl:border-b-0" : ""}`}
+      <div className={featured ? "flagship-ring h-full rounded-xl p-[2px]" : "h-full"}>
+        <article
+          className={`group relative flex h-full w-full flex-col overflow-hidden ${featured ? "rounded-[10px] bg-canvas/95" : "rounded-xl border border-line bg-canvas/70 hover:border-line-strong"} backdrop-blur-sm transition-all duration-300 [transition-timing-function:var(--ease-out-soft)] hover:-translate-y-0.5 hover:shadow-sm has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-accent ${wide ? "xl:flex-row" : ""}`}
         >
-          {item.shots.length > 0 ? (
-            <Image
-              src={item.shots[0].src}
-              alt=""
-              className="h-full w-full object-cover object-left-top transition-transform duration-500 [transition-timing-function:var(--ease-out-soft)] group-hover:scale-[1.03]"
-              sizes={
-                featured || wide
-                  ? "(max-width: 1024px) 100vw, 600px"
-                  : "(max-width: 1024px) 50vw, 300px"
-              }
-            />
-          ) : (
-            <StackBlock item={item} />
-          )}
-          {item.shots.length > 1 && (
-            <span className="absolute right-2 bottom-2 rounded-full bg-ink/75 px-2 py-0.5 font-mono text-[0.625rem] text-ink-inverse">
-              {item.shots.length}
-            </span>
-          )}
-          {/* Avisa ANTES do clique que ali dentro tem estudo de caso com dado
+          <div
+            className={`relative w-full overflow-hidden border-b border-line bg-sunken ${featured ? "min-h-56 flex-1" : "aspect-[16/10]"} ${wide ? "xl:aspect-[16/8] xl:w-1/2 xl:shrink-0 xl:border-r xl:border-b-0" : ""}`}
+          >
+            {item.shots.length > 0 ? (
+              <Image
+                src={item.shots[0].src}
+                alt=""
+                className="h-full w-full object-cover object-left-top transition-transform duration-500 [transition-timing-function:var(--ease-out-soft)] group-hover:scale-[1.03]"
+                sizes={
+                  featured || wide
+                    ? "(max-width: 1024px) 100vw, 600px"
+                    : "(max-width: 1024px) 50vw, 300px"
+                }
+              />
+            ) : (
+              <StackBlock item={item} />
+            )}
+            {item.shots.length > 1 && (
+              <span className="absolute right-2 bottom-2 rounded-full bg-ink/75 px-2 py-0.5 font-mono text-[0.625rem] text-ink-inverse">
+                {item.shots.length}
+              </span>
+            )}
+            {/* Avisa ANTES do clique que ali dentro tem estudo de caso com dado
               real. Sem isto, a parte mais funda do projeto so aparecia para
               quem abrisse o card e rolasse ate o fim. */}
-          {item.insights && (
-            <span className="absolute top-2 left-2 rounded-full border border-line bg-canvas/95 px-2 py-0.5 font-mono text-[0.625rem] tracking-wide text-accent uppercase shadow-sm">
-              {item.insights.frame?.chip ?? labels.caseStudy}
-            </span>
-          )}
-        </div>
-        <div
-          className={`flex flex-col gap-1 ${featured ? "p-4" : "flex-1 p-3"} ${wide ? "xl:justify-center xl:gap-2 xl:p-6" : ""}`}
-        >
-          <div className="flex items-center gap-2">
-            {item.status === "live" && (
-              <span className="size-1.5 shrink-0 rounded-full bg-ok" aria-hidden="true" />
+            {item.insights && (
+              <span className="absolute top-2 left-2 rounded-full border border-line bg-canvas/95 px-2 py-0.5 font-mono text-[0.625rem] tracking-wide text-accent uppercase shadow-sm">
+                {item.insights.frame?.chip ?? labels.caseStudy}
+              </span>
             )}
-            {item.status === "building" && (
-              <span className="size-1.5 shrink-0 rounded-full bg-accent" aria-hidden="true" />
-            )}
-            <h3 className={`font-semibold tracking-tight ${featured ? "text-base" : "text-sm"}`}>
-              <button
-                type="button"
-                onClick={() => openProject(item.slug)}
-                className="text-left after:absolute after:inset-0 after:content-[''] focus:outline-none"
-              >
-                {item.name}
-              </button>
-            </h3>
           </div>
-          <p
-            className={`leading-relaxed text-ink-subtle ${featured ? "text-sm" : "line-clamp-2 text-xs"} ${wide ? "xl:line-clamp-none xl:text-sm" : ""}`}
+          <div
+            className={`flex flex-col gap-1 ${featured ? "p-4" : "flex-1 p-3"} ${wide ? "xl:justify-center xl:gap-2 xl:p-6" : ""}`}
           >
-            {item.tagline}
-          </p>
-          <div className="mt-auto flex items-center gap-2 pt-2 text-ink-faint">
-            {stackIcons(item, 5)}
+            <div className="flex items-center gap-2">
+              {item.status === "live" && (
+                <span className="size-1.5 shrink-0 rounded-full bg-ok" aria-hidden="true" />
+              )}
+              {item.status === "building" && (
+                <span className="size-1.5 shrink-0 rounded-full bg-accent" aria-hidden="true" />
+              )}
+              <h3 className={`font-semibold tracking-tight ${featured ? "text-base" : "text-sm"}`}>
+                <button
+                  type="button"
+                  onClick={() => openProject(item.slug)}
+                  className="text-left after:absolute after:inset-0 after:content-[''] focus:outline-none"
+                >
+                  {item.name}
+                </button>
+              </h3>
+            </div>
+            <p
+              className={`leading-relaxed text-ink-subtle ${featured ? "text-sm" : "line-clamp-2 text-xs"} ${wide ? "xl:line-clamp-none xl:text-sm" : ""}`}
+            >
+              {item.tagline}
+            </p>
+            <div className="mt-auto flex items-center gap-2 pt-2 text-ink-faint">
+              {stackIcons(item, 5)}
+              {featured && (
+                <span className="ml-auto inline-flex items-center gap-1.5 rounded-full bg-accent px-2.5 py-1 text-[0.6875rem] font-semibold tracking-tight text-on-accent shadow-sm">
+                  <svg
+                    viewBox="0 0 24 24"
+                    className="size-3"
+                    fill="currentColor"
+                    aria-hidden="true"
+                  >
+                    <path d="M12 2l2.6 6.6L21.5 9l-5.3 4.6L17.8 21 12 17.3 6.2 21l1.6-7.4L2.5 9l6.9-.4z" />
+                  </svg>
+                  {labels.flagship}
+                </span>
+              )}
+            </div>
           </div>
-        </div>
-      </article>
+        </article>
+      </div>
     </li>
   );
 
@@ -792,9 +840,29 @@ export function ProjectBrowser({
       {rest.length > 0 && (
         <section className="mt-8">
           {heading(labels.other)}
-          <ul className="mt-3 divide-y divide-line overflow-hidden rounded-xl border border-line bg-canvas/70 backdrop-blur-sm">
-            {rest.map(row)}
+          <ul className="mt-3 divide-y divide-line overflow-hidden rounded-xl border border-line bg-canvas">
+            {main.map(row)}
           </ul>
+          {minor.length > 0 && (
+            <details className="group mt-3">
+              <summary className="inline-flex cursor-pointer list-none items-center gap-2 rounded-lg px-1 py-1 text-sm text-ink-muted transition-colors hover:text-ink [&::-webkit-details-marker]:hidden">
+                <svg
+                  viewBox="0 0 16 16"
+                  className="size-3.5 transition-transform group-open:rotate-90"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.8"
+                  aria-hidden="true"
+                >
+                  <path d="M6 3l5 5-5 5" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+                {labels.moreCoursework.replace("{n}", String(minor.length))}
+              </summary>
+              <ul className="mt-2 divide-y divide-line overflow-hidden rounded-xl border border-line bg-canvas">
+                {minor.map(row)}
+              </ul>
+            </details>
+          )}
         </section>
       )}
 

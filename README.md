@@ -3,7 +3,7 @@
 O portfolio publico de **João Silva**, desenvolvedor de software na Gold Coast,
 Australia. No ar em https://joaosilva.app.
 
-Site em tres idiomas (en · pt-BR · es), estatico, sem banco e sem login.
+Site em dois idiomas (en · pt-BR), estatico, sem banco e sem login.
 
 ## Stack
 
@@ -45,13 +45,24 @@ npm run test     # Vitest
 | `lib/i18n/` | Dicionarios. `en.ts` e a fonte da verdade do tipo |
 | `lib/content/` | Projetos, galerias, estudos de caso e stack: todo texto longo, tipado |
 | `components/` | A vitrine, o dialogo do projeto e os graficos dos estudos de caso |
-| `public/` | Capturas (dado ficticio ou anonimizado) e as cenas em pixel art |
+| `public/` | Capturas (dado ficticio ou anonimizado), a cena em pixel art da coluna e os PDFs do curriculo |
+
+## Curriculo em PDF
+
+`public/cv/joao-silva-cv-{en,pt}.pdf` sao a pagina `/[locale]/cv` impressa.
+Mudou cargo, projeto ou ferramenta em `lib/content/`? Gere de novo: rode o
+site (`npm run build && npm start`), abra `/en/cv` e `/pt/cv` e salve como
+PDF (Ctrl+P, A4, margens padrao, com graficos de fundo). A pagina ja tem as
+regras de impressao e cabe numa folha.
+
+Os cargos e datas de `lib/content/experience.ts` sao fato: batem com o
+registro oficial e nao mudam para soar melhor.
 
 ## Idiomas
 
-`/en` (padrao), `/pt`, `/es`. A raiz redireciona para `/en`.
+`/en` (padrao) e `/pt`. A raiz redireciona para `/en`, e endereco antigo em `/es` cai no ingles.
 
-Uma chave que falta em `pt.ts` ou `es.ts` **quebra o build**: o tipo do
+Uma chave que falta em `pt.ts` **quebra o build**: o tipo do
 dicionario e derivado do ingles de proposito.
 
 ## O que este repositorio nao contem

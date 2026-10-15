@@ -167,9 +167,9 @@ export function skillGroups() {
 }
 
 /**
- * O que o carrossel roda: as mesmas 27 da pagina de skills, ordenadas por
- * nivel. Sai de STACK_GROUPS e nao de `Object.keys(TECH)`, senao as chaves
- * que existem so para os projetos voltariam a aparecer no muro.
+ * As 27 ferramentas da pagina de skills, ordenadas por nivel: o `knowsAbout`
+ * do JSON-LD do layout. Sai de STACK_GROUPS e nao de `Object.keys(TECH)`,
+ * senao as chaves que existem so para os projetos entrariam na lista.
  */
 export const ALL_KEYS = STACK_GROUPS.flatMap((group) => group.keys).sort(
   (a, b) => STACK[b].level - STACK[a].level,

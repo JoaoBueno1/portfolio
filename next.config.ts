@@ -28,9 +28,11 @@ const SECURITY_HEADERS = [
 
 const nextConfig: NextConfig = {
   images: {
-    // As capturas de produto sao as imagens mais pesadas do site; AVIF
-    // primeiro corta o peso pela metade, WebP cobre o resto.
-    formats: ["image/avif", "image/webp"],
+    // So WebP. AVIF pesa menos, mas o otimizador leva quase um segundo para
+    // gerar cada um na PRIMEIRA visita, e num portfolio quase toda visita e
+    // a primeira. As capturas das galerias nem passam por aqui (`unoptimized`
+    // em project-browser): so as capas dos cards.
+    formats: ["image/webp"],
   },
   async redirects() {
     return [
@@ -39,14 +41,18 @@ const nextConfig: NextConfig = {
       //
       // Deliberadamente NAO ha deteccao por `Accept-Language` aqui: ela
       // exigiria `proxy.ts` e tiraria a raiz do caminho estatico. Quando
-      // pt e es existirem de verdade, a deteccao entra de proposito, num
+      // a deteccao fizer sentido, ela entra de proposito, num
       // commit proprio. (E `proxy.ts` — `middleware.ts` e ignorado EM
       // SILENCIO no Next 16 e o build passa verde sem rodar nada.)
       { source: "/", destination: "/en", permanent: false },
       // /work existiu por um deploy antes do site virar quatro abas. O
       // endereco pode ter sido aberto ou compartilhado nesse meio tempo, e um
       // 404 num portfolio e pior do que um redirect que ninguem usa.
-      { source: "/:locale(en|pt|es)/work", destination: "/:locale/projects", permanent: true },
+      { source: "/:locale(en|pt)/work", destination: "/:locale/projects", permanent: true },
+      // O espanhol existiu ate 14/10/2026. Link antigo cai no ingles, que e
+      // o idioma do mercado-alvo, em vez de um 404.
+      { source: "/es", destination: "/en", permanent: true },
+      { source: "/es/:path*", destination: "/en/:path*", permanent: true },
     ];
   },
   async headers() {

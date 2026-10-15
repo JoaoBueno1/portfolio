@@ -1,8 +1,8 @@
 import { createHash } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { en } from "@/lib/i18n/en";
-import { es } from "@/lib/i18n/es";
 import { pt } from "@/lib/i18n/pt";
+import { EARLIER, EDUCATION, EXPERIENCE, LANGUAGES } from "./experience";
 import { GALLERIES } from "./galleries";
 import { INSIGHTS } from "./insights";
 import { PROJECTS } from "./projects";
@@ -16,7 +16,7 @@ import type { InsightChart } from "./types";
  * fecha com as linhas que ele desenha.
  */
 
-const LOCALES = ["en", "pt", "es"] as const;
+const LOCALES = ["en", "pt"] as const;
 
 /** Toda string que o visitante pode ler, de qualquer profundidade. */
 function strings(value: unknown, out: string[] = []): string[] {
@@ -51,7 +51,17 @@ function i18nTexts(value: unknown, out: Record<string, unknown>[] = []) {
   return out;
 }
 
-const CONTENT = { PROJECTS, INSIGHTS, GALLERIES, en, pt, es };
+const CONTENT = {
+  PROJECTS,
+  INSIGHTS,
+  GALLERIES,
+  EXPERIENCE,
+  EARLIER,
+  EDUCATION,
+  LANGUAGES,
+  en,
+  pt,
+};
 
 describe("projetos", () => {
   it("tem slug e ordem unicos", () => {
@@ -61,7 +71,7 @@ describe("projetos", () => {
     expect(new Set(orders).size).toBe(orders.length);
   });
 
-  it("escreve todo texto nos tres idiomas, sem nenhum vazio", () => {
+  it("escreve todo texto nos dois idiomas, sem nenhum vazio", () => {
     const texts = i18nTexts({ PROJECTS, INSIGHTS, GALLERIES });
     expect(texts.length).toBeGreaterThan(100);
     for (const text of texts) {

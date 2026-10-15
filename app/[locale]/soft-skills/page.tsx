@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { PageHeader } from "@/components/page-header";
 import { SoftSkillIcon } from "@/components/soft-skill-icon";
-import { StackMarquee } from "@/components/stack-marquee";
 import { SOFT_SKILLS } from "@/lib/content/soft-skills";
 import { isLocale, LOCALES } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
@@ -34,10 +34,7 @@ export default async function SoftSkillsPage({ params }: PageProps<"/[locale]/so
     <div className="flex min-h-svh flex-col justify-between gap-8 px-6 py-12 lg:px-14 lg:py-16">
       <main id="main" className="flex flex-1 flex-col justify-center">
         <div className="max-w-4xl">
-          <h1 className="font-mono text-xs tracking-wide text-ink-subtle uppercase">
-            {t.soft.title}
-          </h1>
-          <p className="mt-3 max-w-2xl text-base text-ink text-pretty">{t.soft.lead}</p>
+          <PageHeader eyebrow={t.soft.title} title={t.soft.headline} lead={t.soft.lead} />
 
           <ul className="mt-8 grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
             {SOFT_SKILLS.map((skill) => {
@@ -67,8 +64,6 @@ export default async function SoftSkillsPage({ params }: PageProps<"/[locale]/so
           </ul>
         </div>
       </main>
-
-      <StackMarquee />
     </div>
   );
 }

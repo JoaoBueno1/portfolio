@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { PageHeader } from "@/components/page-header";
 import { ProjectBrowser } from "@/components/project-browser";
 import { projectViews } from "@/lib/content/view";
 import { isLocale, LOCALES } from "@/lib/i18n/config";
@@ -90,9 +91,7 @@ export default async function ProjectsPage({ params }: PageProps<"/[locale]/proj
         />
       )}
       <div className="max-w-5xl">
-        <h1 className="text-3xl font-semibold tracking-tight text-balance sm:text-4xl lg:text-5xl">
-          {t.projects.title}
-        </h1>
+        <PageHeader eyebrow={t.projects.title} title={t.projects.headline} />
 
         <div className="mt-10">
           <ProjectBrowser
@@ -122,6 +121,8 @@ export default async function ProjectsPage({ params }: PageProps<"/[locale]/proj
               seeOriginal: t.projects.seeOriginal,
               caseStudy: t.projects.caseStudy,
               visitSite: t.projects.visitSite,
+              flagship: t.projects.flagship,
+              moreCoursework: t.projects.moreCoursework,
               sections: t.projects.sections,
             }}
           />

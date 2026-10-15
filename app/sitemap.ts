@@ -2,11 +2,11 @@ import type { MetadataRoute } from "next";
 import { LOCALE_HTML_LANG, LOCALES } from "@/lib/i18n/config";
 
 /**
- * O mapa do site para buscador: as quatro paginas nos tres idiomas, cada uma
+ * O mapa do site para buscador: as cinco paginas nos dois idiomas, cada uma
  * apontando as irmas de idioma. Sem o dominio no ambiente (dev, preview) sai
  * vazio, para nunca anunciar o endereco de um deploy temporario.
  */
-const PAGES = ["", "/projects", "/skills", "/soft-skills"] as const;
+const PAGES = ["", "/experience", "/projects", "/skills", "/soft-skills"] as const;
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const site = process.env.NEXT_PUBLIC_SITE_URL;

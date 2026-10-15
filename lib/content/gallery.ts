@@ -5,7 +5,7 @@ import type { I18nText, Shot } from "./types";
 /**
  * GALERIA POR TEMPLATE.
  *
- * Sessenta e seis capturas com `alt` e `caption` proprios nos tres idiomas
+ * Sessenta e seis capturas com `alt` e `caption` proprios nos dois idiomas
  * seriam quase quatrocentas frases escritas a mao. A metade delas diria a
  * mesma coisa com outra palavra, que e exatamente como se escreve texto ruim.
  *
@@ -18,10 +18,12 @@ import type { I18nText, Shot } from "./types";
  */
 export interface GalleryItem {
   readonly src: StaticImageData;
-  /** O nome daquela tela, nos tres idiomas. */
+  /** O nome daquela tela, nos dois idiomas. */
   readonly page: I18nText;
   /** Nota propria, quando existe algo a dizer alem do nome. */
   readonly note?: I18nText;
+  /** `alt` proprio, quando o molde nao descreve a imagem (uma montagem, por exemplo). */
+  readonly alt?: I18nText;
 }
 
 export interface GalleryGroup {
@@ -39,22 +41,20 @@ function fill(template: string, page: string): string {
 export function toShots(group: GalleryGroup): readonly Shot[] {
   return group.items.map((item) => ({
     src: item.src,
-    alt: {
+    alt: item.alt ?? {
       en: fill(group.altTemplate.en, item.page.en),
       pt: fill(group.altTemplate.pt, item.page.pt),
-      es: fill(group.altTemplate.es, item.page.es),
     },
     caption: item.note ?? {
       en: fill(group.captionTemplate.en, item.page.en),
       pt: fill(group.captionTemplate.pt, item.page.pt),
-      es: fill(group.captionTemplate.es, item.page.es),
     },
   }));
 }
 
-/** Atalho para escrever as tres linguas numa linha so. */
-export function t3(en: string, pt: string, es: string): I18nText {
-  return { en, pt, es };
+/** Atalho para escrever as duas linguas numa linha so. */
+export function t2(en: string, pt: string): I18nText {
+  return { en, pt };
 }
 
 export type { Locale };

@@ -1,4 +1,5 @@
 import { type ReactNode, useId } from "react";
+import type { MatrixLevel } from "@/lib/content/types";
 import type { InsightChartView } from "@/lib/content/view";
 import type { Locale } from "@/lib/i18n/config";
 
@@ -585,10 +586,19 @@ function DeliveryChart({ chart, locale }: { chart: Chart<"delivery">; locale: Lo
 
 /* ── processo ────────────────────────────────────────────────────────── */
 
+/* Classe inteira por quantidade, para o Tailwind achar a string no codigo. */
+const STEP_COLS: Record<number, string> = {
+  2: "sm:grid-cols-2",
+  3: "sm:grid-cols-3",
+  4: "sm:grid-cols-4",
+  5: "sm:grid-cols-5",
+};
+
 function ProcessChart({ chart }: { chart: Chart<"process"> }) {
+  const cols = STEP_COLS[chart.steps.length] ?? "sm:grid-cols-5";
   return (
     <div className="flex flex-col gap-2">
-      <ol className="grid gap-2.5 sm:grid-cols-5">
+      <ol className={`grid gap-2.5 ${cols}`}>
         {chart.steps.map((s, i) => (
           <li
             key={s.title}
@@ -622,7 +632,7 @@ function ProcessChart({ chart }: { chart: Chart<"process"> }) {
         ))}
       </ol>
       {chart.loop && (
-        <div className="hidden sm:grid sm:grid-cols-5 sm:gap-2.5" aria-hidden="true">
+        <div className={`hidden sm:grid sm:gap-2.5 ${cols}`} aria-hidden="true">
           <div
             className="flex items-center justify-center gap-1.5 rounded-b-lg border-x border-b border-dashed border-line-strong pt-1 pb-1.5 font-mono text-[0.625rem] text-ink-subtle"
             style={{ gridColumn: `${chart.loop.from} / ${chart.loop.to + 1}` }}
@@ -645,6 +655,174 @@ function ProcessChart({ chart }: { chart: Chart<"process"> }) {
           </div>
         </div>
       )}
+    </div>
+  );
+}
+
+/* ── plataforma em camadas ───────────────────────────────────────────── */
+
+/**
+ * Quem usa, o que o portal oferece e os sistemas por baixo, de cima para
+ * baixo. Caixas em grade dentro de cada camada; uma seta curta entre as
+ * camadas. Sem SVG: o texto quebra sozinho no celular.
+ */
+/* Seis caixas em 3 colunas; quatro em 2 no tablet e 4 no largo. */
+function tierCols(n: number): string {
+  if (n % 3 === 0) return "sm:grid-cols-3";
+  if (n >= 4) return "sm:grid-cols-2 md:grid-cols-4";
+  return n === 2 ? "sm:grid-cols-2" : "";
+}
+
+function LayersChart({ chart }: { chart: Chart<"layers"> }) {
+  return (
+    <ol className="flex flex-col">
+      {chart.tiers.map((tier, t) => (
+        <li key={tier.label} className="flex flex-col">
+          {t > 0 && (
+            <span className="mx-auto flex h-7 flex-col items-center" aria-hidden="true">
+              <span className="w-px flex-1 bg-line-strong" />
+              <svg
+                viewBox="0 0 12 8"
+                className="size-3 text-line-strong"
+                fill="currentColor"
+                aria-hidden="true"
+              >
+                <path d="M0 0h12L6 8z" />
+              </svg>
+            </span>
+          )}
+          <div className="rounded-lg border border-line bg-sunken p-3">
+            <p className="mb-2 font-mono text-[0.625rem] tracking-wide text-ink-subtle uppercase">
+              {tier.label}
+            </p>
+            <ul className={`grid gap-2 ${tierCols(tier.items.length)}`}>
+              {tier.items.map((item) => (
+                <li
+                  key={item.title}
+                  className={`flex flex-col gap-1 rounded-md border p-2.5 ${
+                    item.accent ? "border-accent/50 bg-accent-soft" : "border-line bg-canvas"
+                  }`}
+                >
+                  <span
+                    className={`text-sm font-semibold tracking-tight ${item.accent ? "text-accent" : ""}`}
+                  >
+                    {item.title}
+                  </span>
+                  <span className="text-xs leading-relaxed text-ink-muted text-pretty">
+                    {item.body}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </li>
+      ))}
+    </ol>
+  );
+}
+
+/* ── quem acessa o que ───────────────────────────────────────────────── */
+
+const LEVELS: readonly MatrixLevel[] = ["full", "work", "use", "view", "grant"];
+
+/** Quantas das quatro barras acendem em cada nivel. */
+const FILLED: Record<MatrixLevel, number> = { full: 4, work: 3, use: 2, view: 1, grant: 0 };
+const BAR_H = ["h-1.5", "h-2", "h-2.5", "h-3"];
+const BAR_H_SMALL = ["h-1", "h-1.5", "h-2", "h-2.5"];
+
+/**
+ * O nivel desenhado como medidor de sinal: quatro barras que sobem, acesas
+ * conforme o tanto do modulo que o papel recebe. "Liberado pessoa a pessoa"
+ * nao e um nivel menor, e outra coisa, e por isso e um circulo tracejado com
+ * um mais. A forma diz o nivel sem depender de cor.
+ */
+function LevelMark({ level, small = false }: { level: MatrixLevel; small?: boolean }) {
+  if (level === "grant") {
+    return (
+      <span
+        className={`inline-grid place-items-center rounded-full border border-dashed border-ink-subtle font-semibold text-ink-muted ${small ? "size-3.5 text-[0.5rem]" : "size-5 text-[0.6875rem]"}`}
+        aria-hidden="true"
+      >
+        +
+      </span>
+    );
+  }
+  const heights = small ? BAR_H_SMALL : BAR_H;
+  return (
+    <span className="inline-flex items-end gap-[2px]" aria-hidden="true">
+      {heights.map((h, i) => (
+        <span
+          key={h}
+          className={`rounded-[1px] ${small ? "w-[3px]" : "w-1"} ${h} ${i < FILLED[level] ? "bg-accent" : "bg-line-strong"}`}
+        />
+      ))}
+    </span>
+  );
+}
+
+/**
+ * Um papel por linha, um modulo por coluna. O medidor de cada celula e
+ * repetido em texto (leitor de tela e legenda), para nao depender do desenho.
+ */
+function MatrixChart({ chart }: { chart: Chart<"matrix"> }) {
+  return (
+    <div className="flex flex-col gap-3">
+      <div className="-mx-3 overflow-x-auto px-3 sm:mx-0 sm:px-0">
+        <table className="w-full min-w-[34rem] border-separate border-spacing-0 text-left text-xs">
+          <thead>
+            <tr>
+              <th className="sticky left-0 bg-canvas pb-2" />
+              {chart.columns.map((c) => (
+                <th
+                  key={c}
+                  scope="col"
+                  className="px-1 pb-2 text-center align-bottom font-mono text-[0.625rem] font-normal tracking-wide text-ink-subtle uppercase"
+                >
+                  {c}
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {chart.rows.map((r) => (
+              <tr key={r.role}>
+                <th
+                  scope="row"
+                  className="sticky left-0 border-t border-line bg-canvas py-2.5 pr-3 align-top font-normal"
+                >
+                  <span className="block text-sm font-semibold tracking-tight">{r.role}</span>
+                  {r.note && (
+                    <span className="block text-[0.6875rem] leading-snug text-ink-subtle">
+                      {r.note}
+                    </span>
+                  )}
+                </th>
+                {r.cells.map((cell, i) => (
+                  <td
+                    // biome-ignore lint/suspicious/noArrayIndexKey: a coluna e posicional (um modulo por indice).
+                    key={i}
+                    className="border-t border-line px-1 py-2.5 text-center align-middle"
+                    title={chart.legend[cell]}
+                  >
+                    <LevelMark level={cell} />
+                    <span className="sr-only">{chart.legend[cell]}</span>
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <ul className="flex flex-col gap-1.5 border-t border-line pt-3">
+        {LEVELS.map((l) => (
+          <li key={l} className="flex items-center gap-2 text-[0.6875rem] text-ink-muted">
+            <span className="grid w-5 shrink-0 place-items-center">
+              <LevelMark level={l} small />
+            </span>
+            {chart.legend[l]}
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }
@@ -772,5 +950,9 @@ export function InsightChartBlock({
       return <ConnectionsChart chart={chart} />;
     case "suite":
       return <SuiteChart chart={chart} locale={locale} />;
+    case "layers":
+      return <LayersChart chart={chart} />;
+    case "matrix":
+      return <MatrixChart chart={chart} />;
   }
 }

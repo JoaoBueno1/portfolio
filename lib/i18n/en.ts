@@ -1,10 +1,10 @@
 /**
  * INGLES, a fonte da verdade.
  *
- * O tipo `Dictionary` sai deste objeto, entao chave faltando em `pt.ts` ou
- * `es.ts` quebra o build.
+ * O tipo `Dictionary` sai deste objeto, entao chave faltando em `pt.ts`
+ * quebra o build.
  *
- * REGRAS DE ESCRITA DESTE SITE, e elas valem para os tres idiomas:
+ * REGRAS DE ESCRITA DESTE SITE, e elas valem para os dois idiomas:
  * 1. Frase curta. Se precisa de virgula no meio para respirar, corta em duas.
  * 2. NADA de travessao entre palavras. Virgula, ponto ou dois-pontos.
  * 3. Nada de adjetivo de si mesmo. Diz o que aconteceu e onde.
@@ -20,19 +20,25 @@ export const en = {
     /** O titulo da primeira pagina e o padrao do site: nome e cargo juntos. */
     siteTitle: "João Silva · Full Stack Developer, Gold Coast",
     aboutDescription:
-      "Full stack developer on the Gold Coast, Australia. Web, backend, mobile, data and integrations, with software in daily production use: Python, Flask, TypeScript, PostgreSQL, AWS.",
+      "Full stack developer on the Gold Coast, Australia. I build the operational systems a distribution business runs on: a TMS, a warehouse platform, a driver app, a partner API and an AI operations portal. Python, Flask, TypeScript, PostgreSQL, AWS.",
     skillsTitle: "Skills",
     skillsDescription:
       "Python, Flask, TypeScript, PostgreSQL, Supabase, REST APIs, AWS and the rest of the stack, rated by how much I actually use each one.",
     softTitle: "Soft skills",
     softDescription:
       "Technical communication, project coordination, requirements gathering, user training and feedback, with where each one happened.",
+    experienceTitle: "Experience",
+    experienceDescription:
+      "Ten years of work, from a bank counter in Brazil to the systems a distribution business on the Gold Coast runs on, plus education and languages.",
+    cvTitle: "CV",
+    cvDescription: "CV of João Silva, full stack developer on the Gold Coast, Australia.",
     projectsTitle: "Projects",
     projectsDescription:
       "Case studies of systems in production: a transport management system, a warehouse operations platform, an AI data assistant, a carrier API and a driver app, plus study work.",
   },
   nav: {
     about: "About",
+    experience: "Experience",
     skills: "Skills",
     soft: "Soft skills",
     projects: "Projects",
@@ -52,15 +58,15 @@ export const en = {
   },
   about: {
     title: "About",
-    headline: "Full stack developer | Business systems and automation",
+    headline: "I build the operational software a distribution business runs on every day.",
     intro: [
-      "I'm a software developer based on the Gold Coast, Australia. I build software that people rely on at work: web applications, backend services, mobile apps, databases and the integrations that tie them together. What I like most is taking a process that lives in people's heads and spreadsheets and turning it into a system that runs on its own.",
-      "I like work that goes end to end: understanding how people actually do the job, designing the flow, writing the code, shipping it and seeing it used. Lately that has meant data, automation and AI inside everyday business tools. I hold a Diploma of Information Technology in Database and Data Management.",
+      "Full stack developer on the Gold Coast, building software since 2022. In 2023 I joined a wholesale distributor on the warehouse floor. I proposed software to digitise the daily operation, and then built it: a transport management system, a warehouse platform, a driver app, a partner API and an operations portal with an AI assistant, all in production today. Before that, four years in banking in Brazil. Diploma of Information Technology, Database and Data Management.",
     ],
     linkProjects: "See what I have built",
-    linkSkills: "See the tools I work with",
     nowTitle: "Right now",
-    now: "Working with analytics, AI integrations and connected business systems.",
+    now: "An operations portal where the team asks questions in plain English, and the AI answers only from reviewed queries, with the table behind every answer.",
+    emailMe: "Email me",
+    downloadCv: "Download CV (PDF)",
     languagesTitle: "Languages",
     languages: "Portuguese (native), English (professional).",
   },
@@ -88,13 +94,16 @@ export const en = {
   },
   soft: {
     title: "Soft skills",
-    lead: "Four years at a bank counter, three on a warehouse floor, and a small project team to coordinate. This is what came out of that.",
+    headline:
+      "Four years at a bank counter, three on a warehouse floor, and a small project team to coordinate.",
+    lead: "This is what came out of that.",
   },
   projects: {
     title: "Projects",
-    lead: "",
+    headline: "Systems that run a real operation today, and the coursework before them.",
     inProduction: "Running in production",
-    other: "Earlier work and study",
+    other: "Coursework and earlier work",
+    moreCoursework: "More coursework ({n})",
     close: "Close",
     roleLabel: "Role",
     periodLabel: "Period",
@@ -128,6 +137,7 @@ export const en = {
     seeOriginal: "See the original page",
     caseStudy: "Live results",
     visitSite: "Visit the live site",
+    flagship: "Flagship project",
     sections: {
       overview: "Overview",
       challenge: "The challenge",
@@ -139,6 +149,33 @@ export const en = {
     zoomFigure: "Open this page full size",
     insightsNote:
       "Real data, aggregated and anonymised. Carriers are letters, and no customer, order, address or money value appears.",
+  },
+  experience: {
+    title: "Experience",
+    headline:
+      "Ten years of work, from a bank counter to the systems a distribution business runs on.",
+    lead: "The current employer is not named on this public site. Everything else is as it happened.",
+    present: "now",
+    since: "From",
+    earlierTitle: "Before that",
+    educationTitle: "Education",
+    languagesTitle: "Languages",
+    cvLink: "Download CV (PDF)",
+  },
+  cv: {
+    role: "Full stack developer",
+    summaryTitle: "Summary",
+    summary:
+      "Full stack developer on the Gold Coast, building software since 2022. I joined a wholesale distributor on the warehouse floor in 2023, proposed software to digitise the daily operation, and built it: a transport management system, a warehouse platform, a driver app, a partner API and an operations portal with an AI assistant, all in production. Before that, four years in banking. Diploma of Information Technology, Database and Data Management.",
+    experienceTitle: "Experience",
+    projectsTitle: "Systems in production",
+    skillsTitle: "Skills",
+    dailyLabel: "Daily",
+    oftenLabel: "Often",
+    educationTitle: "Education",
+    languagesTitle: "Languages",
+    portfolioLabel: "Portfolio",
+    print: "Print or save as PDF",
   },
   footer: {
     source: "Source",

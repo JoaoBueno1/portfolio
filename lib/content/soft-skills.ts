@@ -35,7 +35,6 @@ export const SOFT_SKILLS: readonly SoftSkill[] = [
     competency: {
       en: "Technical communication",
       pt: "Comunicação técnica",
-      es: "Comunicación técnica",
     },
     copy: {
       en: {
@@ -46,10 +45,6 @@ export const SOFT_SKILLS: readonly SoftSkill[] = [
         title: "Explicar um sistema para quem não escreve código",
         body: "Quatro anos atendendo no banco me ensinaram a dizer a coisa complicada uma vez só, com clareza. Hoje a plateia é dispatcher, motorista e gente de armazém.",
       },
-      es: {
-        title: "Explicar un sistema a quien no escribe código",
-        body: "Cuatro años atendiendo en el banco me enseñaron a decir lo complicado una sola vez, con claridad. Hoy el público son despachadores, conductores y gente de almacén.",
-      },
     },
   },
   {
@@ -58,7 +53,6 @@ export const SOFT_SKILLS: readonly SoftSkill[] = [
     competency: {
       en: "Project coordination and delivery",
       pt: "Coordenação e entrega de projeto",
-      es: "Coordinación y entrega de proyectos",
     },
     copy: {
       en: {
@@ -69,10 +63,6 @@ export const SOFT_SKILLS: readonly SoftSkill[] = [
         title: "Definir o escopo e revisar o que voltava",
         body: "O desenvolvimento começou com time: um designer e outras pessoas, organizados no Notion num trabalho pago. Dividir a tarefa era a parte fácil. Dizer quando estava pronto de verdade era o trabalho.",
       },
-      es: {
-        title: "Definir el alcance y revisar lo que volvía",
-        body: "El desarrollo empezó con equipo: un diseñador y otras personas, organizados en Notion en un trabajo pagado. Repartir la tarea era lo fácil. Decir cuándo algo estaba realmente terminado era el trabajo.",
-      },
     },
   },
   {
@@ -81,7 +71,6 @@ export const SOFT_SKILLS: readonly SoftSkill[] = [
     competency: {
       en: "Requirements gathering",
       pt: "Levantamento de requisitos",
-      es: "Levantamiento de requisitos",
     },
     copy: {
       en: {
@@ -92,10 +81,6 @@ export const SOFT_SKILLS: readonly SoftSkill[] = [
         title: "Perguntar para quem faz o trabalho",
         body: "Nenhuma feature é escrita antes de alguém ser visto fazendo aquilo na mão. As regras de verdade moram ali, nunca no briefing.",
       },
-      es: {
-        title: "Preguntar a quien hace el trabajo",
-        body: "Ninguna función se escribe antes de ver a alguien hacerla a mano. Las reglas reales viven ahí, nunca en el brief.",
-      },
     },
   },
   {
@@ -104,7 +89,6 @@ export const SOFT_SKILLS: readonly SoftSkill[] = [
     competency: {
       en: "Research coordination and mentoring",
       pt: "Coordenação de pesquisa e mentoria",
-      es: "Coordinación de investigación y mentoría",
     },
     copy: {
       en: {
@@ -115,10 +99,6 @@ export const SOFT_SKILLS: readonly SoftSkill[] = [
         title: "Conduzir um estagiário em pesquisa de concorrente",
         body: "Semana a semana, os produtos do nosso mercado voltavam comparados com o nosso, com as lacunas listadas. Transformar aquilo em algo que o time conseguisse construir era a minha metade.",
       },
-      es: {
-        title: "Guiar a un pasante en investigación de competencia",
-        body: "Semana a semana, los productos de nuestro mercado volvían comparados con el nuestro, con las carencias listadas. Convertir eso en algo que el equipo pudiera construir era mi mitad.",
-      },
     },
   },
   {
@@ -127,7 +107,6 @@ export const SOFT_SKILLS: readonly SoftSkill[] = [
     competency: {
       en: "User feedback and ownership",
       pt: "Feedback dos usuários e responsabilidade",
-      es: "Feedback de usuarios y responsabilidad",
     },
     copy: {
       en: {
@@ -138,10 +117,6 @@ export const SOFT_SKILLS: readonly SoftSkill[] = [
         title: "Feedback coletado, e respondido",
         body: "Toda reclamação do chão recebe resposta, inclusive as em que a resposta é não. As pessoas param de reportar problema quando ninguém volta para elas.",
       },
-      es: {
-        title: "Feedback recogido, y respondido",
-        body: "Cada queja del piso recibe respuesta, incluidas aquellas en las que la respuesta es no. La gente deja de reportar problemas cuando nadie vuelve a ellos.",
-      },
     },
   },
   {
@@ -150,7 +125,6 @@ export const SOFT_SKILLS: readonly SoftSkill[] = [
     competency: {
       en: "User training and adoption",
       pt: "Treinamento e adoção dos usuários",
-      es: "Formación y adopción de usuarios",
     },
     copy: {
       en: {
@@ -160,10 +134,6 @@ export const SOFT_SKILLS: readonly SoftSkill[] = [
       pt: {
         title: "Treinar quem vai usar",
         body: "Sistema que ninguém mostrou como usar é sistema que ninguém usa. Sentar com cada pessoa até ela conseguir sozinha custa uma tarde e economiza um mês.",
-      },
-      es: {
-        title: "Entrenar a quien lo va a usar",
-        body: "Un sistema que nadie enseñó a usar es un sistema que nadie usa. Sentarse con cada persona hasta que pueda sola cuesta una tarde y ahorra un mes.",
       },
     },
   },

@@ -55,18 +55,18 @@ Erros que **nao aparecem no build**. O deploy passa verde e ninguem avisa.
 
 ## Idioma
 
-Tres idiomas: **en** (padrao), **pt-BR**, **es**. Toda rota vive sob
+Dois idiomas: **en** (padrao) e **pt-BR**. Toda rota vive sob
 `app/[locale]/`; a raiz redireciona para `/en` pelo `next.config.ts`.
 
 - **`lib/i18n/en.ts` e a fonte da verdade.** O tipo `Dictionary` sai dele,
-  entao chave faltando em `pt.ts` ou `es.ts` **quebra o build**. Nao ha como
+  entao chave faltando em `pt.ts` **quebra o build**. Nao ha como
   publicar traducao pela metade.
 - **`en.ts` nao leva `as const`.** Com ele o tipo vira literal e o compilador
   passaria a exigir a frase em ingles dentro do arquivo portugues.
 - **Termo tecnico de logistica nao se traduz** em lingua nenhuma: dispatch,
   booking, consignment, manifest, carrier. E assim que a industria fala.
 - **Comentario de codigo, commit e PR em portugues.** Texto que o visitante le,
-  nos tres idiomas. Identificador de codigo sempre em ingles.
+  nos dois idiomas. Identificador de codigo sempre em ingles.
 
 ## Conteudo nao mora em componente
 

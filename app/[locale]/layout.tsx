@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import "../globals.css";
 import { AmbientMotion } from "@/components/ambient-motion";
-import { AmbientScene } from "@/components/ambient-scene";
 import { Sidebar } from "@/components/sidebar";
 import { PROFILE } from "@/lib/content/profile";
 import { ALL_KEYS, STACK } from "@/lib/content/stack";
@@ -135,26 +134,18 @@ export default async function LocaleLayout({ children, params }: LayoutProps<"/[
         >
           {t.nav.skipToContent}
         </a>
-        {/* O fundo vive AQUI, uma vez so, fixo atras de tudo. Trocar de aba
-            nao troca o fundo, e o site passa a parecer uma superficie so em
-            vez de quatro telas diferentes. `-z-10` o coloca atras do
-            conteudo; `pointer-events-none` impede que ele roube clique.
-
-            TESTE (dev): a cena ilustrada no lugar do campo de rotas. Para
-            voltar, troque `<AmbientScene />` por `<RouteField />`, que
-            continua em `components/route-field.tsx`. O fundo comeca depois da
-            coluna: a cena e do conteudo, nao da coluna, que tem a sua. */}
-        <div
-          className="pointer-events-none fixed inset-0 -z-10 lg:left-(--sidebar-w)"
-          aria-hidden="true"
-        >
-          <AmbientScene />
-        </div>
+        {/* O CONTEUDO E LISO, de proposito. A cena da praia vive so na coluna
+            da esquerda, como um cartao-postal: e a identidade do site e de
+            onde eu sou, sem competir com texto, cards e tabelas. Ela ja esteve
+            atras do conteudo inteiro e saiu em 15/10/2026: nas paginas densas
+            (skills, projetos) a cidade aparecia por tras dos cards. */}
         <AmbientMotion />
         <Sidebar
           locale={locale}
           t={{
             about: t.nav.about,
+            experience: t.nav.experience,
+            cv: t.about.downloadCv,
             skills: t.nav.skills,
             soft: t.nav.soft,
             projects: t.nav.projects,
@@ -169,7 +160,7 @@ export default async function LocaleLayout({ children, params }: LayoutProps<"/[
             close: t.sidebar.close,
           }}
         />
-        <div className="lg:pl-(--sidebar-w)">{children}</div>
+        <div className="lg:pl-(--sidebar-w) print:pl-0">{children}</div>
       </body>
     </html>
   );

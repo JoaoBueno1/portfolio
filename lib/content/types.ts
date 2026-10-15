@@ -6,6 +6,13 @@ import type { StackKey } from "./stack";
 export type I18nText = Record<Locale, string>;
 
 /**
+ * Quanto de um modulo um papel recebe, do mais ao menos: tudo, o trabalho com
+ * os commits da operacao, o dia a dia, so olhar, ou nada por padrao (liberado
+ * pessoa a pessoa).
+ */
+export type MatrixLevel = "full" | "work" | "use" | "view" | "grant";
+
+/**
  * A gaveta do projeto. Nao ha "outros": projeto que nao cabe em nenhuma
  * destas provavelmente nao deveria estar no portfolio.
  */
@@ -151,6 +158,36 @@ export type InsightChart =
     }
   | {
       /**
+       * A plataforma em camadas, de cima para baixo: quem usa, o que o
+       * portal oferece, e os sistemas por baixo. Cada camada e uma linha de
+       * caixas; a seta entre elas diz por onde passa o acesso.
+       */
+      readonly kind: "layers";
+      readonly tiers: readonly {
+        readonly label: I18nText;
+        readonly items: readonly {
+          readonly title: I18nText;
+          readonly body: I18nText;
+          readonly accent?: boolean;
+        }[];
+      }[];
+    }
+  | {
+      /**
+       * Quem acessa o que: um papel por linha, um modulo por coluna. O nivel
+       * de cada celula vem do modelo de permissoes real, nao de exemplo.
+       */
+      readonly kind: "matrix";
+      readonly columns: readonly I18nText[];
+      readonly rows: readonly {
+        readonly role: I18nText;
+        readonly note?: I18nText;
+        readonly cells: readonly MatrixLevel[];
+      }[];
+      readonly legend: Readonly<Record<MatrixLevel, I18nText>>;
+    }
+  | {
+      /**
        * Um kit de testes (colecao Postman, por exemplo): cada pasta, quantas
        * requisicoes e verificacoes tem, e o que ela prova.
        */
@@ -289,5 +326,12 @@ export interface Project {
    * nunca `*.vercel.app`, porque o link e parte da credibilidade.
    */
   readonly link?: string;
+  /**
+   * Trabalho de curso que fica recolhido em "mais trabalhos de curso". Os
+   * quatro que mostram competencia de trabalho (data warehouse, API
+   * documentada, servidor, hardening) ficam a vista; o resto e prova de
+   * percurso, nao de nivel, e dez linhas de estudo diluiam a vitrine.
+   */
+  readonly minor?: boolean;
   readonly copy: Record<Locale, ProjectCopy>;
 }
