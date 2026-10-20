@@ -24,7 +24,7 @@ export const PROJECTS: readonly Project[] = [
   {
     slug: "operations-portal",
     name: "Operations Portal and AI Assistant",
-    order: 1,
+    order: 2,
     domain: "platform",
     status: "live",
     period: { from: "2026-09" },
@@ -84,7 +84,7 @@ export const PROJECTS: readonly Project[] = [
   {
     slug: "tms",
     name: "Transport Management System",
-    order: 2,
+    order: 1,
     domain: "production",
     status: "live",
     // O codigo foi para o git em junho de 2025; o sistema comecou enxuto,
@@ -213,7 +213,7 @@ export const PROJECTS: readonly Project[] = [
   {
     slug: "driver-app",
     name: "Driver App",
-    order: 4,
+    order: 5,
     domain: "mobile",
     status: "live",
     period: { from: "2025-06" },
@@ -249,7 +249,7 @@ export const PROJECTS: readonly Project[] = [
   {
     slug: "warehouse",
     name: "Warehouse Operations Platform",
-    order: 5,
+    order: 4,
     domain: "tools",
     status: "live",
     period: { from: "2025-07" },

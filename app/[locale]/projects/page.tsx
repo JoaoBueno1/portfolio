@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { PageHeader } from "@/components/page-header";
-import { ProjectBrowser } from "@/components/project-browser";
+import { ProjectGrid } from "@/components/project-grid";
 import { projectViews } from "@/lib/content/view";
 import { isLocale, LOCALES } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
@@ -26,9 +26,8 @@ export async function generateMetadata({
 }
 
 /**
- * Os sistemas de producao como lista estruturada (schema.org), para buscador
- * e leitor automatico. Cada item aponta para o endereco que abre o dialogo
- * dele. So com o dominio proprio, como o sitemap.
+ * Os sistemas de producao como lista estruturada (schema.org). Cada item
+ * aponta para a pagina do projeto. So com o dominio proprio, como o sitemap.
  */
 function projectList(
   site: string,
@@ -50,26 +49,13 @@ function projectList(
           name: c.name,
           description: c.tagline,
           applicationCategory: "BusinessApplication",
-          url: `${site}/${locale}/projects?p=${c.slug}`,
+          url: `${site}/${locale}/projects/${c.slug}`,
           author: { "@id": `${site}/#person` },
         },
       })),
   };
 }
 
-/**
- * DE PROPOSITO SEM `searchParams`.
- *
- * Basta TOCAR em `searchParams` para o Next tirar a pagina do caminho
- * estatico: ela passa a ser renderizada no servidor a cada visita, so para
- * decidir qual dialogo abre. Nao compensa, e esta e a pagina mais vista do
- * site.
- *
- * O link compartilhado continua funcionando. `ProjectBrowser` le a query no
- * browser ao montar e abre o projeto. A diferenca e que o dialogo aparece
- * depois da hidratacao, e a lista de projetos, que e o conteudo de verdade,
- * ja veio pronta no HTML.
- */
 export default async function ProjectsPage({ params }: PageProps<"/[locale]/projects">) {
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
@@ -78,7 +64,7 @@ export default async function ProjectsPage({ params }: PageProps<"/[locale]/proj
   const site = process.env.NEXT_PUBLIC_SITE_URL;
 
   return (
-    <main id="main" className="flex min-h-svh flex-col justify-center px-6 py-12 lg:px-14 lg:py-16">
+    <main id="main" className="mx-auto max-w-6xl px-6 py-12 sm:py-16">
       {site && (
         <script
           type="application/ld+json"
@@ -90,43 +76,20 @@ export default async function ProjectsPage({ params }: PageProps<"/[locale]/proj
           }}
         />
       )}
-      <div className="max-w-5xl">
-        <PageHeader eyebrow={t.projects.title} title={t.projects.headline} />
-
-        <div className="mt-10">
-          <ProjectBrowser
-            items={cards}
-            labels={{
-              inProduction: t.projects.inProduction,
-              other: t.projects.other,
-              close: t.projects.close,
-              roleLabel: t.projects.roleLabel,
-              stackLabel: t.projects.stackLabel,
-              previous: t.projects.previous,
-              next: t.projects.next,
-              previousShot: t.projects.previousShot,
-              zoom: t.projects.zoom,
-              closeZoom: t.projects.closeZoom,
-              shotPosition: t.projects.shotPosition,
-              nextShot: t.projects.nextShot,
-              shotCount: t.projects.shotCount,
-              status: t.projects.status,
-              domains: t.projects.domains,
-              noShot: t.projects.noShot,
-              insightsEyebrow: t.projects.insightsEyebrow,
-              insightsCount: t.projects.insightsCount,
-              methodLabel: t.projects.methodLabel,
-              zoomFigure: t.projects.zoomFigure,
-              insightsNote: t.projects.insightsNote,
-              seeOriginal: t.projects.seeOriginal,
-              caseStudy: t.projects.caseStudy,
-              visitSite: t.projects.visitSite,
-              flagship: t.projects.flagship,
-              moreCoursework: t.projects.moreCoursework,
-              sections: t.projects.sections,
-            }}
-          />
-        </div>
+      <PageHeader eyebrow={t.projects.title} title={t.projects.headline} />
+      <div className="mt-10">
+        <ProjectGrid
+          items={cards}
+          locale={locale}
+          mode="all"
+          labels={{
+            inProduction: t.projects.inProduction,
+            other: t.projects.other,
+            moreCoursework: t.projects.moreCoursework,
+            caseStudy: t.projects.caseStudy,
+            flagship: t.projects.flagship,
+          }}
+        />
       </div>
     </main>
   );

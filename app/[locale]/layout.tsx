@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import "../globals.css";
-import { AmbientMotion } from "@/components/ambient-motion";
-import { Sidebar } from "@/components/sidebar";
+import { SiteFooter } from "@/components/site-footer";
+import { SiteHeader } from "@/components/site-header";
 import { PROFILE } from "@/lib/content/profile";
 import { ALL_KEYS, STACK } from "@/lib/content/stack";
 import { isLocale, LOCALE_HTML_LANG, LOCALES, type Locale } from "@/lib/i18n/config";
@@ -14,9 +14,9 @@ import { alternatesFor } from "@/lib/seo";
  * `[locale]`, entao o layout mais alto ja conhece o idioma e escreve `lang`
  * no `<html>` no servidor, sem efeito no cliente e sem flash de idioma errado.
  *
- * A estrutura e uma coluna fixa a esquerda e o conteudo a direita. Sao quatro
- * destinos no site inteiro, e a ideia e que o visitante nunca sinta que
- * navegou: o que muda e o painel da direita.
+ * A estrutura e a de um site, nao de um app: barra no topo, pagina, rodape.
+ * A coluna fixa da esquerda saiu em 21/10/2026 para dar largura as telas e
+ * aos diagramas dos projetos, que sao o que o visitante vem ver.
  */
 export function generateStaticParams() {
   return LOCALES.map((locale) => ({ locale }));
@@ -24,8 +24,7 @@ export function generateStaticParams() {
 
 /**
  * O tema TEM que ser aplicado antes da primeira pintura. Como `useEffect`,
- * quem escolheu escuro veria um lampejo branco a cada navegacao, o pior tipo
- * de bug de tema porque so atinge quem se importa com o assunto.
+ * quem escolheu escuro veria um lampejo branco a cada navegacao.
  *
  * Engole o proprio erro: em janela anonima `localStorage` LANCA ao ser
  * acessado, e um throw aqui derrubaria a pagina inteira.
@@ -33,12 +32,9 @@ export function generateStaticParams() {
 const THEME_BOOTSTRAP = `try{var t=localStorage.getItem("theme");if(t==="dark"||t==="light"){document.documentElement.dataset.theme=t}}catch(e){}`;
 
 /**
- * Dados estruturados (schema.org) para buscador e leitor automatico: quem e
- * a pessoa, onde esta, o que sabe e onde mais existe na web. O cargo vai em
- * ingles em todo idioma, porque e o que o leitor automatico compara.
- *
- * So entra com o dominio proprio configurado, pelo mesmo motivo do sitemap:
- * `@id` precisa de URL absoluta e nao pode apontar para um deploy temporario.
+ * Dados estruturados (schema.org) para buscador e leitor automatico. O cargo
+ * vai em ingles em todo idioma, porque e o que o leitor automatico compara.
+ * So entra com o dominio proprio configurado, pelo mesmo motivo do sitemap.
  */
 function structuredData(locale: Locale, site: string, description: string) {
   const person = `${site}/#person`;
@@ -48,9 +44,10 @@ function structuredData(locale: Locale, site: string, description: string) {
       {
         "@type": "Person",
         "@id": person,
-        name: PROFILE.name,
+        name: PROFILE.fullName,
+        alternateName: PROFILE.name,
         url: `${site}/${locale}`,
-        jobTitle: "Full Stack Developer",
+        jobTitle: "Software Developer",
         description,
         email: `mailto:${PROFILE.email}`,
         address: {
@@ -67,7 +64,7 @@ function structuredData(locale: Locale, site: string, description: string) {
         "@type": "WebSite",
         "@id": `${site}/#website`,
         url: site,
-        name: PROFILE.name,
+        name: PROFILE.fullName,
         inLanguage: LOCALE_HTML_LANG[locale],
         author: { "@id": person },
       },
@@ -80,20 +77,18 @@ export async function generateMetadata({ params }: LayoutProps<"/[locale]">): Pr
   if (!isLocale(locale)) return {};
   const t = await getDictionary(locale);
 
-  // O dominio proprio entra por variavel de ambiente na Vercel, e so depois de
-  // estar no ar: com ele vazio o Next usa o endereco do deploy, e a previa de
-  // link nunca aponta para um dominio que ainda nao resolve.
+  // O dominio proprio entra por variavel de ambiente na Vercel: com ele vazio
+  // o Next usa o endereco do deploy, e a previa de link nunca aponta para um
+  // dominio que ainda nao resolve.
   const site = process.env.NEXT_PUBLIC_SITE_URL;
 
   return {
     ...(site ? { metadataBase: new URL(site) } : {}),
     // A primeira pagina leva nome e cargo no titulo; as outras, "Pagina · Nome".
-    title: { default: t.meta.siteTitle, template: `%s · ${t.meta.aboutTitle}` },
-    description: t.meta.aboutDescription,
+    title: { default: t.meta.siteTitle, template: `%s · ${t.meta.siteName}` },
+    description: t.meta.homeDescription,
     alternates: alternatesFor(locale),
-    openGraph: { title: t.meta.siteTitle, description: t.meta.aboutDescription, type: "profile" },
-    // A imagem vem de `opengraph-image.png` nesta pasta; aqui so o formato
-    // grande, que e o que LinkedIn, Slack e X mostram quando alguem cola o link.
+    openGraph: { title: t.meta.siteTitle, description: t.meta.homeDescription, type: "profile" },
     twitter: { card: "summary_large_image" },
   };
 }
@@ -115,13 +110,13 @@ export default async function LocaleLayout({ children, params }: LayoutProps<"/[
             forma de aplicar o tema antes da primeira pintura. */}
         <script dangerouslySetInnerHTML={{ __html: THEME_BOOTSTRAP }} />
       </head>
-      <body className="font-sans antialiased">
+      <body className="flex min-h-svh flex-col font-sans antialiased">
         {site && (
           <script
             type="application/ld+json"
             // biome-ignore lint/security/noDangerouslySetInnerHtml: JSON serializado deste arquivo, sem entrada de usuario; `<` escapado para nunca fechar a tag.
             dangerouslySetInnerHTML={{
-              __html: JSON.stringify(structuredData(locale, site, t.meta.aboutDescription)).replace(
+              __html: JSON.stringify(structuredData(locale, site, t.meta.homeDescription)).replace(
                 /</g,
                 "\\u003c",
               ),
@@ -134,33 +129,23 @@ export default async function LocaleLayout({ children, params }: LayoutProps<"/[
         >
           {t.nav.skipToContent}
         </a>
-        {/* O CONTEUDO E LISO, de proposito. A cena da praia vive so na coluna
-            da esquerda, como um cartao-postal: e a identidade do site e de
-            onde eu sou, sem competir com texto, cards e tabelas. Ela ja esteve
-            atras do conteudo inteiro e saiu em 15/10/2026: nas paginas densas
-            (skills, projetos) a cidade aparecia por tras dos cards. */}
-        <AmbientMotion />
-        <Sidebar
+        <SiteHeader
           locale={locale}
           t={{
-            about: t.nav.about,
-            experience: t.nav.experience,
-            cv: t.about.downloadCv,
-            skills: t.nav.skills,
-            soft: t.nav.soft,
             projects: t.nav.projects,
+            experience: t.nav.experience,
+            about: t.nav.about,
+            contact: t.nav.contact,
+            cv: t.nav.cv,
             menu: t.nav.menu,
             language: t.nav.language,
             theme: t.nav.theme,
-            role: t.sidebar.role,
-            focus: t.sidebar.focus,
-            location: t.sidebar.location,
-            photoAlt: t.sidebar.photoAlt,
-            open: t.sidebar.open,
-            close: t.sidebar.close,
+            open: t.nav.open,
+            close: t.nav.close,
           }}
         />
-        <div className="lg:pl-(--sidebar-w) print:pl-0">{children}</div>
+        <div className="flex-1">{children}</div>
+        <SiteFooter location={t.home.location} source={t.footer.source} built={t.footer.built} />
       </body>
     </html>
   );

@@ -1,6 +1,6 @@
 # portfolio
 
-O portfolio publico de **João Silva**, desenvolvedor de software na Gold Coast,
+O portfolio publico de **João Marcos Bueno da Silva**, desenvolvedor de software na Gold Coast,
 Australia. No ar em https://joaosilva.app.
 
 Site em dois idiomas (en · pt-BR), estatico, sem banco e sem login.
@@ -41,15 +41,15 @@ npm run test     # Vitest
 
 | Pasta | O que e |
 |---|---|
-| `app/[locale]/` | Todas as rotas. O root layout mora aqui; nao existe `app/layout.tsx` |
+| `app/[locale]/` | Todas as rotas: home, `projects`, `projects/[slug]` (uma pagina por projeto), `experience`, `about`, `cv`. O root layout mora aqui; nao existe `app/layout.tsx` |
 | `lib/i18n/` | Dicionarios. `en.ts` e a fonte da verdade do tipo |
 | `lib/content/` | Projetos, galerias, estudos de caso e stack: todo texto longo, tipado |
-| `components/` | A vitrine, o dialogo do projeto e os graficos dos estudos de caso |
-| `public/` | Capturas (dado ficticio ou anonimizado), a cena em pixel art da coluna e os PDFs do curriculo |
+| `components/` | Barra do topo, rodape, a vitrine, a galeria e o painel de graficos da pagina do projeto |
+| `public/` | Capturas (dado ficticio ou anonimizado), a cena em pixel art do hero e os PDFs do curriculo |
 
 ## Curriculo em PDF
 
-`public/cv/joao-silva-cv-{en,pt}.pdf` sao a pagina `/[locale]/cv` impressa.
+`public/cv/joao-marcos-cv-{en,pt}.pdf` sao a pagina `/[locale]/cv` impressa.
 Mudou cargo, projeto ou ferramenta em `lib/content/`? Gere de novo: rode o
 site (`npm run build && npm start`), abra `/en/cv` e `/pt/cv` e salve como
 PDF (Ctrl+P, A4, margens padrao, com graficos de fundo). A pagina ja tem as

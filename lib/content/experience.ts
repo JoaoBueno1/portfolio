@@ -3,13 +3,11 @@ import type { I18nText } from "./types";
 const t = (en: string, pt: string): I18nText => ({ en, pt });
 
 /**
- * A TRAJETORIA, para a pagina Experiencia e para o curriculo em PDF.
+ * A TRAJETORIA, para a pagina Experiencia, o resumo da home e o curriculo.
  *
- * O cargo descreve o TRABALHO, e a data e a de quando ele comecou de fato:
- * os sistemas comecaram enxutos em novembro de 2023, junto com o trabalho no
- * armazem, e e dai que conta o desenvolvimento. Nada aqui e inventado: o
- * armazem continua na linha do tempo, sem data de fim, porque ele foi sendo
- * substituido aos poucos pelos sistemas, e nao terminou num dia.
+ * CARGO E DATA SAO OS DO LINKEDIN. Recrutador compara os dois, e uma
+ * diferenca entre eles vira pergunta de entrevista. Mudou la, muda aqui no
+ * mesmo dia.
  *
  * O empregador atual nao e nomeado (regra do site inteiro); os anteriores sao.
  */
@@ -21,11 +19,6 @@ export interface Role {
   readonly from: string;
   /** Ausente = atual. */
   readonly to?: string;
-  /**
-   * So o comeco, sem fim nem "hoje": um trabalho que foi sendo substituido
-   * aos poucos por outro, em vez de terminar numa data.
-   */
-  readonly fromOnly?: boolean;
   readonly points: readonly I18nText[];
 }
 
@@ -34,10 +27,7 @@ const GOLD_COAST = t("Gold Coast, QLD, Australia", "Gold Coast, QLD, Austrália"
 
 export const EXPERIENCE: readonly Role[] = [
   {
-    title: t(
-      "Full Stack Developer, internal systems",
-      "Desenvolvedor full stack, sistemas internos",
-    ),
+    title: t("Web Administrator", "Web Administrator"),
     org: CURRENT_EMPLOYER,
     place: GOLD_COAST,
     from: "2023-11",
@@ -47,33 +37,12 @@ export const EXPERIENCE: readonly Role[] = [
         "Projeto, construo e mantenho os sistemas operacionais da empresa: um TMS, uma plataforma de armazém, um app de motorista, uma API para parceiros e um portal de operações com assistente de IA.",
       ),
       t(
-        "Started lean in November 2023, alongside my work on the warehouse floor, and grew the systems into daily production.",
-        "Comecei enxuto em novembro de 2023, junto com o trabalho no chão do armazém, e levei os sistemas até a produção do dia a dia.",
-      ),
-      t(
-        "Own deployments, databases, access control and monitoring, and the integrations with the ERP and the freight carriers.",
-        "Cuido de deploy, bancos de dados, controle de acesso e monitoramento, e das integrações com o ERP e com as transportadoras.",
+        "Own deployments, databases, access control and monitoring, and the integrations with the ERP, the freight carriers and the spreadsheets the branches work from.",
+        "Cuido de deploy, bancos de dados, controle de acesso e monitoramento, e das integrações com o ERP, com as transportadoras e com as planilhas que as filiais usam.",
       ),
       t(
         "Support and train the people who use the systems every day: dispatch, warehouse, drivers and management.",
         "Dou suporte e treinamento a quem usa os sistemas todo dia: despacho, armazém, motoristas e gestão.",
-      ),
-    ],
-  },
-  {
-    title: t("Warehouse Operations", "Operações de armazém"),
-    org: CURRENT_EMPLOYER,
-    place: GOLD_COAST,
-    from: "2023-03",
-    fromOnly: true,
-    points: [
-      t(
-        "Receiving, picking, dispatch and inventory, then supervisory duties.",
-        "Recebimento, separação, despacho e inventário, depois funções de supervisão.",
-      ),
-      t(
-        "Seeing the daily work up close is where every system came from. The floor work was gradually replaced by building the software for it.",
-        "Ver o trabalho do dia a dia de perto é de onde veio cada sistema. O chão do armazém foi sendo substituído, aos poucos, pela construção do software para ele.",
       ),
     ],
   },
@@ -162,8 +131,8 @@ export const LANGUAGES = t(
 
 /** Os PDFs do curriculo, gerados a partir de `/[locale]/cv` (ver README). */
 export const CV_PDF: Record<"en" | "pt", string> = {
-  en: "/cv/joao-silva-cv-en.pdf",
-  pt: "/cv/joao-silva-cv-pt.pdf",
+  en: "/cv/joao-marcos-cv-en.pdf",
+  pt: "/cv/joao-marcos-cv-pt.pdf",
 };
 
 /*
@@ -182,13 +151,12 @@ export function formatMonth(iso: string, locale: "en" | "pt"): string {
   return `${MONTHS[locale][Number(m) - 1]} ${year}`;
 }
 
-/** "Nov 2023 – now", "Oct 2018 – Nov 2022" ou "From Mar 2023". */
+/** "Nov 2023 – now" ou "Oct 2018 – Nov 2022". */
 export function formatPeriod(
-  role: Pick<Role, "from" | "to" | "fromOnly">,
+  role: Pick<Role, "from" | "to">,
   locale: "en" | "pt",
-  labels: { readonly present: string; readonly since: string },
+  present: string,
 ): string {
   const from = formatMonth(role.from, locale);
-  if (role.fromOnly) return `${labels.since} ${from}`;
-  return `${from} – ${role.to ? formatMonth(role.to, locale) : labels.present}`;
+  return `${from} – ${role.to ? formatMonth(role.to, locale) : present}`;
 }

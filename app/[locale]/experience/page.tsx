@@ -46,10 +46,10 @@ export default async function ExperiencePage({ params }: PageProps<"/[locale]/ex
   if (!isLocale(locale)) notFound();
   const t = await getDictionary(locale);
 
-  const period = (role: Role) => formatPeriod(role, locale, t.experience);
+  const period = (role: Role) => formatPeriod(role, locale, t.experience.present);
 
   return (
-    <main id="main" className="flex min-h-svh flex-col px-6 py-12 lg:px-14 lg:py-16">
+    <main id="main" className="mx-auto max-w-6xl px-6 py-12 sm:py-16">
       <div className="max-w-3xl">
         <PageHeader
           eyebrow={t.experience.title}
@@ -149,7 +149,7 @@ function RoleItem({
       <p className="font-mono text-xs leading-6 text-ink-subtle sm:text-right">{period}</p>
       <div className="relative sm:border-l sm:border-line sm:pl-6">
         <span
-          className={`absolute top-[0.45rem] -left-[1.5rem] size-2 rounded-full ring-4 ring-canvas sm:-left-[4.5px] ${role.to || role.fromOnly ? "bg-line-strong" : "bg-accent"}`}
+          className={`absolute top-[0.45rem] -left-[1.5rem] size-2 rounded-full ring-4 ring-canvas sm:-left-[4.5px] ${role.to ? "bg-line-strong" : "bg-accent"}`}
           aria-hidden="true"
         />
         <h3 className={`font-semibold tracking-tight ${compact ? "text-sm" : "text-base"}`}>

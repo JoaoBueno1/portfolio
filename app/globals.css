@@ -72,24 +72,6 @@
   --c-ok: #1f6f4a;
   --c-danger: #9b1c1c;
 
-  /* A LARGURA DA COLUNA DA ESQUERDA, num lugar so.
-     A coluna e `position: fixed`, entao ela sai do fluxo e o conteudo
-     precisa de um recuo do MESMO tamanho. Dois numeros escritos a mao
-     divergem no primeiro ajuste e o conteudo passa a ficar por baixo do
-     menu; uma variavel nao tem como divergir.
-     24% da tela, presa entre 15rem (nao espremer os quatro botoes de
-     contato, que somam 13rem) e 18rem (nao roubar leitura do conteudo num
-     monitor largo). Era 28% ate 22rem; com a cena ilustrada na coluna, o
-     conteudo pedia mais espaco. */
-  --sidebar-w: clamp(15rem, 24%, 18rem);
-
-  /* — Cena ilustrada da coluna —
-     Cor AMOSTRADA da propria arte: o rastro do sol na agua, que serve de
-     brilho na cena. Nao sao tokens de interface e nao mudam com o tema: no
-     escuro a cena inteira, efeito incluido, e escurecida por `--scene-dim`. */
-  --art-glint: #fbeedd;
-  --scene-dim: none;
-
   /* Sombra: escura nos DOIS temas de proposito. `ink` inverte no escuro e
      uma sombra feita com ela vira um halo claro. */
   --c-shade: #16151a;
@@ -116,8 +98,6 @@
 
     --c-ok: #5fbf8f;
     --c-danger: #f08585;
-
-    --scene-dim: brightness(0.55) saturate(0.85);
   }
 }
 
@@ -141,8 +121,6 @@
 
   --c-ok: #5fbf8f;
   --c-danger: #f08585;
-
-  --scene-dim: brightness(0.55) saturate(0.85);
 }
 
 @theme inline {
@@ -213,127 +191,60 @@ body {
 }
 
 /* ============================================================
-   O CAMPO DE ROTAS (components/route-field.tsx)
+   O HERO DA HOME (app/[locale]/page.tsx)
 
-   Um traco curto correndo por um trajeto longo. `stroke-dasharray`
-   desenha "risco de 26px, buraco de 2000px" — so um pedacinho e
-   visivel por vez — e a animacao empurra o `dashoffset` para que esse
-   pedaco atravesse o caminho inteiro.
-
-   O `2000` do buraco tem que ser maior que o comprimento do path, ou
-   um segundo traco aparece atras. As curvas aqui tem ~1400px.
-
-   As duas linhas correm em tempos diferentes e primos entre si (23s e
-   31s): batendo juntas, a repeticao ficaria obvia.
-
-   O bloco `prefers-reduced-motion` la em cima ja mata isto inteiro.
+   Sempre escuro, nos dois temas: a arte e um entardecer e nao teria como
+   funcionar sobre fundo claro. Os tokens recebem os valores do tema escuro
+   dentro dele, entao os componentes usam as mesmas classes de sempre
+   (`text-ink`, `bg-accent`) e saem certos. Mesmos valores do bloco
+   `[data-theme="dark"]` acima.
    ============================================================ */
-.route-runner {
-  stroke-dasharray: 26 2000;
-  animation: route-run linear infinite;
+.hero {
+  --c-canvas: #121114;
+  --c-sunken: #1a181d;
+  --c-subtle: #232026;
+  --c-line: #2d2a32;
+  --c-line-strong: #423d49;
+  --c-ink: #f2f0ec;
+  --c-ink-muted: #b3adb8;
+  --c-ink-subtle: #8f8899;
+  --c-ink-faint: #6e6877;
+  --c-ink-inverse: #121114;
+  --c-accent: #e87a4d;
+  --c-accent-hover: #f0916b;
+  --c-accent-soft: #2b1f1a;
+  --c-on-accent: #121114;
+  --c-ok: #5fbf8f;
+  color-scheme: dark;
 }
 
-.route-runner--a {
-  animation-duration: 23s;
-}
-
-.route-runner--b {
-  animation-duration: 31s;
-  animation-direction: reverse;
-}
-
-.route-runner--c {
-  animation-duration: 19s;
-}
-
-/* ============================================================
-   A CENA ILUSTRADA DA COLUNA (components/coast-scene.tsx)
-
-   O truque e o palco (`.scene-stage`): um retangulo com a proporcao EXATA
-   da arte, ancorado onde esta o assunto (a praia, embaixo). Na coluna ele
-   cobre a area; no conteudo ele ocupa a largura e deixa o ceu se dissolver
-   no fundo, porque o assunto e uma faixa no rodape da arte. A imagem
-   preenche o palco e o SVG dos efeitos tambem, com `viewBox` no tamanho
-   da arte. Assim imagem e efeito compartilham o sistema de coordenadas:
-   escalam juntos, cortam juntos, e nao ha como o brilho sair da agua.
-
-   `container-type: size` no `.scene` e o que da acesso a `cqw`/`cqh`, as
-   medidas da area a cobrir. Sem isso o palco teria que ser medido em JS.
-
-   No escuro a cena inteira passa por `--scene-dim`, efeito incluido.
-   Com a aba oculta, `data-hidden` no <html> pausa tudo que e `.ambient`.
-   Sob `prefers-reduced-motion` a regra global reduz cada animacao a um
-   quadro so, e como todas terminam em opacidade zero, nao sobra pixel
-   parado por cima da arte.
-   ============================================================ */
-.scene {
+/* A arte cobre o hero inteiro, ancorada no canto de baixo a direita, onde
+   ficam o sol e a cidade. Escurecida para o texto ler, e com um veu que
+   nasce solido na esquerda (onde o texto esta) e se dissolve para a direita,
+   e outro que fecha o rodape para o hero terminar na cor do fundo. */
+.hero-art {
   position: absolute;
   inset: 0;
   overflow: hidden;
-  container-type: size;
 }
 
-.scene-stage {
-  position: absolute;
-  bottom: 0;
-  aspect-ratio: var(--art-w) / var(--art-h);
-  height: max(100cqh, calc(100cqw * var(--art-h) / var(--art-w)));
-  filter: var(--scene-dim);
+.hero-art-img {
+  object-fit: cover;
+  object-position: 72% 100%;
+  filter: brightness(0.45) saturate(0.8);
 }
 
-/* A costa e simetrica: centra e corta as duas pontas por igual. */
-.scene-stage--coast {
-  left: 50%;
-  translate: -50% 0;
-}
-
-/* Um veu da cor do fundo por cima da cena, so no celular, onde o texto
-   passa por cima da faixa da cidade. No desktop o texto le sobre o ceu,
-   que ja e quase da cor do fundo, e o veu sumiria a cena a toa. */
-.scene-veil {
+.hero-veil {
   position: absolute;
   inset: 0;
-  background: color-mix(in srgb, var(--c-canvas) 55%, transparent);
-}
-
-@media (min-width: 64rem) {
-  .scene-veil {
-    background: none;
-  }
-}
-
-/* O veu da coluna existe em todo tamanho: solido da cor da coluna ate 38%
-   da altura, onde ficam foto, nome e cargo, e dissolvido a 62%, acima de
-   onde a paisagem comeca. */
-.scene-veil.scene-veil--coast {
-  background: linear-gradient(to bottom, var(--c-sunken) 0%, var(--c-sunken) 38%, transparent 62%);
-}
-
-/* Reflexo: nao se move, so acende e apaga. Fica apagado metade do ciclo
-   para a agua nao virar um painel de LED. */
-.water-glint {
-  opacity: 0;
-  animation: water-glint ease-in-out infinite;
-}
-
-@keyframes water-glint {
-  0%,
-  100% {
-    opacity: 0;
-  }
-  35% {
-    opacity: 0.75;
-  }
-  55% {
-    opacity: 0.2;
-  }
-  70% {
-    opacity: 0.6;
-  }
-}
-
-:root[data-hidden] .ambient * {
-  animation-play-state: paused;
+  background:
+    linear-gradient(
+      to right,
+      var(--c-canvas) 0%,
+      color-mix(in srgb, var(--c-canvas) 82%, transparent) 42%,
+      color-mix(in srgb, var(--c-canvas) 20%, transparent) 100%
+    ),
+    linear-gradient(to top, var(--c-canvas) 0%, transparent 45%);
 }
 
 /* O PROJETO PRINCIPAL ganha uma borda com um brilho que gira devagar.

@@ -4,6 +4,20 @@ Plano de 13/10/2026. Duas fases, mais uma opcional. Cada item tem critério de
 pronto; nada entra no ar sem passar por `npm run fix`, `npm run build` e
 `npm run test`.
 
+## Reestruturação de 21/10/2026 (feita)
+
+Home nova (apresentação, projetos, ferramentas, experiência resumida,
+contato), menu no topo no lugar da coluna, uma página por projeto, Skills e
+Soft skills dentro do Sobre, nome e cargo alinhados ao LinkedIn.
+
+**Espaço reservado:** o assistente de IA conectado aos bancos das várias
+partes da empresa, em construção. Quando ficar pronto, ele entra na página
+do Portal de Operações (`operations-portal`) como a evolução do assistente
+atual, com telas novas de dado inventado, ou vira um sexto card em
+`lib/content/projects.ts` se o escopo for maior que o portal. Também fica
+planejado um card "Data Analysis and Reporting" (Excel, Power Query e banco,
+a automação das planilhas das filiais), pendente de telas com dado inventado.
+
 ## Fase 0: auditoria de recrutador (feita em 13/10/2026)
 
 Passada antes da fase 1, a partir do brief "Portfolio Optimization". O que

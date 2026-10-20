@@ -76,13 +76,19 @@ tipado. Componente recebe dado, nunca guarda dado.
 Todo texto que muda de idioma e `Record<Locale, string>`. Os tres sao
 obrigatorios pelo tipo, entao nao existe card traduzido pela metade.
 
-O site tem **quatro destinos**: Sobre, Skills, Soft skills e Projetos. Nao
-adicione um quinto sem um motivo forte. O ponto do desenho e o visitante nunca
-sentir que navegou: a coluna da esquerda fica parada e so o painel da direita
-troca.
+O site e uma VITRINE DE PROJETOS, nao um curriculo online. A home apresenta
+em uma tela quem eu sou, os cinco sistemas e por que importam; o menu tem
+tres destinos (Projetos, Experiencia, Sobre) e o curriculo como botao. Skills
+e "como eu trabalho" vivem dentro do Sobre.
 
-Projeto abre em `<dialog>` nativo, nao em pagina propria. Quem fecha volta
-exatamente para onde estava.
+CADA PROJETO E UMA PAGINA (`/[locale]/projects/<slug>`), com telas,
+numeros, estudo de caso e graficos. E um endereco que se manda a um
+recrutador e que o buscador indexa. O dialogo sobre a vitrine saiu em
+21/10/2026; `?p=<slug>` redireciona para a pagina.
+
+NOME E CARGO SAO OS DO LINKEDIN: "João Marcos" (curto) e "João Marcos Bueno
+da Silva" (completo), Web Administrator desde nov/2023. Mudou la, muda em
+`lib/content/profile.ts` e `lib/content/experience.ts` no mesmo dia.
 
 ## Como se escreve texto aqui
 

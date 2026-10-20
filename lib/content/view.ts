@@ -141,7 +141,7 @@ export function projectViews(locale: Locale, present: string): readonly ProjectV
         minor: p.minor ?? false,
         domain: p.domain,
         status: p.status,
-        period: from === to ? from : `${from} — ${to}`,
+        period: from === to ? from : `${from} – ${to}`,
         tagline: copy.tagline,
         summary: copy.summary,
         role: copy.role,

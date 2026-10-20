@@ -55,7 +55,7 @@ export default async function CvPage({ params }: PageProps<"/[locale]/cv">) {
     "",
   );
 
-  const period = (role: Role) => formatPeriod(role, locale, t.experience);
+  const period = (role: Role) => formatPeriod(role, locale, t.experience.present);
 
   const live = [...PROJECTS].filter((p) => p.status === "live").sort((a, b) => a.order - b.order);
 
@@ -81,11 +81,13 @@ export default async function CvPage({ params }: PageProps<"/[locale]/cv">) {
       <article className="paper w-full max-w-[210mm] rounded-sm bg-canvas px-[14mm] py-[12mm] text-[9.5pt] leading-[1.4] text-ink shadow-lg ring-1 ring-line print:max-w-none print:rounded-none print:p-0 print:shadow-none print:ring-0">
         <header className="flex flex-wrap items-end justify-between gap-x-6 gap-y-1 border-b-2 border-ink pb-3">
           <div>
-            <h1 className="text-[20pt] font-bold leading-tight tracking-tight">{PROFILE.name}</h1>
+            <h1 className="text-[20pt] font-bold leading-tight tracking-tight">
+              {PROFILE.fullName}
+            </h1>
             <p className="text-[11pt] text-ink-muted">{t.cv.role}</p>
           </div>
           <ul className="text-right text-[8.5pt] leading-snug text-ink-muted">
-            <li>{t.sidebar.location}</li>
+            <li>{t.home.location}</li>
             <li>
               <a href={`mailto:${PROFILE.email}`}>{PROFILE.email}</a>
             </li>
@@ -199,9 +201,7 @@ function CvRole({
         {role.org[locale]} · {role.place[locale]}
       </p>
       <ul className="mt-1 flex list-disc flex-col gap-0.5 pl-4">
-        {/* O papel tem uma folha: do armazem, so a primeira linha. A historia
-            inteira dele esta na pagina Experiencia. */}
-        {(role.fromOnly ? role.points.slice(0, 1) : role.points).map((point) => (
+        {role.points.map((point) => (
           <li key={point.en} className="text-ink-muted marker:text-ink-subtle">
             {point[locale]}
           </li>
