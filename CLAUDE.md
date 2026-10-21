@@ -114,9 +114,9 @@ O visitante le isto, nao e comentario de codigo:
   discussao e token novo, nao um `#1e293b` no meio de um `className`.
 - A paleta **nao e a do empregador**. O navy da marca aparece dentro das capturas;
   se o site tambem fosse navy, o produto sumiria no cenario.
-- **Dark mode e obrigatorio** em toda tela nova. Os valores crus sao
-  redefinidos em `@media (prefers-color-scheme: dark)` e em
-  `[data-theme="dark"]`. Cor definida so dentro de um desses blocos e bug.
+- **So tema claro** (decisao do dono, 21/10/2026). Nao ha seletor de tema
+  nem `prefers-color-scheme`. Os unicos blocos que redefinem a paleta sao o
+  hero da home (`.hero`, sempre escuro) e a folha do curriculo (`.paper`).
 - **Zero biblioteca de animacao.** CSS com o easing unico `--ease-out-soft`.
 - Toda imagem por `next/image` com import estatico — o Next passa a conhecer
   dimensao, gera AVIF/WebP e o layout nao salta.

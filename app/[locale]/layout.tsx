@@ -23,15 +23,6 @@ export function generateStaticParams() {
 }
 
 /**
- * O tema TEM que ser aplicado antes da primeira pintura. Como `useEffect`,
- * quem escolheu escuro veria um lampejo branco a cada navegacao.
- *
- * Engole o proprio erro: em janela anonima `localStorage` LANCA ao ser
- * acessado, e um throw aqui derrubaria a pagina inteira.
- */
-const THEME_BOOTSTRAP = `try{var t=localStorage.getItem("theme");if(t==="dark"||t==="light"){document.documentElement.dataset.theme=t}}catch(e){}`;
-
-/**
  * Dados estruturados (schema.org) para buscador e leitor automatico. O cargo
  * vai em ingles em todo idioma, porque e o que o leitor automatico compara.
  * So entra com o dominio proprio configurado, pelo mesmo motivo do sitemap.
@@ -103,13 +94,7 @@ export default async function LocaleLayout({ children, params }: LayoutProps<"/[
   const site = process.env.NEXT_PUBLIC_SITE_URL;
 
   return (
-    <html lang={LOCALE_HTML_LANG[locale]} suppressHydrationWarning>
-      <head>
-        {/* biome-ignore lint/security/noDangerouslySetInnerHtml: literal
-            constante deste arquivo, sem nenhuma entrada de usuario. E a unica
-            forma de aplicar o tema antes da primeira pintura. */}
-        <script dangerouslySetInnerHTML={{ __html: THEME_BOOTSTRAP }} />
-      </head>
+    <html lang={LOCALE_HTML_LANG[locale]}>
       <body className="flex min-h-svh flex-col font-sans antialiased">
         {site && (
           <script
@@ -139,7 +124,6 @@ export default async function LocaleLayout({ children, params }: LayoutProps<"/[
             cv: t.nav.cv,
             menu: t.nav.menu,
             language: t.nav.language,
-            theme: t.nav.theme,
             open: t.nav.open,
             close: t.nav.close,
           }}

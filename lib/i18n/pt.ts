@@ -28,7 +28,6 @@ export const pt: Dictionary = {
     cv: "Baixar currículo",
     skipToContent: "Pular para o conteúdo",
     language: "Idioma",
-    theme: "Trocar o tema",
     menu: "Menu",
     open: "Abrir menu",
     close: "Fechar menu",

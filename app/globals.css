@@ -11,8 +11,7 @@
    proposito: ela emoldura as capturas em vez de competir com elas.
 
    O acento e um terracota queimado. Nao e o azul padrao de portfolio
-   de dev, e passa contraste AA em corpo de texto nos dois temas — o
-   que a maioria dos acentos quentes nao faz.
+   de dev, e passa contraste AA em corpo de texto.
 
    CONTRASTE — medido com a formula da WCAG, nao estimado.
    Colunas: canvas / sunken / subtle.
@@ -27,26 +26,16 @@
      danger     #9B1C1C    7.81   7.23   6.60  OK
      branco sobre accent #A03A16 = 6.75 OK (botao solido)
 
-   DARK   (#121114 · #1A181D · #232026)
-     ink        #F2F0EC   16.53  15.47  14.13  OK
-     ink-muted  #B3ADB8    8.59   8.04   7.34  OK
-     ink-subtle #8F8899    5.51   5.16   4.71  OK
-     ink-faint  #6E6877    3.50   3.28   2.99  so texto grande e borda
-     accent     #E87A4D    6.56   6.14   5.61  OK
-     ok         #5FBF8F    8.37   7.83   7.15  OK
-     danger     #F08585    7.53   7.04   6.43  OK
-     ink escuro #121114 sobre accent #E87A4D = 6.56 OK (botao solido)
-
-   COMO O TEMA TROCA
-   Os valores crus vivem em `:root` e sao redefinidos em dois lugares:
-   a media query (quem esta no "system") e `[data-theme]` (quem clicou
-   no seletor). O bloco `@theme inline` so APONTA para essas variaveis —
-   sem `inline` o Tailwind congelaria o valor claro dentro da utility e
-   o dark mode nao existiria.
+   SO TEMA CLARO, desde 21/10/2026, por decisao do dono: as capturas dos
+   sistemas sao claras e o site inteiro fica mais coeso assim. Os dois
+   lugares que ainda invertem a paleta sao locais e fixos: o hero da home
+   (`.hero`, sempre escuro) e a folha do curriculo (`.paper`, sempre
+   branca). O bloco `@theme inline` APONTA para as variaveis em vez de
+   copiar o valor, entao esses dois blocos funcionam so redefinindo-as.
    ============================================================ */
 
 :root {
-  color-scheme: light dark;
+  color-scheme: light;
 
   /* — Superficies — */
   --c-canvas: #fbfaf8;
@@ -75,52 +64,6 @@
   /* Sombra: escura nos DOIS temas de proposito. `ink` inverte no escuro e
      uma sombra feita com ela vira um halo claro. */
   --c-shade: #16151a;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --c-canvas: #121114;
-    --c-sunken: #1a181d;
-    --c-subtle: #232026;
-    --c-line: #2d2a32;
-    --c-line-strong: #423d49;
-
-    --c-ink: #f2f0ec;
-    --c-ink-muted: #b3adb8;
-    --c-ink-subtle: #8f8899;
-    --c-ink-faint: #6e6877;
-    --c-ink-inverse: #121114;
-
-    --c-accent: #e87a4d;
-    --c-accent-hover: #f0916b;
-    --c-accent-soft: #2b1f1a;
-    --c-on-accent: #121114;
-
-    --c-ok: #5fbf8f;
-    --c-danger: #f08585;
-  }
-}
-
-:root[data-theme="dark"] {
-  --c-canvas: #121114;
-  --c-sunken: #1a181d;
-  --c-subtle: #232026;
-  --c-line: #2d2a32;
-  --c-line-strong: #423d49;
-
-  --c-ink: #f2f0ec;
-  --c-ink-muted: #b3adb8;
-  --c-ink-subtle: #8f8899;
-  --c-ink-faint: #6e6877;
-  --c-ink-inverse: #121114;
-
-  --c-accent: #e87a4d;
-  --c-accent-hover: #f0916b;
-  --c-accent-soft: #2b1f1a;
-  --c-on-accent: #121114;
-
-  --c-ok: #5fbf8f;
-  --c-danger: #f08585;
 }
 
 @theme inline {
@@ -193,11 +136,11 @@ body {
 /* ============================================================
    O HERO DA HOME (app/[locale]/page.tsx)
 
-   Sempre escuro, nos dois temas: a arte e um entardecer e nao teria como
-   funcionar sobre fundo claro. Os tokens recebem os valores do tema escuro
-   dentro dele, entao os componentes usam as mesmas classes de sempre
-   (`text-ink`, `bg-accent`) e saem certos. Mesmos valores do bloco
-   `[data-theme="dark"]` acima.
+   Sempre escuro: a arte e um entardecer e nao teria como funcionar sobre
+   fundo claro. Os tokens recebem valores escuros dentro dele, entao os
+   componentes usam as mesmas classes de sempre (`text-ink`, `bg-accent`)
+   e saem certos. Contraste medido: ink #F2F0EC sobre #121114 = 16.5,
+   accent #E87A4D sobre #121114 = 6.56, ink escuro sobre accent = 6.56.
    ============================================================ */
 .hero {
   --c-canvas: #121114;
@@ -249,9 +192,8 @@ body {
 
 /* O PROJETO PRINCIPAL ganha uma borda com um brilho que gira devagar.
    E o unico movimento continuo da vitrine, de proposito: marca o card sem
-   competir com o resto. Feito so com os tokens do tema, entao funciona no
-   claro e no escuro. Sob `prefers-reduced-motion` a regra global ja para a
-   animacao, e a borda fica parada no mesmo gradiente. */
+   competir com o resto. Sob `prefers-reduced-motion` a regra global ja para
+   a animacao, e a borda fica parada no mesmo gradiente. */
 @property --flagship-angle {
   syntax: "<angle>";
   inherits: false;
@@ -278,9 +220,8 @@ body {
   }
 }
 
-/* O PAPEL DO CURRICULO (app/[locale]/cv) e sempre claro: e uma folha, nao
-   uma tela. Os tokens voltam aos valores do tema claro dentro dele, entao a
-   impressao sai igual para quem esta no escuro. Mesmos valores do `:root`. */
+/* O PAPEL DO CURRICULO (app/[locale]/cv): fundo branco puro em vez do
+   canvas do site, porque e uma folha e vai para a impressora. */
 .paper {
   --c-canvas: #ffffff;
   --c-line: #dedad2;

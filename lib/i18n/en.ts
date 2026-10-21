@@ -43,7 +43,6 @@ export const en = {
     cv: "Download CV",
     skipToContent: "Skip to content",
     language: "Language",
-    theme: "Switch theme",
     menu: "Menu",
     open: "Open menu",
     close: "Close menu",

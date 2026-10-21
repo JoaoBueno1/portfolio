@@ -6,7 +6,6 @@ import { useState } from "react";
 import { CV_PDF } from "@/lib/content/experience";
 import { PROFILE } from "@/lib/content/profile";
 import { LOCALE_LABELS, LOCALES, type Locale } from "@/lib/i18n/config";
-import { ThemeToggle } from "./theme-toggle";
 
 /**
  * A BARRA DO TOPO.
@@ -27,7 +26,6 @@ export interface HeaderLabels {
   readonly cv: string;
   readonly menu: string;
   readonly language: string;
-  readonly theme: string;
   readonly open: string;
   readonly close: string;
 }
@@ -126,7 +124,6 @@ export function SiteHeader({ locale, t }: { locale: Locale; t: HeaderLabels }) {
         <div className="hidden items-center gap-2 md:flex">
           {cvButton}
           {localePicker}
-          <ThemeToggle label={t.theme} />
         </div>
 
         <button
@@ -161,7 +158,6 @@ export function SiteHeader({ locale, t }: { locale: Locale; t: HeaderLabels }) {
           <div className="mt-3 flex flex-wrap items-center gap-3">
             {cvButton}
             {localePicker}
-            <ThemeToggle label={t.theme} />
           </div>
         </div>
       )}
