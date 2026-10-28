@@ -1,4 +1,4 @@
-# dependencias
+# dependencies
 /node_modules
 /.pnp
 .pnp.*
@@ -10,7 +10,7 @@
 next-env.d.ts
 *.tsbuildinfo
 
-# ambiente — nunca commitar valor real
+# environment
 .env
 .env.local
 .env*.local
@@ -18,20 +18,21 @@ next-env.d.ts
 # deploy
 .vercel
 
-# sistema
+# system
 .DS_Store
 *.pem
 
-# scratch (gaveta 3 — sondagem descartavel, nunca commitada)
+# local notes and scratch files
+/docs/
 /scratch
+/CLAUDE.md
+/AGENTS.md
+/ROADMAP.md
 _*.ts
 debug-*.ts
 check-*.ts
 
-# dado de cliente NUNCA entra no repo, nem "so para depurar"
+# data files never belong in the repository
 *.csv
 *.tsv
 *.xlsx
-
-# notas internas de planejamento: ficam so na maquina, nunca no repo publico
-/docs/

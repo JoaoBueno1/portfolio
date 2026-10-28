@@ -2,13 +2,6 @@ import type { Tech } from "@/lib/content/stack";
 
 export type Usage = "daily" | "often" | "occasional";
 
-/**
- * O nivel virou FREQUENCIA DE USO, dita em palavra.
- *
- * A escala do `level` sempre foi de uso (ver `stack.ts`), mas cinco estrelas
- * leem como nota de proficiencia. Recrutador desconfia de auto-nota 5/5 e
- * nao tem como conferir; "Daily" ele entende e pode perguntar na entrevista.
- */
 export function usageOf(level: Tech["level"]): Usage {
   if (level >= 5) return "daily";
   if (level === 4) return "often";

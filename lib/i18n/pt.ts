@@ -1,12 +1,11 @@
 import type { Dictionary } from "./dictionaries";
 
-/** PORTUGUES DO BRASIL. Acento obrigatorio nos valores. Ver `en.ts`. */
 export const pt: Dictionary = {
   meta: {
     siteName: "João Marcos",
     siteTitle: "João Marcos · Desenvolvedor de Software, Gold Coast",
     homeDescription:
-      "Desenvolvedor de software na Gold Coast, Austrália. Construo os sistemas de produção que uma distribuidora usa: um TMS, uma plataforma de armazém, um app de motorista, uma API para parceiros e um portal de operações com assistente de IA. Python, Flask, TypeScript, PostgreSQL, AWS.",
+      "Desenvolvedor de software na Gold Coast, Austrália. Construo e mantenho software de produção que conecta operação, sistemas corporativos e dados: APIs REST, infraestrutura em nuvem, automação de armazém e ferramentas com IA. Python, Flask, TypeScript, PostgreSQL, AWS.",
     projectsTitle: "Projetos",
     projectsDescription:
       "Sistemas em produção, cada um com telas, arquitetura e resultados: um sistema de gestão de transporte, um portal de operações com assistente de IA, uma API de transportadora, uma plataforma de armazém e um app de motorista, além de trabalhos de curso.",
@@ -26,6 +25,8 @@ export const pt: Dictionary = {
     about: "Sobre",
     contact: "Contato",
     cv: "Baixar currículo",
+    email: "Mandar e-mail",
+    emailSubject: "Olá, vi o seu portfólio",
     skipToContent: "Pular para o conteúdo",
     language: "Idioma",
     menu: "Menu",
@@ -33,27 +34,22 @@ export const pt: Dictionary = {
     close: "Fechar menu",
   },
   home: {
-    eyebrow: "Desenvolvedor de software · Gold Coast, Austrália",
-    headline: "Construo software de negócio, APIs e",
-    headlineAccent: "automação inteligente.",
-    lead: "Construo sistemas de produção que conectam operação, dados e tecnologia: serviços de backend e integrações, infraestrutura em nuvem e ferramentas de IA com proteções. Cinco deles rodam hoje a operação diária de uma distribuidora atacadista.",
-    ctaProjects: "Ver os projetos",
-    ctaCv: "Baixar currículo",
+    role: "Desenvolvedor de Software · Python, APIs e Automação com IA · Gold Coast, Austrália",
+    ctaProjects: "Ver projetos",
+    ctaContact: "Entrar em contato",
     capabilities: [
       { title: "Desenvolvimento backend", tools: "Python · Flask · Node.js" },
       { title: "Integrações de API", tools: "REST · Webhooks · ERP · Transportadoras" },
       { title: "Dados e automação", tools: "SQL · PostgreSQL · Power Query" },
       { title: "Nuvem e IA", tools: "AWS · API do Claude · Ferramentas de IA" },
     ],
-    featuredTitle: "Projetos em destaque",
+    featuredTitle: "Projetos",
     featuredLead: "Sistemas em uso diário, com telas, arquitetura e resultados.",
-    viewAll: "Ver todos os projetos",
     skillsTitle: "Com o que eu trabalho",
     skillsLead: "Marcado pela frequência com que cada um está na minha mão.",
     skillsMore: "Todas as skills e como eu trabalho",
     experienceTitle: "Experiência",
-    experienceLead:
-      "Dez anos de trabalho, do caixa de um banco aos sistemas que uma distribuidora usa.",
+    experienceLead: "Onde trabalhei e estudei.",
     viewExperience: "Experiência completa",
     contactTitle: "Vamos conversar",
     contactLead:
@@ -63,15 +59,16 @@ export const pt: Dictionary = {
   },
   projects: {
     title: "Projetos",
-    headline:
-      "Sistemas que rodam uma operação de verdade hoje, e os trabalhos de curso antes deles.",
     inProduction: "Rodando em produção",
     other: "Trabalhos de curso e anteriores",
     moreCoursework: "Mais trabalhos de curso ({n})",
-    all: "Todos os projetos",
+    back: "Voltar",
+    close: "Fechar",
+    openPage: "Abrir como página",
     roleLabel: "Papel",
+    pointsLabel: "O que faz",
     periodLabel: "Período",
-    stackLabel: "Stack",
+    stackLabel: "Feito com",
     screensTitle: "Telas",
     previous: "Projeto anterior",
     next: "Próximo projeto",
@@ -97,30 +94,14 @@ export const pt: Dictionary = {
     },
     present: "hoje",
     noShot: "Sem captura publicada. As capturas reais têm dado de cliente.",
-    insightsEyebrow: "Em produção · resultados",
-    insightsCount: "{figures} gráficos do dado em produção",
-    seeOriginal: "Ver a página original",
-    caseStudy: "Resultados reais",
     visitSite: "Abrir o site no ar",
     flagship: "Projeto principal",
-    sections: {
-      overview: "Visão geral",
-      challenge: "O desafio",
-      solution: "A solução",
-      impact: "Impacto",
-      highlights: "Destaques técnicos",
-    },
-    methodLabel: "Como foi feito",
-    zoomFigure: "Abrir esta página em tamanho real",
-    insightsNote:
-      "Dado real, agregado e anonimizado. Transportadora vira letra, e nenhum cliente, pedido, endereço ou valor aparece.",
   },
   about: {
     title: "Sobre",
-    headline: "Desenvolvedor de software, de dentro da operação.",
     intro: [
-      "Sou o João Marcos, desenvolvedor de software na Gold Coast. Construo e mantenho os sistemas de produção que uma distribuidora atacadista usa todos os dias: um TMS, uma plataforma de armazém, um app de motorista, uma API para parceiros e um portal de operações com assistente de IA. Antes do software, quatro anos em banco no Brasil me ensinaram a explicar coisa complicada uma vez só, com clareza.",
-      "Quem usa meus sistemas é despachante, equipe de armazém, motorista e gestor, então toda feature começa vendo alguém fazer o trabalho na mão. Formado em Tecnologia da Informação, com especialização em banco de dados e gestão de dados.",
+      "Sou o João Marcos, desenvolvedor de software na Gold Coast. Construo e mantenho software de produção que conecta operação, sistemas corporativos e dados: de APIs REST e infraestrutura em nuvem a automação de armazém e ferramentas com IA.",
+      "Cinco desses sistemas rodam a operação diária de uma distribuidora atacadista: um TMS, uma plataforma de armazém, um app de motorista, uma API para parceiros e um portal de operações com assistente de IA. Quem usa é despachante, equipe de armazém, motorista e gestor, então toda feature começa vendo alguém fazer o trabalho na mão. Antes do software, quatro anos em banco no Brasil me ensinaram a explicar coisa complicada uma vez só, com clareza.",
     ],
     nowTitle: "Agora",
     now: "Um assistente de IA para o time, que responde perguntas sobre os bancos de dados da empresa só a partir de consultas revisadas, com a tabela por trás de cada resposta.",
@@ -152,7 +133,6 @@ export const pt: Dictionary = {
   },
   experience: {
     title: "Experiência",
-    headline: "Dez anos de trabalho, do caixa de um banco aos sistemas que uma distribuidora usa.",
     lead: "A empresa atual não é nomeada neste site público. Todo o resto está como aconteceu.",
     present: "hoje",
     earlierTitle: "Antes disso",
@@ -161,10 +141,10 @@ export const pt: Dictionary = {
     cvLink: "Baixar currículo (PDF)",
   },
   cv: {
-    role: "Desenvolvedor de software",
+    role: "Desenvolvedor de Software | Python, APIs e Automação com IA",
     summaryTitle: "Resumo",
     summary:
-      "Desenvolvedor de software na Gold Coast. Construo e mantenho os sistemas de produção que uma distribuidora atacadista usa todos os dias: um TMS, uma plataforma de armazém, um app de motorista, uma API para parceiros e um portal de operações com assistente de IA. Backend, integrações, dados e IA com proteções. Antes do software, quatro anos em banco. Formado em Tecnologia da Informação, com especialização em banco de dados e gestão de dados.",
+      "Desenvolvedor de software na Gold Coast. Construo e mantenho software de produção que conecta operação, sistemas corporativos e dados: APIs REST, nuvem, automação de armazém e ferramentas com IA. Cinco sistemas em uso diário numa distribuidora atacadista: TMS, plataforma de armazém, app de motorista, API para parceiros e portal de operações com assistente de IA. Antes do software, quatro anos em banco. Diploma em TI, banco de dados e gestão de dados.",
     experienceTitle: "Experiência",
     projectsTitle: "Sistemas em produção",
     skillsTitle: "Habilidades",
@@ -177,6 +157,5 @@ export const pt: Dictionary = {
   },
   footer: {
     source: "Código",
-    built: "Feito com Next.js. Sem rastreamento, sem cookies.",
   },
 };

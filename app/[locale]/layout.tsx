@@ -9,24 +9,10 @@ import { isLocale, LOCALE_HTML_LANG, LOCALES, type Locale } from "@/lib/i18n/con
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import { alternatesFor } from "@/lib/seo";
 
-/**
- * Este e o root layout: nao existe `app/layout.tsx`. Toda rota vive sob
- * `[locale]`, entao o layout mais alto ja conhece o idioma e escreve `lang`
- * no `<html>` no servidor, sem efeito no cliente e sem flash de idioma errado.
- *
- * A estrutura e a de um site, nao de um app: barra no topo, pagina, rodape.
- * A coluna fixa da esquerda saiu em 21/10/2026 para dar largura as telas e
- * aos diagramas dos projetos, que sao o que o visitante vem ver.
- */
 export function generateStaticParams() {
   return LOCALES.map((locale) => ({ locale }));
 }
 
-/**
- * Dados estruturados (schema.org) para buscador e leitor automatico. O cargo
- * vai em ingles em todo idioma, porque e o que o leitor automatico compara.
- * So entra com o dominio proprio configurado, pelo mesmo motivo do sitemap.
- */
 function structuredData(locale: Locale, site: string, description: string) {
   const person = `${site}/#person`;
   return {
@@ -68,14 +54,10 @@ export async function generateMetadata({ params }: LayoutProps<"/[locale]">): Pr
   if (!isLocale(locale)) return {};
   const t = await getDictionary(locale);
 
-  // O dominio proprio entra por variavel de ambiente na Vercel: com ele vazio
-  // o Next usa o endereco do deploy, e a previa de link nunca aponta para um
-  // dominio que ainda nao resolve.
   const site = process.env.NEXT_PUBLIC_SITE_URL;
 
   return {
     ...(site ? { metadataBase: new URL(site) } : {}),
-    // A primeira pagina leva nome e cargo no titulo; as outras, "Pagina · Nome".
     title: { default: t.meta.siteTitle, template: `%s · ${t.meta.siteName}` },
     description: t.meta.homeDescription,
     alternates: alternatesFor(locale),
@@ -86,8 +68,6 @@ export async function generateMetadata({ params }: LayoutProps<"/[locale]">): Pr
 
 export default async function LocaleLayout({ children, params }: LayoutProps<"/[locale]">) {
   const { locale } = await params;
-  // `params` e uma Promise desde o Next 15, e o valor NAO e validado pelo
-  // router: `/xx` chega aqui como string qualquer.
   if (!isLocale(locale)) notFound();
 
   const t = await getDictionary(locale);
@@ -99,7 +79,7 @@ export default async function LocaleLayout({ children, params }: LayoutProps<"/[
         {site && (
           <script
             type="application/ld+json"
-            // biome-ignore lint/security/noDangerouslySetInnerHtml: JSON serializado deste arquivo, sem entrada de usuario; `<` escapado para nunca fechar a tag.
+            // biome-ignore lint/security/noDangerouslySetInnerHtml: serialised from typed content, no user input; `<` is escaped
             dangerouslySetInnerHTML={{
               __html: JSON.stringify(structuredData(locale, site, t.meta.homeDescription)).replace(
                 /</g,
@@ -122,6 +102,8 @@ export default async function LocaleLayout({ children, params }: LayoutProps<"/[
             about: t.nav.about,
             contact: t.nav.contact,
             cv: t.nav.cv,
+            email: t.nav.email,
+            emailSubject: t.nav.emailSubject,
             menu: t.nav.menu,
             language: t.nav.language,
             open: t.nav.open,
@@ -129,7 +111,7 @@ export default async function LocaleLayout({ children, params }: LayoutProps<"/[
           }}
         />
         <div className="flex-1">{children}</div>
-        <SiteFooter location={t.home.location} source={t.footer.source} built={t.footer.built} />
+        <SiteFooter location={t.home.location} source={t.footer.source} />
       </body>
     </html>
   );

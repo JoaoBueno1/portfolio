@@ -1,68 +1,28 @@
 @import "tailwindcss";
 
-/* ============================================================
-   PORTFOLIO — TOKENS
-   Ponto unico de verdade. Nenhum hex cravado fora deste arquivo.
-
-   POR QUE ESTA PALETA NAO E A DO EMPREGADOR
-   O navy #021E60 e a marca do empregador e vai aparecer DENTRO das
-   capturas de tela. Se o site inteiro tambem fosse navy, o produto
-   sumiria dentro do cenario. A paleta daqui e quente e neutra de
-   proposito: ela emoldura as capturas em vez de competir com elas.
-
-   O acento e um terracota queimado. Nao e o azul padrao de portfolio
-   de dev, e passa contraste AA em corpo de texto.
-
-   CONTRASTE — medido com a formula da WCAG, nao estimado.
-   Colunas: canvas / sunken / subtle.
-
-   LIGHT  (#FBFAF8 · #F3F1ED · #EAE7E1)
-     ink        #16151A   17.41  16.10  14.72  OK
-     ink-muted  #4A4650    8.82   8.15   7.45  OK
-     ink-subtle #6E6877    5.15   4.76   4.35  OK / OK / so texto grande
-     ink-faint  #8A8394    3.50   3.23   2.96  so texto grande e borda
-     accent     #A03A16    6.47   5.98   5.47  OK
-     ok         #1F6F4A    5.87   5.43   4.96  OK
-     danger     #9B1C1C    7.81   7.23   6.60  OK
-     branco sobre accent #A03A16 = 6.75 OK (botao solido)
-
-   SO TEMA CLARO, desde 21/10/2026, por decisao do dono: as capturas dos
-   sistemas sao claras e o site inteiro fica mais coeso assim. Os dois
-   lugares que ainda invertem a paleta sao locais e fixos: o hero da home
-   (`.hero`, sempre escuro) e a folha do curriculo (`.paper`, sempre
-   branca). O bloco `@theme inline` APONTA para as variaveis em vez de
-   copiar o valor, entao esses dois blocos funcionam so redefinindo-as.
-   ============================================================ */
-
 :root {
   color-scheme: light;
 
-  /* — Superficies — */
   --c-canvas: #fbfaf8;
   --c-sunken: #f3f1ed;
   --c-subtle: #eae7e1;
   --c-line: #dedad2;
   --c-line-strong: #c5bfb4;
 
-  /* — Tinta — */
   --c-ink: #16151a;
   --c-ink-muted: #4a4650;
   --c-ink-subtle: #6e6877;
   --c-ink-faint: #8a8394;
   --c-ink-inverse: #fbfaf8;
 
-  /* — Acento — */
   --c-accent: #a03a16;
   --c-accent-hover: #8a3013;
   --c-accent-soft: #f6e9e2;
   --c-on-accent: #ffffff;
 
-  /* — Estado — */
   --c-ok: #1f6f4a;
   --c-danger: #9b1c1c;
 
-  /* Sombra: escura nos DOIS temas de proposito. `ink` inverte no escuro e
-     uma sombra feita com ela vira um halo claro. */
   --c-shade: #16151a;
 }
 
@@ -88,21 +48,14 @@
   --color-danger: var(--c-danger);
   --color-shade: var(--c-shade);
 
-  /* Uma familia so, com numeral tabular para as tabelas de numero dos
-     cases. A pilha de sistema evita uma requisicao de fonte e nao tem
-     salto de layout — o que importa mais num site cuja primeira tela e
-     texto. Fonte de display entra depois, se entrar. */
   --font-sans:
     ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --font-mono:
     ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
 
-  /* Um easing so no site inteiro. Nao ha biblioteca de animacao aqui. */
   --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-/* Movimento e um reforco, nunca o unico sinal. Quem pediu menos movimento
-   recebe o site inteiro, sem transicao nenhuma. */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -124,24 +77,12 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* Foco visivel em TODO elemento focavel. Navegacao por teclado nao e
-   detalhe de acessibilidade: e como metade dos desenvolvedores le um
-   portfolio de desenvolvedor. */
 :focus-visible {
   outline: 2px solid var(--c-accent);
   outline-offset: 2px;
   border-radius: 2px;
 }
 
-/* ============================================================
-   O HERO DA HOME (app/[locale]/page.tsx)
-
-   Sempre escuro: a arte e um entardecer e nao teria como funcionar sobre
-   fundo claro. Os tokens recebem valores escuros dentro dele, entao os
-   componentes usam as mesmas classes de sempre (`text-ink`, `bg-accent`)
-   e saem certos. Contraste medido: ink #F2F0EC sobre #121114 = 16.5,
-   accent #E87A4D sobre #121114 = 6.56, ink escuro sobre accent = 6.56.
-   ============================================================ */
 .hero {
   --c-canvas: #121114;
   --c-sunken: #1a181d;
@@ -161,10 +102,6 @@ body {
   color-scheme: dark;
 }
 
-/* A arte cobre o hero inteiro, ancorada no canto de baixo a direita, onde
-   ficam o sol e a cidade. Escurecida para o texto ler, e com um veu que
-   nasce solido na esquerda (onde o texto esta) e se dissolve para a direita,
-   e outro que fecha o rodape para o hero terminar na cor do fundo. */
 .hero-art {
   position: absolute;
   inset: 0;
@@ -174,7 +111,7 @@ body {
 .hero-art-img {
   object-fit: cover;
   object-position: 72% 100%;
-  filter: brightness(0.45) saturate(0.8);
+  filter: brightness(0.72) saturate(0.9);
 }
 
 .hero-veil {
@@ -183,17 +120,24 @@ body {
   background:
     linear-gradient(
       to right,
-      var(--c-canvas) 0%,
-      color-mix(in srgb, var(--c-canvas) 82%, transparent) 42%,
-      color-mix(in srgb, var(--c-canvas) 20%, transparent) 100%
+      color-mix(in srgb, var(--c-canvas) 88%, transparent) 0%,
+      color-mix(in srgb, var(--c-canvas) 62%, transparent) 42%,
+      color-mix(in srgb, var(--c-canvas) 8%, transparent) 100%
     ),
-    linear-gradient(to top, var(--c-canvas) 0%, transparent 45%);
+    linear-gradient(to top, var(--c-canvas) 0%, transparent 30%);
 }
 
-/* O PROJETO PRINCIPAL ganha uma borda com um brilho que gira devagar.
-   E o unico movimento continuo da vitrine, de proposito: marca o card sem
-   competir com o resto. Sob `prefers-reduced-motion` a regra global ja para
-   a animacao, e a borda fica parada no mesmo gradiente. */
+@media (max-width: 640px) {
+  .hero-veil {
+    background: linear-gradient(
+      to bottom,
+      color-mix(in srgb, var(--c-canvas) 86%, transparent) 0%,
+      color-mix(in srgb, var(--c-canvas) 72%, transparent) 70%,
+      var(--c-canvas) 100%
+    );
+  }
+}
+
 @property --flagship-angle {
   syntax: "<angle>";
   inherits: false;
@@ -209,7 +153,6 @@ body {
     var(--c-accent-soft) 78%,
     var(--c-accent)
   );
-  /* O halo e a mesma cor do acento, so que difusa: o card parece aceso, nao contornado. */
   box-shadow: 0 0 32px -10px color-mix(in oklab, var(--c-accent) 70%, transparent);
   animation: flagship-spin 7s linear infinite;
 }
@@ -220,8 +163,6 @@ body {
   }
 }
 
-/* O PAPEL DO CURRICULO (app/[locale]/cv): fundo branco puro em vez do
-   canvas do site, porque e uma folha e vai para a impressora. */
 .paper {
   --c-canvas: #ffffff;
   --c-line: #dedad2;

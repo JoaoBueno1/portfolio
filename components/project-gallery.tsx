@@ -13,19 +13,6 @@ export interface GalleryLabels {
   readonly shotPosition: string;
 }
 
-/**
- * A GALERIA da pagina do projeto.
- *
- * Uma imagem so nao mostra um sistema: mostra uma tela. Por isso `shots` e uma
- * lista, com a imagem grande, uma legenda que diz POR QUE aquela tela importa,
- * e as miniaturas embaixo. As miniaturas sao botoes de verdade, entao a
- * galeria e navegavel por teclado sem nenhum handler proprio.
- *
- * TODAS AS TELAS FICAM MONTADAS, empilhadas, e so a atual aparece: trocar e
- * so mudar a opacidade, sem esperar rede. `unoptimized` porque as capturas ja
- * sao WebP comprimido: a imagem grande, a miniatura e o zoom usam a MESMA URL
- * estatica, um download so.
- */
 export function ProjectGallery({
   shots,
   labels,
@@ -44,8 +31,6 @@ export function ProjectGallery({
     [total],
   );
 
-  // As setas do teclado andam entre imagens. Com uma figura da analise aberta
-  // em tela cheia, a seta nao pode andar a galeria escondida atras dela.
   useEffect(() => {
     if (total < 2) return;
     function onKey(event: KeyboardEvent) {
@@ -159,7 +144,7 @@ export function ProjectGallery({
       {total > 1 && arrows("sm")}
 
       <div className="flex flex-col gap-3 border-t border-line px-5 py-3">
-        <div className="flex items-baseline gap-3">
+        <div className="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:gap-3">
           <p className="flex-1 text-sm leading-relaxed text-ink-muted">{shot.caption}</p>
           {total > 1 && (
             <span className="shrink-0 font-mono text-[0.625rem] text-ink-subtle tabular-nums">

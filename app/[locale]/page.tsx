@@ -3,35 +3,36 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ProjectGrid } from "@/components/project-grid";
 import { usageOf } from "@/components/skill-meter";
-import { CV_PDF, EDUCATION, EXPERIENCE, formatMonth, formatPeriod } from "@/lib/content/experience";
-import { PROFILE } from "@/lib/content/profile";
+import { EDUCATION, EXPERIENCE, formatMonth, formatPeriod } from "@/lib/content/experience";
+import { mailtoHref, PROFILE } from "@/lib/content/profile";
 import { STACK, skillGroups } from "@/lib/content/stack";
 import { projectViews } from "@/lib/content/view";
 import { isLocale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import bay from "@/public/art/bay.webp";
 
-/**
- * A HOME.
- *
- * Responde em uma tela a pergunta que o recrutador traz: "que sistemas essa
- * pessoa construiu, integrou e mantem funcionando de verdade?". Apresentacao
- * curta, os projetos logo abaixo, e so depois as ferramentas, a experiencia
- * resumida e o contato. A biografia inteira mora em /about.
- *
- * A cena da praia em pixel art fica no hero, como identidade: e de onde eu
- * sou. O hero e sempre escuro (`.hero` em globals.css) para a arte, que e um
- * entardecer, nao ter que funcionar sobre fundo claro.
- */
 export default async function HomePage({ params }: PageProps<"/[locale]">) {
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
   const t = await getDictionary(locale);
   const projects = projectViews(locale, t.projects.present);
   const groups = skillGroups();
+  const site = process.env.NEXT_PUBLIC_SITE_URL;
 
   return (
     <main id="main">
+      {site && (
+        <script
+          type="application/ld+json"
+          // biome-ignore lint/security/noDangerouslySetInnerHtml: serialised from typed content, no user input; `<` is escaped
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(
+              projectList(site, locale, t.home.featuredTitle, projects),
+            ).replace(/</g, "\\u003c"),
+          }}
+        />
+      )}
+
       <section className="hero relative overflow-hidden bg-canvas text-ink">
         <div className="hero-art" aria-hidden="true">
           <Image
@@ -45,46 +46,37 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
           />
           <div className="hero-veil" />
         </div>
-        <div className="relative mx-auto max-w-6xl px-6 pt-16 pb-12 sm:pt-24 sm:pb-16">
-          <p className="font-mono text-xs tracking-wide text-ink-subtle uppercase">
-            {t.home.eyebrow}
-          </p>
-          <h1 className="mt-4 max-w-3xl text-4xl font-semibold tracking-tight text-balance sm:text-5xl lg:text-[3.5rem] lg:leading-[1.08]">
-            {t.home.headline} <span className="text-accent">{t.home.headlineAccent}</span>
+        <div className="relative mx-auto max-w-6xl px-6 pt-14 pb-12 sm:pt-20 sm:pb-14">
+          <p className="font-mono text-xs tracking-wide text-ink-subtle uppercase">{t.home.role}</p>
+          <h1 className="mt-3 text-3xl font-semibold tracking-tight text-balance sm:text-4xl lg:text-[2.75rem] lg:leading-[1.1]">
+            {PROFILE.fullName}
           </h1>
-          <p className="mt-6 max-w-2xl text-lg leading-relaxed text-ink-muted text-pretty">
-            {t.home.lead}
-          </p>
-          <div className="mt-8 flex flex-wrap items-center gap-3">
-            <Link
-              href={`/${locale}/projects`}
+          <div className="mt-5 flex max-w-2xl flex-col gap-3">
+            {t.about.intro.map((paragraph, i) => (
+              <p
+                key={paragraph.slice(0, 32)}
+                className={`leading-relaxed text-pretty ${i === 0 ? "text-lg text-ink" : "text-base text-ink-muted"}`}
+              >
+                {paragraph}
+              </p>
+            ))}
+          </div>
+          <div className="mt-7 flex flex-wrap items-center gap-3">
+            <a
+              href="#projects"
               className="inline-flex items-center gap-2 rounded-lg bg-accent px-5 py-3 text-sm font-semibold text-on-accent shadow-sm transition-colors hover:bg-accent-hover"
             >
-              {t.home.ctaProjects} <span aria-hidden="true">&rarr;</span>
-            </Link>
+              {t.home.ctaProjects} <span aria-hidden="true">&darr;</span>
+            </a>
             <a
-              href={CV_PDF[locale]}
+              href="#contact"
               className="inline-flex items-center gap-2 rounded-lg border border-line-strong px-5 py-3 text-sm font-medium text-ink transition-colors hover:border-accent hover:text-accent"
             >
-              {t.home.ctaCv}
-              <svg
-                viewBox="0 0 24 24"
-                className="size-4"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.8"
-                aria-hidden="true"
-              >
-                <path
-                  d="M12 4v11m0 0-4-4m4 4 4-4M5 19h14"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
+              {t.home.ctaContact}
             </a>
           </div>
 
-          <ul className="mt-14 grid gap-x-6 gap-y-5 sm:grid-cols-2 lg:grid-cols-4">
+          <ul className="mt-12 grid gap-x-6 gap-y-5 sm:grid-cols-2 lg:grid-cols-4">
             {t.home.capabilities.map((cap, i) => (
               <li key={cap.title} className="flex flex-col gap-1.5">
                 <span className="text-accent">
@@ -98,30 +90,34 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
         </div>
       </section>
 
-      <section className="mx-auto max-w-6xl px-6 py-14 sm:py-16">
-        <div className="flex flex-wrap items-end justify-between gap-4">
-          <div>
-            <h2 className="text-2xl font-semibold tracking-tight">{t.home.featuredTitle}</h2>
-            <p className="mt-1 text-sm text-ink-muted">{t.home.featuredLead}</p>
-          </div>
-          <Link
-            href={`/${locale}/projects`}
-            className="text-sm font-medium text-accent underline decoration-accent/30 underline-offset-4 hover:decoration-accent"
-          >
-            {t.home.viewAll} <span aria-hidden="true">&rarr;</span>
-          </Link>
-        </div>
+      <section id="projects" className="mx-auto max-w-6xl scroll-mt-16 px-6 py-14 sm:py-16">
+        <h2 className="text-2xl font-semibold tracking-tight">{t.home.featuredTitle}</h2>
+        <p className="mt-1 text-sm text-ink-muted">{t.home.featuredLead}</p>
         <div className="mt-6">
           <ProjectGrid
             items={projects}
             locale={locale}
-            mode="featured"
             labels={{
-              inProduction: t.projects.inProduction,
               other: t.projects.other,
               moreCoursework: t.projects.moreCoursework,
-              caseStudy: t.projects.caseStudy,
               flagship: t.projects.flagship,
+              close: t.projects.close,
+              previous: t.projects.previous,
+              next: t.projects.next,
+              openPage: t.projects.openPage,
+              status: t.projects.status,
+              domains: t.projects.domains,
+              roleLabel: t.projects.roleLabel,
+              pointsLabel: t.projects.pointsLabel,
+              stackLabel: t.projects.stackLabel,
+              visitSite: t.projects.visitSite,
+              noShot: t.projects.noShot,
+              previousShot: t.projects.previousShot,
+              nextShot: t.projects.nextShot,
+              shotCount: t.projects.shotCount,
+              zoom: t.projects.zoom,
+              closeZoom: t.projects.closeZoom,
+              shotPosition: t.projects.shotPosition,
             }}
           />
         </div>
@@ -223,13 +219,13 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
         </ol>
       </section>
 
-      <section id="contact" className="border-t border-line bg-sunken">
+      <section id="contact" className="scroll-mt-16 border-t border-line bg-sunken">
         <div className="mx-auto max-w-6xl px-6 py-14 sm:py-16">
           <h2 className="text-2xl font-semibold tracking-tight">{t.home.contactTitle}</h2>
           <p className="mt-1 max-w-2xl text-sm text-ink-muted text-pretty">{t.home.contactLead}</p>
           <div className="mt-6 flex flex-wrap items-center gap-3">
             <a
-              href={`mailto:${PROFILE.email}`}
+              href={mailtoHref(t.nav.emailSubject)}
               className="inline-flex items-center gap-2 rounded-lg bg-accent px-5 py-3 text-sm font-semibold text-on-accent shadow-sm transition-colors hover:bg-accent-hover"
             >
               {t.home.emailMe}
@@ -260,7 +256,33 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
   );
 }
 
-/** Quatro desenhos de linha, um por capacidade: codigo, ligacao, grafico, nuvem. */
+function projectList(
+  site: string,
+  locale: string,
+  name: string,
+  cards: readonly { slug: string; name: string; tagline: string; status: string }[],
+) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name,
+    itemListElement: cards
+      .filter((c) => c.status === "live" || c.status === "building")
+      .map((c, i) => ({
+        "@type": "ListItem",
+        position: i + 1,
+        item: {
+          "@type": "SoftwareApplication",
+          name: c.name,
+          description: c.tagline,
+          applicationCategory: "BusinessApplication",
+          url: `${site}/${locale}/projects/${c.slug}`,
+          author: { "@id": `${site}/#person` },
+        },
+      })),
+  };
+}
+
 function CapabilityIcon({ index }: { index: number }) {
   const paths = [
     "m8 7-5 5 5 5M16 7l5 5-5 5M14 4l-4 16",

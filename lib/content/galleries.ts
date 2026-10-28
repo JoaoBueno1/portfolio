@@ -1,6 +1,7 @@
 import ai01 from "@/public/screenshots/g-ai-01.webp";
 import ai02 from "@/public/screenshots/g-ai-02.webp";
 import ai03 from "@/public/screenshots/g-ai-03.webp";
+import ai04 from "@/public/screenshots/g-ai-04.webp";
 import api01 from "@/public/screenshots/g-api-01.webp";
 import api02 from "@/public/screenshots/g-api-02.webp";
 import api03 from "@/public/screenshots/g-api-03.webp";
@@ -56,22 +57,6 @@ import wh04 from "@/public/screenshots/g-wh-04.webp";
 import { type GalleryGroup, t2, toShots } from "./gallery";
 import type { Shot } from "./types";
 
-/**
- * AS GALERIAS.
- *
- * Capturadas com os sistemas RODANDO, e agora de PAGINA INTEIRA: antes eu
- * fotografava so a area visivel e a tabela terminava no meio de uma linha, o
- * que parecia corte de CSS e nao era.
- *
- * Teto de altura em duas vezes a largura. A tabela de oitenta mil registros
- * sai com quase quatro vezes, e uma imagem nessa proporcao fica ilegivel em
- * qualquer moldura. O que passa do teto e cortado no fim, nao no meio, e o
- * dialogo deixa a imagem alta ROLAR.
- *
- * As do app do motorista sao as da loja de aplicativo, e so as quatro que nao
- * tem endereco, nome, telefone nem marca. A tela de lista de paradas tem
- * endereco residencial real e NAO entra.
- */
 export const GALLERIES = {
   dwh: {
     altTemplate: t2(
@@ -259,9 +244,6 @@ export const GALLERIES = {
     ),
     captionTemplate: t2("{page}.", "{page}."),
     items: [
-      // A CAPA: as tres telas que contam o dia do motorista, montadas lado a
-      // lado a partir das capturas ja aprovadas. A tela de login, que era a
-      // capa, nao dizia nada do produto e foi para o fim.
       {
         src: driver00,
         page: t2("A day on the road", "Um dia de entregas"),
@@ -407,11 +389,6 @@ export const GALLERIES = {
       },
     ],
   },
-  // A REFERENCIA DA API renderizada do proprio openapi.json (Redoc), com o
-  // nome da empresa, os dominios e o prefixo de conta trocados por genericos.
-  // Os exemplos do documento ja eram ficticios (Acme, example.com). A ultima
-  // e a saida real da suite de testes de 13/10/2026; so o caminho da pasta
-  // local foi encurtado.
   api: {
     altTemplate: t2(
       "{page} of the carrier integration API.",
@@ -453,11 +430,6 @@ export const GALLERIES = {
       },
     ],
   },
-  // O PORTAL, na ordem em que uma pessoa o encontra: entrar, escolher o
-  // sistema, ler o painel, perguntar a IA, e o lado de quem administra. Telas
-  // reais renderizadas com dado inventado, num ambiente sem banco nem modelo:
-  // pessoas, filiais, transportadoras e valores sao ficticios. O nome do
-  // produto foi trocado por um neutro.
   ops: {
     altTemplate: t2(
       "{page}: the operations portal, with invented data.",
@@ -513,24 +485,32 @@ export const GALLERIES = {
         src: ai01,
         page: t2("An answer with its evidence", "Uma resposta com a evidência"),
         note: t2(
-          "The table under the answer is the query that produced it, with the period and the business rules it applied. Sort it, filter it or download it; nothing is retyped by the model.",
-          "A tabela embaixo da resposta é a consulta que a produziu, com o período e as regras de negócio aplicadas. Dá para ordenar, filtrar ou baixar; o modelo não redigita nada.",
+          "The assistant answers in plain English and the chart and table under it are the query that produced the answer. Conversations are saved and can be shared with a colleague. The panel on the right lists the data this person is allowed to read, system by system.",
+          "O assistente responde em linguagem simples e o gráfico e a tabela embaixo são a consulta que produziu a resposta. As conversas ficam guardadas e podem ser compartilhadas com um colega. O painel à direita lista o dado que esta pessoa pode ler, sistema por sistema.",
         ),
       },
       {
         src: ai02,
-        page: t2("Freight, from the other database", "Frete, do outro banco"),
+        page: t2("The table behind the answer", "A tabela por trás da resposta"),
         note: t2(
-          "This question reads the freight system, the previous one read the warehouse database. The same result can be drawn as a chart without asking again.",
-          "Esta pergunta lê o sistema de frete; a anterior leu o banco do armazém. O mesmo resultado vira gráfico sem perguntar de novo.",
+          "The Table tab: sort, filter, download as CSV, and read the business rules the query applied. The model never retypes a number.",
+          "A aba Table: ordenar, filtrar, baixar em CSV e ler as regras de negócio que a consulta aplicou. O modelo nunca redigita um número.",
         ),
       },
       {
         src: ai03,
-        page: t2("What you can ask", "O que dá para perguntar"),
+        page: t2("The query that ran", "A consulta que rodou"),
         note: t2(
-          'Shortcuts grouped by subject. The box takes any wording; a question the catalogue cannot answer gets "I can\'t answer that", not a guess.',
-          'Atalhos agrupados por assunto. A caixa aceita qualquer frase; uma pergunta que o catálogo não responde recebe "não sei responder isso", não um palpite.',
+          "The SQL tab shows the hand-written catalogue query exactly as it ran, with the parameters the assistant filled in. The model chooses a query; it never writes one.",
+          "A aba SQL mostra a consulta do catálogo, escrita à mão, exatamente como rodou, com os parâmetros que o assistente preencheu. O modelo escolhe uma consulta; nunca escreve uma.",
+        ),
+      },
+      {
+        src: ai04,
+        page: t2("A new conversation", "Uma conversa nova"),
+        note: t2(
+          'Opening questions the catalogue is guaranteed to answer, and a purchase planner. In manual mode the person ticks which sources a question may read; a question outside the catalogue gets "I can\'t answer that", not a guess.',
+          'Perguntas de abertura que o catálogo garante responder, e um planejador de compra. No modo manual a pessoa marca quais fontes a pergunta pode ler; pergunta fora do catálogo recebe "não sei responder isso", não um palpite.',
         ),
       },
       {

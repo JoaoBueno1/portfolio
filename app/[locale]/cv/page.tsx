@@ -30,22 +30,10 @@ export async function generateMetadata({ params }: PageProps<"/[locale]/cv">): P
     title: t.meta.cvTitle,
     description: t.meta.cvDescription,
     alternates: alternatesFor(locale, "/cv"),
-    // A mesma informacao da pagina Experiencia, em formato de papel. Indexar
-    // as duas so faria o buscador escolher uma por conta propria.
     robots: { index: false, follow: true },
   };
 }
 
-/**
- * O CURRICULO, como uma folha A4.
- *
- * E a FONTE dos PDFs em `public/cv/`: o PDF e esta pagina impressa (ver
- * README). Por isso tudo aqui sai do conteudo tipado do site (cargos,
- * projetos, ferramentas), e o curriculo nunca discorda do portfolio.
- *
- * Duas paginas no maximo. O que nao cabe fica no site, que o cabecalho cita.
- * O telefone e o endereco NAO entram: o arquivo e publico e fica indexado.
- */
 export default async function CvPage({ params }: PageProps<"/[locale]/cv">) {
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
@@ -59,7 +47,6 @@ export default async function CvPage({ params }: PageProps<"/[locale]/cv">) {
 
   const live = [...PROJECTS].filter((p) => p.status === "live").sort((a, b) => a.order - b.order);
 
-  // O que eu uso todo dia e o que uso com frequencia; o ocasional fica no site.
   const keys = STACK_GROUPS.flatMap((g) => g.keys);
   const daily = keys.filter((k) => STACK[k].level >= 5).map((k) => STACK[k].title);
   const often = keys.filter((k) => STACK[k].level === 4).map((k) => STACK[k].title);

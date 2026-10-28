@@ -1,1 +1,1 @@
-João Marcos, software developer on the Gold Coast, Australia: a freight TMS, an operations portal with an AI assistant, a carrier API, a warehouse platform and a driver app, all in daily production use.
+João Marcos Bueno da Silva, software developer on the Gold Coast, Australia: a transport management system, a warehouse platform, a driver app, a partner API and an operations portal with an AI assistant, all in daily production use.

@@ -33,14 +33,6 @@ export async function generateMetadata({
   };
 }
 
-/**
- * A TRAJETORIA, do mais recente ao mais antigo.
- *
- * As datas ficam numa coluna propria, em fonte mono, para o olho descer por
- * elas sem ler o resto: e assim que um recrutador confere se ha buraco. Os
- * dois cargos na empresa atual aparecem separados, porque foram dois
- * trabalhos diferentes, e a passagem de um para o outro e a historia.
- */
 export default async function ExperiencePage({ params }: PageProps<"/[locale]/experience">) {
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
@@ -51,11 +43,7 @@ export default async function ExperiencePage({ params }: PageProps<"/[locale]/ex
   return (
     <main id="main" className="mx-auto max-w-6xl px-6 py-12 sm:py-16">
       <div className="max-w-3xl">
-        <PageHeader
-          eyebrow={t.experience.title}
-          title={t.experience.headline}
-          lead={t.experience.lead}
-        />
+        <PageHeader title={t.experience.title} lead={t.experience.lead} />
 
         <p className="mt-6">
           <a
@@ -129,10 +117,6 @@ export default async function ExperiencePage({ params }: PageProps<"/[locale]/ex
   );
 }
 
-/**
- * Um cargo: datas a esquerda, o resto a direita, ligado ao proximo por uma
- * linha fina. No celular as datas sobem para cima do titulo.
- */
 function RoleItem({
   role,
   period,

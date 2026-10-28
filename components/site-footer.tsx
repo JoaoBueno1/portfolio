@@ -1,15 +1,6 @@
 import { PROFILE } from "@/lib/content/profile";
 
-/** O rodape: nome completo, cidade, os tres contatos e o codigo do site. */
-export function SiteFooter({
-  location,
-  source,
-  built,
-}: {
-  location: string;
-  source: string;
-  built: string;
-}) {
+export function SiteFooter({ location, source }: { location: string; source: string }) {
   return (
     <footer className="border-t border-line print:hidden">
       <div className="mx-auto flex max-w-6xl flex-col gap-3 px-6 py-8 text-xs text-ink-subtle sm:flex-row sm:items-center sm:justify-between">
@@ -48,7 +39,6 @@ export function SiteFooter({
             </a>
           </li>
         </ul>
-        <p>{built}</p>
       </div>
     </footer>
   );

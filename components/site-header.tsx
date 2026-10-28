@@ -3,32 +3,27 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
+import { siGithub } from "simple-icons";
 import { CV_PDF } from "@/lib/content/experience";
-import { PROFILE } from "@/lib/content/profile";
+import { mailtoHref, PROFILE } from "@/lib/content/profile";
 import { LOCALE_LABELS, LOCALES, type Locale } from "@/lib/i18n/config";
 
-/**
- * A BARRA DO TOPO.
- *
- * Substituiu a coluna fixa da esquerda em 21/10/2026. A coluna ocupava um
- * quarto da tela com um menu de cinco itens; o que o visitante vem ver sao
- * telas e diagramas, e eles precisam dessa largura. A barra tem tres
- * destinos, o curriculo como botao e o nome como caminho de volta.
- *
- * So o que a barra usa cruza a fronteira de cliente, nao o dicionario inteiro
- * (ver o comentario que a coluna antiga carregava sobre isso).
- */
 export interface HeaderLabels {
   readonly projects: string;
   readonly experience: string;
   readonly about: string;
   readonly contact: string;
   readonly cv: string;
+  readonly email: string;
+  readonly emailSubject: string;
   readonly menu: string;
   readonly language: string;
   readonly open: string;
   readonly close: string;
 }
+
+const LINKEDIN_PATH =
+  "M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z";
 
 export function SiteHeader({ locale, t }: { locale: Locale; t: HeaderLabels }) {
   const pathname = usePathname();
@@ -36,7 +31,7 @@ export function SiteHeader({ locale, t }: { locale: Locale; t: HeaderLabels }) {
   const [open, setOpen] = useState(false);
 
   const items = [
-    { href: `/${locale}/projects`, label: t.projects },
+    { href: `/${locale}#projects`, label: t.projects },
     { href: `/${locale}/experience`, label: t.experience },
     { href: `/${locale}/about`, label: t.about },
     { href: `/${locale}#contact`, label: t.contact },
@@ -69,6 +64,59 @@ export function SiteHeader({ locale, t }: { locale: Locale; t: HeaderLabels }) {
         </Link>
       );
     });
+
+  const iconClass =
+    "grid size-9 place-items-center rounded-lg text-ink-muted transition-colors hover:bg-subtle hover:text-ink";
+
+  const contacts = (
+    <>
+      <a
+        href={PROFILE.linkedin}
+        target="_blank"
+        rel="me noreferrer"
+        aria-label="LinkedIn"
+        title="LinkedIn"
+        className={iconClass}
+      >
+        <svg viewBox="0 0 24 24" className="size-4" fill="currentColor" aria-hidden="true">
+          <path d={LINKEDIN_PATH} />
+        </svg>
+        <span className="sr-only">LinkedIn</span>
+      </a>
+      <a
+        href={PROFILE.github}
+        target="_blank"
+        rel="me noreferrer"
+        aria-label="GitHub"
+        title="GitHub"
+        className={iconClass}
+      >
+        <svg viewBox="0 0 24 24" className="size-4" fill="currentColor" aria-hidden="true">
+          <path d={siGithub.path} />
+        </svg>
+        <span className="sr-only">GitHub</span>
+      </a>
+      <a
+        href={mailtoHref(t.emailSubject)}
+        aria-label={t.email}
+        title={t.email}
+        className={iconClass}
+      >
+        <svg
+          viewBox="0 0 24 24"
+          className="size-4.5"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.7"
+          aria-hidden="true"
+        >
+          <rect x="3" y="5" width="18" height="14" rx="2" />
+          <path d="m3 7 9 6 9-6" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+        <span className="sr-only">{t.email}</span>
+      </a>
+    </>
+  );
 
   const cvButton = (
     <a
@@ -108,20 +156,22 @@ export function SiteHeader({ locale, t }: { locale: Locale; t: HeaderLabels }) {
 
   return (
     <header className="sticky top-0 z-40 border-b border-line bg-canvas/85 backdrop-blur-md print:hidden">
-      <div className="mx-auto flex h-16 max-w-6xl items-center gap-4 px-6">
+      <div className="mx-auto flex h-16 max-w-6xl items-center gap-3 px-6">
         <Link
           href={`/${locale}`}
           className="text-base font-semibold tracking-tight"
           onClick={() => setOpen(false)}
         >
-          {PROFILE.name}
+          {PROFILE.headerName}
         </Link>
 
         <nav aria-label={t.menu} className="ml-auto hidden items-center gap-1 md:flex">
           {links(false)}
         </nav>
 
-        <div className="hidden items-center gap-2 md:flex">
+        <div className="hidden items-center gap-1 md:flex">
+          {contacts}
+          <span className="mx-1 h-5 w-px bg-line" aria-hidden="true" />
           {cvButton}
           {localePicker}
         </div>
@@ -156,6 +206,7 @@ export function SiteHeader({ locale, t }: { locale: Locale; t: HeaderLabels }) {
             {links(true)}
           </nav>
           <div className="mt-3 flex flex-wrap items-center gap-3">
+            <span className="flex items-center gap-1">{contacts}</span>
             {cvButton}
             {localePicker}
           </div>

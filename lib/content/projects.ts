@@ -1,28 +1,37 @@
-import { CASE_STUDIES } from "./case-studies";
 import { gallery } from "./galleries";
-import { INSIGHTS } from "./insights";
 import { SHOTS } from "./shots";
 import { studyShots } from "./shots-study";
 import type { Project } from "./types";
 
-/**
- * A VITRINE.
- *
- * Ordenada por IMPACTO e nao por data: quem abre tem poucos segundos, e o
- * primeiro card precisa ser o sistema que roda uma operacao de verdade.
- *
- * DUAS REGRAS QUE NAO SE NEGOCIAM AQUI:
- *
- * 1. NOME E TEXTO GENERICOS. Nenhum nome de empresa, de produto interno nem
- *    de repositorio. O recrutador quer saber que TIPO de sistema e; o nome
- *    interno so serviria para amarrar um empregador a um portfolio pessoal.
- * 2. NUMERO ARREDONDADO. "1,100+" em vez de "1.155". O numero exato convida
- *    a ser conferido contra um repositorio privado que ninguem vai abrir, e
- *    envelhece no dia seguinte. Nenhum numero descreve cliente ou receita.
- */
 export const PROJECTS: readonly Project[] = [
   {
     slug: "operations-portal",
+    points: [
+      {
+        en: "One sign-in and four roles over the warehouse platform and the freight TMS; allow or deny per person, checked in the database on every request.",
+        pt: "Um login e quatro papéis sobre a plataforma do armazém e o TMS de frete; permitir ou negar por pessoa, conferido no banco a cada requisição.",
+      },
+      {
+        en: "An AI assistant that picks one of the hand-written, read-only catalogue queries. It never writes SQL.",
+        pt: "Um assistente de IA que escolhe uma das consultas do catálogo, escritas à mão e só de leitura. Ele nunca escreve SQL.",
+      },
+      {
+        en: "Every answer shows its table, the SQL that ran and the sources it read. A panel lists the data each person may use.",
+        pt: "Toda resposta mostra a tabela, o SQL que rodou e as fontes lidas. Um painel lista o dado que cada pessoa pode usar.",
+      },
+      {
+        en: "Conversations are saved and can be shared with a colleague; every question is logged with its cost and time.",
+        pt: "As conversas ficam guardadas e podem ser compartilhadas com um colega; toda pergunta é registrada com custo e tempo.",
+      },
+      {
+        en: "Daily and monthly spend limits enforced on the server, failing closed.",
+        pt: "Tetos de gasto por dia e por mês impostos no servidor, falhando fechado.",
+      },
+      {
+        en: "An analytics board with the monthly review already built; the only choice is the period.",
+        pt: "Um painel de analytics com a revisão mensal já montada; a única escolha é o período.",
+      },
+    ],
     name: "Operations Portal and AI Assistant",
     order: 2,
     domain: "platform",
@@ -30,10 +39,6 @@ export const PROJECTS: readonly Project[] = [
     period: { from: "2026-09" },
     stack: ["typescript", "nextjs", "claude", "postgresql", "supabase", "react", "tailwind", "sql"],
     shots: gallery("ops"),
-    insights: INSIGHTS.operationsPortal,
-    caseStudy: CASE_STUDIES.operationsPortal,
-    // `link` volta aqui (o endereco publico do portal) quando o subdominio
-    // existir no DNS. Botao para endereco que nao abre tira credibilidade.
     metrics: [
       {
         value: "5",
@@ -83,12 +88,36 @@ export const PROJECTS: readonly Project[] = [
   },
   {
     slug: "tms",
+    points: [
+      {
+        en: "Quotes four carriers in parallel, books the chosen one and prints the thermal label.",
+        pt: "Cota quatro transportadoras em paralelo, reserva a escolhida e imprime a etiqueta térmica.",
+      },
+      {
+        en: "Closes each carrier manifest before its cut-off.",
+        pt: "Fecha cada manifest de transportadora antes do cut-off.",
+      },
+      {
+        en: "Dispatch centre builds van runs in optimised stop order and shows each driver live.",
+        pt: "Centro de dispatch monta as rotas das vans em ordem otimizada e mostra cada motorista ao vivo.",
+      },
+      {
+        en: "Public tracking page with timeline, map and proof of delivery.",
+        pt: "Página pública de tracking com linha do tempo, mapa e prova de entrega.",
+      },
+      {
+        en: "Matches the carrier invoice line by line against the quote, weeks later.",
+        pt: "Confere a fatura da transportadora linha a linha contra a cotação, semanas depois.",
+      },
+      {
+        en: "Runs on AWS Sydney in Docker; a failed carrier call alerts the team.",
+        pt: "Roda na AWS em Sydney em Docker; uma chamada de transportadora que falha alerta o time.",
+      },
+    ],
     name: "Transport Management System",
     order: 1,
     domain: "production",
     status: "live",
-    // O codigo foi para o git em junho de 2025; o sistema comecou enxuto,
-    // rodando local, em novembro de 2023.
     period: { from: "2023-11" },
     stack: [
       "python",
@@ -103,17 +132,15 @@ export const PROJECTS: readonly Project[] = [
       "sentry",
     ],
     shots: [
+      SHOTS.fleet,
       SHOTS.dispatch,
       SHOTS.orders,
       SHOTS.manifest,
-      SHOTS.fleet,
       SHOTS.run,
       SHOTS.open,
       SHOTS.analytics,
       SHOTS.tracking,
     ],
-    insights: INSIGHTS.tms,
-    caseStudy: CASE_STUDIES.tms,
     metrics: [
       { value: "1,200+", label: { en: "commits", pt: "commits" } },
       {
@@ -155,6 +182,28 @@ export const PROJECTS: readonly Project[] = [
   },
   {
     slug: "partner-api",
+    points: [
+      {
+        en: "Eight endpoints under an OpenAPI 3.1 contract: quote, book, label, track and cancel.",
+        pt: "Oito endpoints sob um contrato OpenAPI 3.1: cotar, reservar, etiqueta, tracking e cancelar.",
+      },
+      {
+        en: "Idempotent booking and one error shape, with the field, a retry hint and a request id.",
+        pt: "Booking idempotente e um formato só de erro, com o campo, se vale tentar de novo e o id da requisição.",
+      },
+      {
+        en: "Rate limits counted in the database, with an exact Retry-After.",
+        pt: "Limites contados no banco, com Retry-After exato.",
+      },
+      {
+        en: "A sandbox that plays whole deliveries, and a Postman kit of 63 requests and 80 checks.",
+        pt: "Um sandbox que encena entregas inteiras, e um kit Postman de 63 requisições e 80 verificações.",
+      },
+      {
+        en: "API keys stored only as a hash; 613 automated tests.",
+        pt: "Chaves de API guardadas só como hash; 613 testes automatizados.",
+      },
+    ],
     name: "Carrier Integration API",
     order: 3,
     domain: "platform",
@@ -162,8 +211,6 @@ export const PROJECTS: readonly Project[] = [
     period: { from: "2026-09" },
     stack: ["python", "flask", "postgresql", "openapi", "postman", "pytest"],
     shots: gallery("api"),
-    insights: INSIGHTS.partnerApi,
-    caseStudy: CASE_STUDIES.partnerApi,
     metrics: [
       {
         value: "613",
@@ -212,6 +259,28 @@ export const PROJECTS: readonly Project[] = [
   },
   {
     slug: "driver-app",
+    points: [
+      {
+        en: "Claim a run and see the stops in optimised order on a map.",
+        pt: "Assumir uma rota e ver as paradas em ordem otimizada no mapa.",
+      },
+      {
+        en: "Load check before anything is marked in transit; scan each parcel at the door.",
+        pt: "Conferência da carga antes de marcar em trânsito; scan de cada volume na porta.",
+      },
+      {
+        en: "Photo and signature as proof of delivery.",
+        pt: "Foto e assinatura como prova de entrega.",
+      },
+      {
+        en: "Offline queues for deliveries and photos, replayed when the signal returns.",
+        pt: "Filas offline para entregas e fotos, reenviadas quando o sinal volta.",
+      },
+      {
+        en: "Location keeps reporting with the screen off; biometric sign-in; crash reporting with Sentry.",
+        pt: "A localização continua reportando com a tela apagada; login biométrico; relatório de falhas com Sentry.",
+      },
+    ],
     name: "Driver App",
     order: 5,
     domain: "mobile",
@@ -219,7 +288,6 @@ export const PROJECTS: readonly Project[] = [
     period: { from: "2025-06" },
     stack: ["typescript", "react", "expo", "supabase", "googlemaps", "sentry"],
     shots: gallery("driver"),
-    caseStudy: CASE_STUDIES.driverApp,
     metrics: [
       { value: "15", label: { en: "screens", pt: "telas" } },
       {
@@ -233,13 +301,14 @@ export const PROJECTS: readonly Project[] = [
     ],
     copy: {
       en: {
-        tagline: "What the driver holds while the van is moving",
+        tagline: "Driver app for route navigation, offline proof of delivery and live tracking",
         summary:
           "The driver claims a run, sees the stops in optimised order, navigates, checks the load, captures a photo and a signature at the door, and closes the stop. It keeps working when the signal drops: deliveries queue on the phone and sync when it comes back, and photos have their own upload queue. Location keeps reporting with the screen off, which was the part that took longest to get right on iOS.",
         role: "Sole developer. App, store releases and the API it talks to.",
       },
       pt: {
-        tagline: "O que o motorista segura enquanto a van anda",
+        tagline:
+          "App do motorista para navegação da rota, prova de entrega offline e rastreio ao vivo",
         summary:
           "O motorista assume a rota, vê as paradas na ordem otimizada, navega, confere a carga, tira a foto e colhe a assinatura na porta, e fecha a parada. Continua funcionando quando o sinal cai: a entrega fica em fila no celular e sobe quando ele volta, e a foto tem fila própria de upload. A localização segue reportando com a tela apagada, e essa foi a parte que mais deu trabalho no iOS.",
         role: "Desenvolvedor único. App, publicação nas lojas e a API com que ele conversa.",
@@ -248,6 +317,32 @@ export const PROJECTS: readonly Project[] = [
   },
   {
     slug: "warehouse",
+    points: [
+      {
+        en: "Pick and pack with a walk order that follows the shelves; a short pick raises an exception.",
+        pt: "Pick and pack com ordem de caminhada que segue as estantes; um picking incompleto levanta exceção.",
+      },
+      {
+        en: "Replenishment by days of cover against live demand, and stock planning per SKU.",
+        pt: "Reabastecimento por dias de cobertura contra a demanda real, e planejamento de estoque por SKU.",
+      },
+      {
+        en: "Cycle counting where a first count never writes to stock.",
+        pt: "Contagem cíclica em que a primeira contagem nunca escreve no estoque.",
+      },
+      {
+        en: "Returns, picking anomalies and inbound container checks with photos.",
+        pt: "Devoluções, anomalias de picking e conferência de contêiner com fotos.",
+      },
+      {
+        en: "The ERP mirrored into PostgreSQL by more than twenty scheduled jobs; Excel reads it through Power Query.",
+        pt: "O ERP espelhado em PostgreSQL por mais de vinte jobs agendados; o Excel lê pelo Power Query.",
+      },
+      {
+        en: "Server-rendered pages with no build step, because the client is a tablet in a glove.",
+        pt: "Páginas renderizadas no servidor, sem etapa de build, porque o cliente é um tablet numa mão de luva.",
+      },
+    ],
     name: "Warehouse Operations Platform",
     order: 4,
     domain: "tools",
@@ -255,8 +350,6 @@ export const PROJECTS: readonly Project[] = [
     period: { from: "2025-07" },
     stack: ["javascript", "express", "postgresql", "supabase", "vercel", "actions"],
     shots: gallery("wh"),
-    insights: INSIGHTS.warehouse,
-    caseStudy: CASE_STUDIES.warehouse,
     metrics: [
       {
         value: "20+",

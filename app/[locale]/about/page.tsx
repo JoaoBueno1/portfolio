@@ -27,11 +27,6 @@ export async function generateMetadata({
   };
 }
 
-/**
- * SOBRE: quem eu sou, as ferramentas e como eu trabalho, numa pagina so.
- * Skills e Soft skills eram paginas proprias ate 21/10/2026; juntas aqui a
- * biografia ganha a prova (as ferramentas) e o jeito (as historias).
- */
 export default async function AboutPage({ params }: PageProps<"/[locale]/about">) {
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
@@ -40,7 +35,7 @@ export default async function AboutPage({ params }: PageProps<"/[locale]/about">
 
   return (
     <main id="main" className="mx-auto max-w-6xl px-6 py-12 sm:py-16">
-      <PageHeader eyebrow={t.about.title} title={t.about.headline} />
+      <PageHeader title={t.about.title} />
       <div className="mt-6 flex max-w-3xl flex-col gap-5">
         {t.about.intro.map((paragraph, i) => (
           <p
@@ -74,8 +69,6 @@ export default async function AboutPage({ params }: PageProps<"/[locale]/about">
         <h2 className="text-2xl font-semibold tracking-tight">{t.about.skillsTitle}</h2>
         <p className="mt-1 text-sm text-ink-muted">{t.about.skillsLead}</p>
 
-        {/* O QUE EU FACO COM ELAS: o trabalho, nao a ferramenta. E o que uma
-            vaga pede por nome e o que um leitor automatico procura. */}
         <section className="mt-6 max-w-4xl rounded-xl border border-line bg-canvas p-4">
           <h3 className="font-mono text-xs tracking-wide text-ink-subtle uppercase">
             {t.about.capabilitiesTitle}

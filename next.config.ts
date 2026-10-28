@@ -1,23 +1,5 @@
 import type { NextConfig } from "next";
 
-/**
- * Cabecalhos de seguranca.
- *
- * Este site nao tem login, nao tem banco e nao guarda nada de ninguem — a
- * superficie e pequena de proposito. Ainda assim os quatro cabecalhos abaixo
- * custam zero e fecham o que sobra:
- *
- * - `frame-ancestors 'none'` impede que alguem enquadre o site num iframe e
- *   use a credibilidade dele para emoldurar outra coisa.
- * - `nosniff` impede o browser de adivinhar o tipo de uma resposta.
- * - `strict-origin-when-cross-origin` e o padrao sensato de referrer: o
- *   destino externo ve o dominio, nao a rota.
- * - HSTS porque o site so existe em https.
- *
- * CSP completo nao entra: o Next injeta script inline de bootstrap e um
- * `script-src` sem nonce quebraria a hidratacao. `frame-ancestors` vale
- * sozinho e nao depende de nonce.
- */
 const SECURITY_HEADERS = [
   { key: "Content-Security-Policy", value: "frame-ancestors 'none'" },
   { key: "X-Frame-Options", value: "DENY" },
@@ -28,43 +10,25 @@ const SECURITY_HEADERS = [
 
 const nextConfig: NextConfig = {
   images: {
-    // So WebP. AVIF pesa menos, mas o otimizador leva quase um segundo para
-    // gerar cada um na PRIMEIRA visita, e num portfolio quase toda visita e
-    // a primeira. As capturas das galerias nem passam por aqui (`unoptimized`
-    // em project-browser): so as capas dos cards.
     formats: ["image/webp"],
   },
   async redirects() {
     return [
-      // Toda rota vive sob /[locale]. A raiz manda para o ingles, que e a
-      // lingua do mercado-alvo.
-      //
-      // Deliberadamente NAO ha deteccao por `Accept-Language` aqui: ela
-      // exigiria `proxy.ts` e tiraria a raiz do caminho estatico. Quando
-      // a deteccao fizer sentido, ela entra de proposito, num
-      // commit proprio. (E `proxy.ts` — `middleware.ts` e ignorado EM
-      // SILENCIO no Next 16 e o build passa verde sem rodar nada.)
       { source: "/", destination: "/en", permanent: false },
-      // /work existiu por um deploy antes do site virar quatro abas. O
-      // endereco pode ter sido aberto ou compartilhado nesse meio tempo, e um
-      // 404 num portfolio e pior do que um redirect que ninguem usa.
-      { source: "/:locale(en|pt)/work", destination: "/:locale/projects", permanent: true },
-      // O espanhol existiu ate 14/10/2026. Link antigo cai no ingles, que e
-      // o idioma do mercado-alvo, em vez de um 404.
-      // Skills e Soft skills viraram secoes do Sobre em 21/10/2026.
+      { source: "/:locale(en|pt)/work", destination: "/:locale#projects", permanent: true },
       { source: "/:locale(en|pt)/skills", destination: "/:locale/about#skills", permanent: true },
       {
         source: "/:locale(en|pt)/soft-skills",
         destination: "/:locale/about#how-i-work",
         permanent: true,
       },
-      // O projeto abria num dialogo por `?p=<slug>`; agora e uma pagina.
       {
         source: "/:locale(en|pt)/projects",
         has: [{ type: "query", key: "p", value: "(?<slug>[a-z0-9-]+)" }],
         destination: "/:locale/projects/:slug",
         permanent: true,
       },
+      { source: "/:locale(en|pt)/projects", destination: "/:locale#projects", permanent: true },
       { source: "/es", destination: "/en", permanent: true },
       { source: "/es/:path*", destination: "/en/:path*", permanent: true },
     ];

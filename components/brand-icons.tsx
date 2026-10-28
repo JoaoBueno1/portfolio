@@ -1,15 +1,5 @@
 import { siGithub } from "simple-icons";
 
-/**
- * Os tres contatos, como logo e nao como texto clicavel.
- *
- * DOIS PATHS SAO PROPRIOS, e por motivos diferentes:
- *
- * - LinkedIn saiu do `simple-icons` (o pacote removeu varias marcas por
- *   politica de uso), entao o desenho vem daqui.
- * - O envelope nunca esteve la: `simple-icons` so tem MARCAS, e usar o icone
- *   do Gmail seria errado. Para quem recebe, isto nao e Gmail, e um endereco.
- */
 const MAIL_PATH =
   "M2.4 5.4h19.2c.66 0 1.2.54 1.2 1.2v10.8c0 .66-.54 1.2-1.2 1.2H2.4c-.66 0-1.2-.54-1.2-1.2V6.6c0-.66.54-1.2 1.2-1.2Zm.9 2.1 8.7 5.8 8.7-5.8";
 

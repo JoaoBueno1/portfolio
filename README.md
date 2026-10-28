@@ -1,72 +1,49 @@
-# portfolio
+# joaosilva.app
 
-O portfolio publico de **João Marcos Bueno da Silva**, desenvolvedor de software na Gold Coast,
-Australia. No ar em https://joaosilva.app.
+Personal portfolio of João Marcos Bueno da Silva, backend software developer on the Gold Coast, Australia. Live at [joaosilva.app](https://joaosilva.app).
 
-Site em dois idiomas (en · pt-BR), estatico, sem banco e sem login.
+Static site in two languages (English and Brazilian Portuguese). No database, no login, no tracking.
 
 ## Stack
 
-Versoes fixadas. Nao atualize de carona num PR de conteudo.
+- Next.js 16 (App Router), React 19, TypeScript 5
+- Tailwind CSS 4 (design tokens in `app/globals.css`)
+- Biome for formatting and linting, Vitest for content tests
 
-- **Next 16.3.4** (App Router) · **React 19.2.8** · **TypeScript 5**
-- **Tailwind CSS 4**: tokens por `@theme inline` em `app/globals.css`,
-  **sem `tailwind.config.js`**
-- **Biome 2.5**, formatter e linter · **Vitest 4**, testes do conteudo
+## Run locally
 
-## Rodar local
-
-Precisa de Node 22 ou mais novo.
+Requires Node 22 or newer.
 
 ```bash
-git clone git@github.com:JoaoBueno1/portfolio.git
-cd portfolio
 npm ci
 npm run dev
 ```
 
-Abre em http://localhost:3000 (redireciona para `/en`).
+Opens at http://localhost:3000 and redirects to `/en`. No environment variables are needed.
 
-Nao ha `.env`: o site nao fala com servico nenhum.
-
-## Antes de abrir PR
+## Checks
 
 ```bash
-npm run fix      # Biome formata e conserta o que da
-npm run build    # compila e faz o type check
-npm run test     # Vitest
+npm run fix     # format and lint
+npm run build   # compile and type-check
+npm run test    # content tests
 ```
 
-## Estrutura
+## Structure
 
-| Pasta | O que e |
+| Path | Contents |
 |---|---|
-| `app/[locale]/` | Todas as rotas: home, `projects`, `projects/[slug]` (uma pagina por projeto), `experience`, `about`, `cv`. O root layout mora aqui; nao existe `app/layout.tsx` |
-| `lib/i18n/` | Dicionarios. `en.ts` e a fonte da verdade do tipo |
-| `lib/content/` | Projetos, galerias, estudos de caso e stack: todo texto longo, tipado |
-| `components/` | Barra do topo, rodape, a vitrine, a galeria e o painel de graficos da pagina do projeto |
-| `public/` | Capturas (dado ficticio ou anonimizado), a cena em pixel art do hero e os PDFs do curriculo |
+| `app/[locale]/` | Routes: home, `projects/[slug]`, `experience`, `about`, `cv` |
+| `lib/content/` | Typed content: projects, galleries, experience, stack |
+| `lib/i18n/` | Dictionaries. `en.ts` defines the type; a key missing in `pt.ts` fails the build |
+| `components/` | Header, footer, project grid, project dialog, gallery |
+| `public/` | Screenshots (fictional or anonymised data), artwork, CV PDFs, link previews |
+| `scripts/og.mjs` | Generates the Open Graph images in `public/og/` |
 
-## Curriculo em PDF
+## CV
 
-`public/cv/joao-marcos-cv-{en,pt}.pdf` sao a pagina `/[locale]/cv` impressa.
-Mudou cargo, projeto ou ferramenta em `lib/content/`? Gere de novo: rode o
-site (`npm run build && npm start`), abra `/en/cv` e `/pt/cv` e salve como
-PDF (Ctrl+P, A4, margens padrao, com graficos de fundo). A pagina ja tem as
-regras de impressao e cabe numa folha.
+`public/cv/joao-marcos-cv-{en,pt}.pdf` are the `/[locale]/cv` page printed to A4. Regenerate them after changing anything in `lib/content/`.
 
-Os cargos e datas de `lib/content/experience.ts` sao fato: batem com o
-registro oficial e nao mudam para soar melhor.
+## What is not here
 
-## Idiomas
-
-`/en` (padrao) e `/pt`. A raiz redireciona para `/en`, e endereco antigo em `/es` cai no ingles.
-
-Uma chave que falta em `pt.ts` **quebra o build**: o tipo do
-dicionario e derivado do ingles de proposito.
-
-## O que este repositorio nao contem
-
-O codigo dos sistemas mostrados nos case studies. Eles sao privados e de um
-empregador; o site apresenta arquitetura, decisao e resultado, nunca o codigo
-e nunca dado de cliente. A regra completa esta em `CLAUDE.md`.
+The source code of the systems shown in the projects. They belong to an employer and are private; the site shows architecture, decisions and results, never code and never customer data. Screenshots are taken from seeded databases with fictional data.

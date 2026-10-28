@@ -2,22 +2,11 @@ import type { I18nText } from "./types";
 
 const t = (en: string, pt: string): I18nText => ({ en, pt });
 
-/**
- * A TRAJETORIA, para a pagina Experiencia, o resumo da home e o curriculo.
- *
- * CARGO E DATA SAO OS DO LINKEDIN. Recrutador compara os dois, e uma
- * diferenca entre eles vira pergunta de entrevista. Mudou la, muda aqui no
- * mesmo dia.
- *
- * O empregador atual nao e nomeado (regra do site inteiro); os anteriores sao.
- */
 export interface Role {
   readonly title: I18nText;
   readonly org: I18nText;
   readonly place: I18nText;
-  /** `YYYY-MM`. */
   readonly from: string;
-  /** Ausente = atual. */
   readonly to?: string;
   readonly points: readonly I18nText[];
 }
@@ -33,16 +22,20 @@ export const EXPERIENCE: readonly Role[] = [
     from: "2023-11",
     points: [
       t(
-        "Design, build and run the company's operational systems: a transport management system, a warehouse platform, a driver app, a partner API and an operations portal with an AI assistant.",
-        "Projeto, construo e mantenho os sistemas operacionais da empresa: um TMS, uma plataforma de armazém, um app de motorista, uma API para parceiros e um portal de operações com assistente de IA.",
+        "Built and maintain the company's freight platform (Python, Flask, PostgreSQL), integrating 9 external systems: carrier APIs, the ERP, maps and routing. 10,000+ external-carrier consignments booked between April and October 2026.",
+        "Construí e mantenho a plataforma de frete (Python, Flask, PostgreSQL), com 9 sistemas externos integrados: APIs de transportadoras, ERP, mapas e roteirização. Mais de 10.000 consignments reservados entre abril e outubro de 2026.",
       ),
       t(
-        "Own deployments, databases, access control and monitoring, and the integrations with the ERP, the freight carriers and the spreadsheets the branches work from.",
-        "Cuido de deploy, bancos de dados, controle de acesso e monitoramento, e das integrações com o ERP, com as transportadoras e com as planilhas que as filiais usam.",
+        "Designed and built a partner-facing carrier API under an OpenAPI 3.1 contract, with a sandbox and 613 automated tests.",
+        "Projetei uma API de transportadora para parceiros sob contrato OpenAPI 3.1, com sandbox e 613 testes automatizados.",
       ),
       t(
-        "Support and train the people who use the systems every day: dispatch, warehouse, drivers and management.",
-        "Dou suporte e treinamento a quem usa os sistemas todo dia: despacho, armazém, motoristas e gestão.",
+        "Built the warehouse platform (20+ features, 20+ scheduled sync jobs), the driver app for iOS and Android, and an operations portal with a read-only AI assistant over the company's databases.",
+        "Construí a plataforma de armazém (20+ features, 20+ jobs de sincronização), o app de motorista para iOS e Android e um portal com assistente de IA só de leitura sobre os bancos da empresa.",
+      ),
+      t(
+        "Own deployments on AWS and Vercel, databases, access control and monitoring; support and train dispatch, warehouse, drivers and management.",
+        "Cuido de deploy (AWS e Vercel), bancos, controle de acesso e monitoramento; suporte e treinamento a despacho, armazém, motoristas e gestão.",
       ),
     ],
   },
@@ -65,7 +58,6 @@ export const EXPERIENCE: readonly Role[] = [
   },
 ];
 
-/** O comeco, numa linha cada: conta a historia sem disputar espaco. */
 export const EARLIER: readonly Role[] = [
   {
     title: t("Checkout Supervisor", "Supervisor de frente de caixa"),
@@ -129,29 +121,21 @@ export const LANGUAGES = t(
   "Português (nativo), inglês (profissional)",
 );
 
-/** Os PDFs do curriculo, gerados a partir de `/[locale]/cv` (ver README). */
 export const CV_PDF: Record<"en" | "pt", string> = {
   en: "/cv/joao-marcos-cv-en.pdf",
   pt: "/cv/joao-marcos-cv-pt.pdf",
 };
 
-/*
- * Mes escrito a mao, e nao pelo `Intl`: o `en-AU` abrevia julho como "July" e
- * setembro como "Sept", e o `pt-BR` escreve "jul. de 2026". Numa coluna de
- * datas o comprimento tem de ser o mesmo em toda linha.
- */
 const MONTHS = {
   en: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
   pt: ["jan", "fev", "mar", "abr", "mai", "jun", "jul", "ago", "set", "out", "nov", "dez"],
 } as const;
 
-/** `2026-07` vira "Jul 2026" ou "jul 2026". */
 export function formatMonth(iso: string, locale: "en" | "pt"): string {
   const [year, m] = iso.split("-");
   return `${MONTHS[locale][Number(m) - 1]} ${year}`;
 }
 
-/** "Nov 2023 – now" ou "Oct 2018 – Nov 2022". */
 export function formatPeriod(
   role: Pick<Role, "from" | "to">,
   locale: "en" | "pt",

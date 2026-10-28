@@ -1,29 +1,8 @@
 import type { Locale } from "@/lib/i18n/config";
 
-/**
- * As soft skills.
- *
- * REGRA DE ESCRITA, e ela nasceu de um problema real: a versao anterior
- * comecava as seis frases com "I", e seis paragrafos em fila abrindo com o
- * mesmo pronome lem como formulario preenchido, nao como pessoa escrevendo.
- *
- * Entao: titulo em gerundio, que descreve a acao sem precisar do sujeito, e
- * corpo com sujeito variado. Duas ou tres frases curtas. A primeira diz o
- * que e, a ultima diz onde aconteceu ou por que importa.
- *
- * Sem adjetivo sobre si mesmo ("proativo", "comunicativo") e sem travessao.
- *
- * `icon` e um nome de desenho em `components/soft-skill-icon.tsx`, nao um
- * emoji: emoji renderiza diferente em cada sistema e ignora o tema.
- */
 export interface SoftSkill {
   readonly id: string;
   readonly icon: "talk" | "lead" | "listen" | "search" | "loop" | "teach";
-  /**
-   * O nome da competencia, como um recrutador a procura ("Technical
-   * communication"). Vai em cima da historia, pequeno. A historia continua
-   * sendo o titulo: e ela que prova; o rotulo so deixa achar.
-   */
   readonly competency: Record<Locale, string>;
   readonly copy: Record<Locale, { readonly title: string; readonly body: string }>;
 }

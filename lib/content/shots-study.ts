@@ -30,21 +30,6 @@ import sites04 from "@/public/screenshots/study-sites-04.webp";
 import sites05 from "@/public/screenshots/study-sites-05.webp";
 import type { Shot } from "./types";
 
-/**
- * CAPTURAS DOS PROJETOS DE FORMACAO.
- *
- * Tiradas dos projetos RODANDO, nao de arquivo antigo: o banco foi importado
- * num MariaDB descartavel em container, o PHP subiu pelo servidor embutido, o
- * Django num venv proprio, e cada tela foi capturada em 1440x900 com fator 2.
- *
- * Aqui nao existe risco de dado de cliente: os datasets sao publicos ou
- * inventados (avistamentos de OVNI, Star Wars, Marvel, uma franquia de
- * bonecos, um negocio de escape room). A unica atencao foi nao deixar caminho
- * local nem credencial de teste aparecendo na tela.
- *
- * `caption` diz POR QUE aquela tela importa. O `alt` descreve o que se ve.
- * Sao coisas diferentes e as duas sao necessarias.
- */
 export const STUDY_SHOTS = {
   dwh: [
     [
@@ -272,7 +257,6 @@ export const STUDY_SHOTS = {
   ],
 } as const;
 
-/** Vira `Shot[]` para o registro de projetos. */
 export function studyShots(group: keyof typeof STUDY_SHOTS): readonly Shot[] {
   return STUDY_SHOTS[group].map(([src, altEn, altPt, capEn, capPt]) => ({
     src,

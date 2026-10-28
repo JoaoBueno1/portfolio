@@ -9,17 +9,6 @@ import trackingDesktop from "@/public/screenshots/tracking-desktop.webp";
 import trackingMobile from "@/public/screenshots/tracking-mobile.webp";
 import type { Shot } from "./types";
 
-/**
- * AS CAPTURAS, com a legenda de cada uma.
- *
- * Todas foram tiradas do sistema rodando localmente contra um banco semeado
- * com dado FICTICIO: empresa, endereco, referencia e telefone inventados, com
- * os telefones na faixa 0491 570 xxx que a ACMA reserva para ficcao. Nenhum
- * cliente, pedido ou pessoa real aparece em nenhuma delas.
- *
- * O `alt` descreve o que se ve, para quem nao ve. A `caption` diz por que
- * aquela tela importa, que e outra coisa.
- */
 export const SHOTS = {
   dispatch: {
     src: dispatchCentre,
